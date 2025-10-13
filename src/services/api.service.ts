@@ -12,7 +12,27 @@ export const authAPI = {
 export const regionAPI = {
   getCategories: () => axios.get("/region/category"),
   getById: (id: string | number) => axios.get(`/region/${id}`),
-  getRegions: () => axios.get("/region/admin"),
+  getRegions: (
+    categoryId: number | null,
+    searchTerm: string | null,
+    page: number = 1
+  ) => {
+    const params: {
+      category_id?: number | null;
+      search?: string | null;
+      page?: number;
+    } = {};
+
+    if (categoryId) params.category_id = categoryId;
+    if (searchTerm) params.search = searchTerm;
+    if (page > 1) params.page = page;
+
+    return axios.get("/region", { params });
+  },
+};
+
+export const tariffAPI = {
+  getTariffs: () => axios.get("/tariff"),
 };
 
 // Boshqa API'larni qo'shishingiz mumkin
@@ -25,6 +45,7 @@ export const userAPI = {
 const api = {
   auth: authAPI,
   region: regionAPI,
+  tariff: tariffAPI,
   user: userAPI,
 };
 

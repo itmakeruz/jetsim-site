@@ -19,7 +19,7 @@ function App() {
         logout();
       });
     }
-  }, [token, getProfile]);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
