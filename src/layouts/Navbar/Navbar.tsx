@@ -90,7 +90,7 @@ const Navbar: React.FC = () => {
           </div>
           <div className="flex items-center">
             <HeaderBtn
-              count={0}
+              count={cartCount}
               onClick={handleOpenModal}
               text={t("nav.korzina")}
             />

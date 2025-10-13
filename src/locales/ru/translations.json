@@ -8,6 +8,12 @@
     "cabinet": "Кабинет",
     "exit": "Выйти"
   },
+  "cart": {
+    "in_cart": "В корзине",
+    "economy": "Эконом",
+    "standard": "Стандарт",
+    "turbo": "Турбо"
+  },
   "profile": {
     "title": "Личный кабинет",
     "tabs": {

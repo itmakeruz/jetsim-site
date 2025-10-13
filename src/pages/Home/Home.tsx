@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import SimCard from "../../components/SimCard/SimCard";
+import CartDisplay from "../../components/CartDisplay/CartDisplay";
 import { regionAPI } from "../../services/api.service";
 import type { RegionCategory, Region, RegionResponse } from "../../types/api";
 import { getImageUrl } from "../../config/imageUtils";
@@ -106,6 +107,9 @@ const Home: React.FC = () => {
             className="bg-[#E8EDF2] max-w-[730px] w-full p-5 text-center text-base text-[#4F7096] rounded-[10px] outline-none"
           />
         </div>
+
+        {/* Cart Display */}
+        <CartDisplay />
         <div className="flex gap-[25px] justify-center items-center mt-[20px] mb-[25px]">
           {regionCategories.map((category: RegionCategory) => (
             <button

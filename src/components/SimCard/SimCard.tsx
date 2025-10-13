@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import "./SimCard.css";
 import { Plus } from "lucide-react";
 import { getImageUrl } from "../../config/imageUtils";
+import { useCart } from "../../context/CartContext";
 import type { Region, Tariff } from "../../types/api";
 
 interface SimCardProps {
@@ -11,15 +12,14 @@ interface SimCardProps {
 
 const SimCard = ({ region }: SimCardProps) => {
   const { t } = useTranslation();
+  const { addToCart } = useCart();
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: string]: boolean;
   }>({});
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const handlePlusClick = (plan: Tariff) => {
-    console.log(plan);
-
-    // addToCart(country, plan, flag);
+  const handlePlusClick = (tariff: Tariff) => {
+    addToCart(region, tariff);
   };
 
   const toggleDropdown = (planId: number) => {
@@ -63,18 +63,18 @@ const SimCard = ({ region }: SimCardProps) => {
         <div className="country-name">{region.name}</div>
       </div>
       <div className="grid grid-cols-3 gap-[10px]">
-        {region.tariffs?.slice(0, 3).map((plan: Tariff, index: number) => (
+        {region.tariffs?.slice(0, 3).map((tariff: Tariff, index: number) => (
           <div
             key={index}
             className="flex flex-col gap-[8px] p-5 border border-[#0000004D] rounded-[10px] text-[14px]"
           >
             <div className="flex w-full border-[2px] items-center border-main-blue bg-main-blue rounded-[10px] overflow-hidden">
               <h3 className="bg-white rounded-l-[8px] w-full py-1 px-2 text-[20px] font-medium">
-                {plan.type}
+                {tariff.type}
               </h3>
               <button
                 className="w-[100px] flex items-center justify-center"
-                onClick={() => handlePlusClick(plan)}
+                onClick={() => handlePlusClick(tariff)}
               >
                 <span className="flex items-center justify-center bg-[#FFFFFF4D] rounded-full w-[22px] h-[22px]">
                   <Plus className="w-4 text-white" />
@@ -84,33 +84,33 @@ const SimCard = ({ region }: SimCardProps) => {
             <p>
               {t("sims.trafic")}{" "}
               <span className="font-bold">
-                {plan.quantity_internet.toLocaleString()}мб
+                {tariff.quantity_internet.toLocaleString()}мб
               </span>
             </p>
             <p>
               {t("sims.srok")}{" "}
-              <span className="font-bold">{plan.validity_period}</span>
+              <span className="font-bold">{tariff.validity_period}</span>
             </p>
             <p>
               {t("sims.set")}
               <span className="font-bold">
                 {" "}
-                {plan.is_4g ? "4G" : ""} {plan.is_5g ? "5G" : ""}
+                {tariff.is_4g ? "4G" : ""} {tariff.is_5g ? "5G" : ""}
               </span>
             </p>{" "}
             <div className="w-full flex items-center gap-2">
               <p className="text-[12px]">Зона покрытия:</p>{" "}
               <div
-                className="relative flex h-[18px]"
+                className="relative flex h-[20px]"
                 ref={(el) => {
-                  dropdownRefs.current[plan.id] = el;
+                  dropdownRefs.current[tariff.id] = el;
                 }}
               >
-                {plan.regions
+                {tariff.regions
                   .slice(0, 4)
                   .map((region: Region, index: number) => (
                     <img
-                      className="mr-[-5px] h-[18px] w-[24px] object-cover"
+                      className="mr-[-5px] h-[20px] w-[24px] object-cover rounded-[2px] outline-[1px] outline-[rgb(0,0,0,0.1)] outline-offset-[-1px]"
                       src={getImageUrl(region.image)}
                       alt={region.name}
                       key={index}
@@ -118,13 +118,13 @@ const SimCard = ({ region }: SimCardProps) => {
                   ))}
                 <button
                   className="text-[14px] leading-[1.2] bg-main-blue text-white min-w-[95px] rounded-r-[10px] rounded-l-[2px] hover:bg-blue-600 transition-colors duration-200"
-                  onClick={() => toggleDropdown(plan.id)}
+                  onClick={() => toggleDropdown(tariff.id)}
                 >
                   Подробнее
                 </button>
-                {openDropdowns[plan.id] && (
+                {openDropdowns[tariff.id] && (
                   <div className="absolute top-full left-0 mt-1 rounded-[20px] p-2 z-50 min-w-[300px] max-h-[300px] overflow-y-auto bg-[#EFF6FF] flex flex-wrap gap-1">
-                    {plan.regions.map((region: Region, index: number) => (
+                    {tariff.regions.map((region: Region, index: number) => (
                       <div
                         key={index}
                         className="flex items-center gap-2 p-2 bg-main-blue rounded-[20px] w-max"

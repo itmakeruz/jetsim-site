@@ -8,6 +8,12 @@
     "cabinet": "Cabinet",
     "exit": "Exit"
   },
+  "cart": {
+    "in_cart": "In cart",
+    "economy": "Economy",
+    "standard": "Standard",
+    "turbo": "Turbo"
+  },
   "profile": {
     "title": "Personal cabinet",
     "tabs": {
