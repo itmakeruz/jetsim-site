@@ -4,7 +4,10 @@ html {
   scroll-behavior: smooth;
   height: 100%;
 }
-
+@theme {
+  --color-main-blue: #1978e5;
+  --font-norms: "TTNormsMedium";
+}
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
@@ -16,7 +19,7 @@ button {
 body {
   background-color: #ffffff;
 }
-.link-btn:hover svg path {
+.header-link-btn:hover svg path {
   transition: all 0.3s ease;
   fill: #c0c0c0;
 }
@@ -26,21 +29,32 @@ body {
   padding-right: 20px;
   margin: 0 auto;
 }
-/* @media (max-width: 1024px) {
-  .container {
-    max-width: 1250;
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid;
+  border-color: var(--color-main-blue) transparent;
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
 }
 
-@media (max-width: 768px) {
-  .container {
-    max-width: 725px;
-    padding-left: 20px;
-    padding-right: 20px;
+.loader.w-4.h-4 {
+  width: 16px;
+  height: 16px;
+  border-width: 2px;
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
   }
-} */
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
 
 @media (max-width: 500px) {
   .container {

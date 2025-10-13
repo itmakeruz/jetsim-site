@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef } from "react";
 import { ASSETS } from "../../assets";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,9 +6,10 @@ import { APP_ROUTES } from "../../router/path";
 import "./Navbar.css";
 import ModalLayout from "../Modal/Modal";
 import { useCart } from "../../context/CartContext";
-import { removeToken, setToken } from "../../config/api";
+import { removeToken } from "../../config/api";
 import HeaderBtn from "../../components/headerStuffs/HeaderBtn";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthStore } from "../../store/authStore";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,7 +17,7 @@ const Navbar: React.FC = () => {
   const { cartCount } = useCart();
   const { i18n, t } = useTranslation();
   const menuRef = useRef<HTMLDivElement>(null);
-
+  const { isAuthenticated } = useAuthStore();
   const languages = [
     { code: "ru", label: "Ру" },
     { code: "en", label: "En" },
@@ -28,22 +29,6 @@ const Navbar: React.FC = () => {
   const changeLanguage = (event: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(event.target.value);
   };
-
-  useEffect(() => {
-    const currentPath = window.location.pathname;
-    if (currentPath === APP_ROUTES.AUTH) {
-      setIsMenuOpen(false);
-    }
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsMenuOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const handleCloseMenu = () => {
     setIsMenuOpen(false);
@@ -57,12 +42,12 @@ const Navbar: React.FC = () => {
     setIsModalOpen(false);
   };
 
-  const isAuthenticated = localStorage.getItem("token");
   const navigate = useNavigate();
+
   return (
-    <header>
+    <header className="relative z-[1]">
       <div className="container">
-        <div className="flex justify-between items-center my-[10px]">
+        <div className="flex relative z-[1] justify-between items-center my-[10px]">
           <div className="flex items-center xl:gap-[50px] gap-[30px]">
             <Link to={APP_ROUTES.HOME}>
               <img src={ASSETS.logo} alt="logo" className="header-logo" />
@@ -105,11 +90,11 @@ const Navbar: React.FC = () => {
           </div>
           <div className="flex items-center">
             <HeaderBtn
-              count={5}
+              count={0}
               onClick={handleOpenModal}
               text={t("nav.korzina")}
             />
-            {!isAuthenticated && (
+            {isAuthenticated && (
               <HeaderBtn
                 onClick={() => {
                   navigate(APP_ROUTES.PROFILE);
@@ -193,8 +178,10 @@ const Navbar: React.FC = () => {
               </motion.div>
             )}
           </AnimatePresence>
-          <ModalLayout isOpen={isModalOpen} onClose={handleCloseModal} />
         </div>
+        {isModalOpen && (
+          <ModalLayout isOpen={isModalOpen} onClose={handleCloseModal} />
+        )}
       </div>
     </header>
   );

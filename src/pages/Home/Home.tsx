@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import SimCard from "../../components/SimCard/SimCard";
-import { useCustomGet } from "../../hooks/useCustomGet";
+// import { useCustomGet } from "../../hooks/useCustomGet";
 import endpoints from "../../services/endpoints";
 import i18n from "../../i18n";
 import "./Home.css";
-import { url } from "../../config/api";
+// import { url } from "../../config/api";
 
 export type RegionResponse = {
   status: number;
@@ -88,20 +88,20 @@ const Home: React.FC = () => {
   const [activeCategory, setActiveCategory] = useState("");
   const [id, setId] = useState(null);
 
-  const { data: regionsData } = useCustomGet({
-    key: "regions",
-    endpoint: endpoints.getregions,
-    enabled: true,
-  });
+  // const { data: regionsData } = useCustomGet({
+  //   key: "regions",
+  //   endpoint: endpoints.getregions,
+  //   enabled: true,
+  // });
 
-  useEffect(() => {
-    if (regionsData?.data?.length > 0 && !activeCategory) {
-      const firstRegion = regionsData.data[0];
-      setActiveCategory(
-        i18n.language === "ru" ? firstRegion.name_ru : firstRegion.name_en
-      );
-    }
-  }, [regionsData]);
+  // useEffect(() => {
+  //   if (regionsData?.data?.length > 0 && !activeCategory) {
+  //     const firstRegion = regionsData.data[0];
+  //     setActiveCategory(
+  //       i18n.language === "ru" ? firstRegion.name_ru : firstRegion.name_en
+  //     );
+  //   }
+  // }, [regionsData]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
@@ -112,21 +112,21 @@ const Home: React.FC = () => {
     setSearchTerm("");
   };
 
-  const categories: Category[] = regionsData
-    ? createCategories(regionsData.data)
-    : [];
+  // const categories: Category[] = regionsData
+  //   ? createCategories(regionsData.data)
+  //   : [];
 
-  const { data } = useCustomGet({
-    key: ["tariffs"],
-    endpoint: endpoints.tariffs,
-  });
+  // const { data } = useCustomGet({
+  //   key: ["tariffs"],
+  //   endpoint: endpoints.tariffs,
+  // });
 
-  const { data: tariffsRegion } = useCustomGet({
-    key: ["tariffsRegion", id],
-    endpoint: endpoints.tarrifsById,
-    params: { category_id: id },
-    enabled: !!id,
-  });
+  // const { data: tariffsRegion } = useCustomGet({
+  //   key: ["tariffsRegion", id],
+  //   endpoint: endpoints.tarrifsById,
+  //   params: { category_id: id },
+  //   enabled: !!id,
+  // });
 
   // const filteredCategories = categories
   //   .filter((category) => !activeCategory || category.name === activeCategory)
@@ -157,7 +157,7 @@ const Home: React.FC = () => {
           onChange={handleSearch}
           className="search-input"
         />
-        <div className="category-buttons">
+        {/* <div className="category-buttons">
           {data?.data?.map((category: any) => (
             <button
               key={category.id}
@@ -191,7 +191,7 @@ const Home: React.FC = () => {
               />
             </div>
           </div>
-        ))}
+        ))} */}
       </div>
     </div>
   );

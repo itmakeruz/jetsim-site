@@ -8,7 +8,11 @@
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  background: linear-gradient(180deg, #ffffff 6.01%, rgba(136, 196, 255, 0.59) 120%);
+  background: linear-gradient(
+    180deg,
+    #ffffff 6.01%,
+    rgba(136, 196, 255, 0.59) 120%
+  );
 }
 
 .modal-content {
@@ -19,6 +23,7 @@
   max-width: 800px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 10px;
+  z-index: 11;
 }
 
 .resend-button {

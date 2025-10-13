@@ -1,31 +1,32 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { appRoutes } from "./router/routes";
 import { AutoScrollToTop } from "./components/scrollToTop";
 import { CartProvider } from "./context/CartContext";
 import { ToastContainer } from "react-toastify";
+import { useAuthStore } from "./store/authStore";
 import "react-toastify/dist/ReactToastify.css";
 
 const queryClient = new QueryClient();
 
 function App() {
+  const { token, getProfile, logout } = useAuthStore();
+
+  useEffect(() => {
+    if (token) {
+      getProfile().catch(() => {
+        logout();
+      });
+    }
+  }, [token, getProfile]);
+
   return (
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <AutoScrollToTop />
         <CartProvider>
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
+          <ToastContainer />
           <Routes>
             {appRoutes.map((route, index) => (
               <Route key={index} path={route.path} element={route.element}>

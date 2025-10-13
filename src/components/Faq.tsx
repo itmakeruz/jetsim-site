@@ -1,4 +1,4 @@
-import "../styles/main.css"; 
+import "../styles/main.css";
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -19,10 +19,7 @@ const FAQ = ({ items }: FAQProps) => {
 
         return (
           <div key={index} className="faq-item">
-            <button
-              className="faq-question"
-              onClick={() => setOpen(!open)}
-            >
+            <button className="faq-question" onClick={() => setOpen(!open)}>
               <h3 className="faq-title">{item.question}</h3>
               {open ? (
                 <ChevronUp className="faq-chevron" size={15} />

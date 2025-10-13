@@ -10,7 +10,7 @@ function HeaderBtn({
   return (
     <button
       onClick={onClick}
-      className="relative flex items-center justify-center min-w-[100px] xl:px-[35px] px-[30px] h-[46px] gap-2 link-btn"
+      className="relative flex items-center justify-center min-w-[100px] xl:px-[35px] px-[30px] h-[46px] gap-2 header-link-btn"
     >
       <svg
         fill="#D9D9D9"

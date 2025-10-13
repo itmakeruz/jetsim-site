@@ -1,42 +1,52 @@
-// config/api.ts
 import axios from "axios";
-import { APP_ROUTES } from "../router/path";
-import i18n from "../i18n";
 
-export const url = import.meta.env.VITE_API_URL
-
-export const $api = axios.create({
-  baseURL: url
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
-$api.interceptors.response.use(
+// Request interceptor - token va language qo'shish
+instance.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  // Language header qo'shish
+  const lang = localStorage.getItem("lang") || "ru";
+  config.headers["lang"] = lang;
+
+  // FormData bo'lmasa Content-Type ni application/json qilish
+  if (!(config.data instanceof FormData)) {
+    config.headers["Content-Type"] = "application/json";
+  }
+
+  config.headers["Accept"] = "application/json";
+
+  return config;
+});
+
+// Response interceptor - 401 xatolarda faqat logout
+instance.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.clear();
-      window.location.href = APP_ROUTES.AUTH;
+      // Token soxta yoki muddati o'tgan - faqat tozalash, redirect yo'q
+      localStorage.removeItem("token");
+      // Store'ni reset qilish uchun event dispatch qilamiz
+      window.dispatchEvent(new Event("unauthorized"));
     }
     return Promise.reject(error);
   }
 );
 
-$api.defaults.headers.common["Accept"] = "application/json";
-$api.defaults.headers.common["Content-Type"] = "application/json";
-$api.defaults.headers.common["lang"] = i18n.resolvedLanguage;
-
 export const tokenName = "token";
-
-export const initApp = () => {
-  const token = localStorage.getItem(tokenName);
-  $api.defaults.headers.common.Authorization = token ? `Bearer ${token}` : "";
-};
 
 export const setToken = (token: string) => {
   localStorage.setItem(tokenName, token);
-  $api.defaults.headers.common.Authorization = `Bearer ${token}`;
 };
 
 export const removeToken = () => {
   localStorage.removeItem(tokenName);
-  $api.defaults.headers.common.Authorization = "";
 };
+
+export default instance;
