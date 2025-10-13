@@ -1,0 +1,249 @@
+.benefit-card {
+  display: flex;
+  width: 100%;
+  padding: 1.5rem 1.25rem;
+  border: 0.54px solid #0000004d;
+  border-radius: 1.25rem;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-sizing: border-box;
+  margin: 23px 0;
+}
+
+.benefit-text {
+  color: #000000;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  line-height: 120%;
+}
+
+@media (max-width: 1024px) {
+  .benefit-card {
+    padding: 1.25rem 1rem;
+    border-radius: 1rem;
+    margin: 20px 0;
+  }
+
+  .benefit-text {
+    font-size: clamp(0.9375rem, 2.2vw, 1.125rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .benefit-card {
+    padding: 1rem 0.75rem;
+    border-radius: 0.75rem;
+    margin: 15px 0;
+  }
+
+  .benefit-text {
+    font-size: clamp(0.875rem, 2vw, 1rem);
+  }
+}
+
+@media (max-width: 475px) {
+  .benefit-card {
+    padding: 0.75rem 0.5rem;
+    border-radius: 0.5rem;
+    margin: 12px 0;
+  }
+
+  .benefit-text {
+    font-size: clamp(0.75rem, 1.8vw, 0.875rem);
+  }
+}
+
+.link-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 40px 0;
+  color: #ffffff;
+  background-color: #1978e5;
+  padding: 10px 0;
+  border-radius: 16.18px;
+  font-size: 15px;
+}
+
+.pages-heading {
+  font-weight: 800;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  line-height: 120%;
+  letter-spacing: 0;
+  text-align: center;
+  margin-bottom: 2rem;
+  margin-top: 20px;
+}
+
+.pages-text {
+  font-weight: 500;
+  font-style: italic;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+@media (max-width: 1024px) {
+  .pages-heading {
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    margin-bottom: 1.5rem;
+  }
+
+  .pages-text {
+    font-size: clamp(0.8125rem, 1.8vw, 0.9375rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .pages-heading {
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .pages-text {
+    font-size: clamp(0.75rem, 1.6vw, 0.875rem);
+    max-width: 95%;
+  }
+}
+
+@media (max-width: 475px) {
+  .pages-heading {
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
+    margin-bottom: 1rem;
+  }
+
+  .pages-text {
+    font-size: clamp(0.6875rem, 1.4vw, 0.8125rem);
+    max-width: 100%;
+  }
+}
+
+/* FAQ */
+.faq-container {
+  margin: 33px 0;
+}
+
+.faq-item {
+  margin-bottom: 16px;
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 0.54px solid #0000004d;
+  border-radius: 21.43px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  background-color: #fff;
+}
+
+.faq-question:hover {
+  background-color: #f5f5f5;
+}
+
+.faq-title {
+  font-size: 16px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.faq-chevron {
+  width: 20px;
+  height: 20px;
+  background-color: #1978e5;
+  color: #ffffff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.faq-answer-container {
+  overflow: hidden;
+}
+
+.faq-answer {
+  overflow: hidden;
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px;
+  border: 0.54px solid #0000004d;
+  border-radius: 21.43px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-color: #fff;
+  font-size: 17px;
+}
+
+@media (max-width: 1024px) {
+  .faq-container {
+    padding: 0 5px;
+  }
+  .faq-question {
+    padding: 12px;
+    border-radius: 15px;
+  }
+  .faq-title {
+    font-size: 14px;
+  }
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+  }
+  .faq-answer {
+    padding: 12px;
+    border-radius: 15px;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .faq-container {
+    padding: 0 5px;
+  }
+  .faq-question {
+    padding: 12px;
+    border-radius: 15px;
+  }
+  .faq-title {
+    font-size: 14px;
+  }
+  .faq-chevron {
+    width: 18px;
+    height: 18px;
+  }
+  .faq-answer {
+    padding: 12px;
+    border-radius: 15px;
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 475px) {
+  .faq-container {
+    margin: 20px 0;
+    padding: 0;
+  }
+  .faq-question {
+    padding: 10px;
+    border-radius: 10px;
+  }
+  .faq-title {
+    font-size: 12px;
+  }
+  .faq-chevron {
+    width: 15px;
+    height: 15px;
+  }
+  .faq-answer {
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+  }
+}
