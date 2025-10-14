@@ -55,7 +55,7 @@ const SimCard = ({ region }: SimCardProps) => {
       <div className="flex flex-col gap-[10px]">
         <div className="w-[40px]">
           <img
-            className="w-full h-full object-contain"
+            className="w-full h-full object-contain rounded-[2px] outline-[1px] outline-[rgb(0,0,0,0.1)] outline-offset-[-1px]"
             src={getImageUrl(region.image)}
             alt=""
           />
