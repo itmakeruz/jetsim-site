@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { useState } from "react";
 import { APP_ROUTES } from "../../router/path";
 import { ASSETS } from "../../assets";
+import { getImageUrl } from "../../config/imageUtils";
 
 export const CartRender = () => {
   const { t } = useTranslation();
@@ -29,20 +30,27 @@ export const CartRender = () => {
             <div key={index} className="cart-item">
               <div className="cart-item-header">
                 <div className="cart-wrapper">
-                  <span className="flag">{item.flag}</span>
-                  <h3 className="name">{t(`sims.${item.country}`)}</h3>
+                  <div className="w-[40px]">
+                    <img
+                      className="w-full h-full object-contain rounded-[2px] outline-[1px] outline-[rgb(0,0,0,0.1)] outline-offset-[-1px]"
+                      src={getImageUrl(item.flag)}
+                      alt=""
+                    />
+                  </div>
+                  <h3 className="name">{item.name}</h3>
                 </div>
                 <input className="inputt" type="checkbox" />
               </div>
               <div className="cart-item-details">
                 <p>
-                  {t("sims.trafic")} {item.plan.traffic}
+                  {t("sims.trafic")} {item.plan.quantity_internet}
                 </p>
                 <p>
-                  {t("sims.srok")} {item.plan.cost}
+                  {t("sims.srok")} {item.plan.validity_period}
                 </p>
                 <p>
-                  {t("sims.set")} {item.plan.network}
+                  {t("sims.set")} {item.plan.is_4g && "4G"}{" "}
+                  {item.plan.is_5g && "5G"}
                 </p>
               </div>
               <div className="plan-wrapp">
@@ -52,11 +60,13 @@ export const CartRender = () => {
                   <img className="country-3" src={ASSETS.country3} alt="" />
                   <img className="country-4" src={ASSETS.country4} alt="" />
                 </div>
-                <a className="plan-img-btn" href="#">{t(`sims.${item.plan.status}`)}</a>
+                <a className="plan-img-btn" href="#">
+                  {item.plan.status}
+                </a>
               </div>
               <div className="plan-item-w">
                 <div className="plan-item-h">
-                  <h3>{t(`sims.${item.plan.type}`)}</h3>
+                  <h3>{item.plan.type}</h3>
                 </div>
                 <div className="plan-plus">
                   <div className="plan-p">

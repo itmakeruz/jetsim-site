@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useCart } from "../../context/CartContext";
+import { useAuthStore } from "../../store/authStore";
+import { useSearchParams } from "react-router-dom";
 import "./Profile.css";
 import { ProfileRender } from "../../layouts/Profile/Profile";
 import { CartRender } from "../../layouts/Cart/Cart";
@@ -10,10 +12,25 @@ import { HistoryRender } from "../../layouts/History/History";
 const Profile: React.FC = () => {
   const { t } = useTranslation();
   const { cartCount } = useCart();
-  const [activeTab, setActiveTab] = useState("profile");
+  const { isAuthenticated } = useAuthStore();
+  const [searchParams] = useSearchParams();
+  const [activeTab, setActiveTab] = useState("cart");
+
+  useEffect(() => {
+    const tabParam = searchParams.get("tab");
+    if (tabParam) {
+      setActiveTab(tabParam);
+    } else if (isAuthenticated) {
+      setActiveTab("profile");
+    } else {
+      setActiveTab("cart");
+    }
+  }, [searchParams, isAuthenticated]);
 
   const tabs = [
-    { id: "profile", label: t("profile.tabs.profile") },
+    ...(isAuthenticated
+      ? [{ id: "profile", label: t("profile.tabs.profile") }]
+      : []),
     {
       id: "cart",
       label: (
@@ -23,15 +40,19 @@ const Profile: React.FC = () => {
         </div>
       ),
     },
-    {
-      id: "esim",
-      label: (
-        <div className="profile-wrapper">
-          {t("profile.tabs.esim")} <span className="esim-counter">5</span>
-        </div>
-      ),
-    },
-    { id: "history", label: t("profile.tabs.history") },
+    ...(isAuthenticated
+      ? [
+          {
+            id: "esim",
+            label: (
+              <div className="profile-wrapper">
+                {t("profile.tabs.esim")} <span className="esim-counter">5</span>
+              </div>
+            ),
+          },
+          { id: "history", label: t("profile.tabs.history") },
+        ]
+      : []),
   ];
 
   const renderContent = () => {

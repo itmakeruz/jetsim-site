@@ -91,7 +91,7 @@ const Navbar: React.FC = () => {
           <div className="flex items-center">
             <HeaderBtn
               count={cartCount}
-              onClick={handleOpenModal}
+              onClick={() => navigate(APP_ROUTES.PROFILE + "?tab=cart")}
               text={t("nav.korzina")}
             />
             {isAuthenticated && (

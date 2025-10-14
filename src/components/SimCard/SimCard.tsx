@@ -63,14 +63,14 @@ const SimCard = ({ region }: SimCardProps) => {
         <div className="country-name">{region.name}</div>
       </div>
       <div className="grid grid-cols-3 gap-[10px]">
-        {region.tariffs?.slice(0, 3).map((tariff: Tariff, index: number) => (
+        {region.tariffs?.slice(0, 3)?.map((tariff: Tariff, index: number) => (
           <div
             key={index}
             className="flex flex-col gap-[8px] p-5 border border-[#0000004D] rounded-[10px] text-[14px]"
           >
             <div className="flex w-full border-[2px] items-center border-main-blue bg-main-blue rounded-[10px] overflow-hidden">
               <h3 className="bg-white rounded-l-[8px] w-full py-1 px-2 text-[20px] font-medium">
-                {tariff.type}
+                {/* {tariff?.type} */}
               </h3>
               <button
                 className="w-[100px] flex items-center justify-center"
@@ -106,7 +106,7 @@ const SimCard = ({ region }: SimCardProps) => {
                   dropdownRefs.current[tariff.id] = el;
                 }}
               >
-                {tariff.regions
+                {tariff?.regions
                   .slice(0, 4)
                   .map((region: Region, index: number) => (
                     <img

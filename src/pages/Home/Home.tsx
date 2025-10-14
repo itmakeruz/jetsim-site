@@ -87,6 +87,7 @@ const Home: React.FC = () => {
   const regions = allRegions;
   const loading = isCategoriesLoading || isRegionLoading;
   const hasNextPage = regionResponse?.meta?.hasNextPage || false;
+  console.log(regions);
 
   return (
     <div className="container">
@@ -108,7 +109,6 @@ const Home: React.FC = () => {
           />
         </div>
 
-        {/* Cart Display */}
         <CartDisplay />
         <div className="flex gap-[25px] justify-center items-center mt-[20px] mb-[25px]">
           {regionCategories.map((category: RegionCategory) => (
