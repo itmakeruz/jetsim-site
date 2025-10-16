@@ -3,7 +3,6 @@ import { ASSETS } from "../../assets";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { APP_ROUTES } from "../../router/path";
-import "./Navbar.css";
 import ModalLayout from "../Modal/Modal";
 import { useCart } from "../../context/CartContext";
 import { removeToken } from "../../config/api";
@@ -50,9 +49,13 @@ const Navbar: React.FC = () => {
         <div className="flex relative z-[1] justify-between items-center my-[10px]">
           <div className="flex items-center xl:gap-[50px] gap-[30px]">
             <Link to={APP_ROUTES.HOME}>
-              <img src={ASSETS.logo} alt="logo" className="header-logo" />
+              <img
+                src={ASSETS.logo}
+                alt="logo"
+                className="w-[150px] md:w-[150px] sm:w-[110px] object-contain"
+              />
             </Link>
-            <div className="flex xl:gap-[30px] gap-[20px]">
+            <div className="hidden lg:flex xl:gap-[30px] gap-[20px]">
               <Link
                 className="xl:text-base text-sm font-medium"
                 to={APP_ROUTES.HOME}
@@ -79,16 +82,15 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
             <button
-              className="burger-menu"
+              className="block lg:hidden text-2xl bg-none border-none cursor-pointer p-[5px]"
               onClick={() => {
                 setIsMenuOpen(!isMenuOpen);
-                console.log("Menu toggled:", !isMenuOpen);
               }}
             >
               ☰
             </button>
           </div>
-          <div className="flex items-center">
+          <div className="hidden lg:flex items-center gap-5">
             <HeaderBtn
               count={cartCount}
               onClick={() => navigate(APP_ROUTES.PROFILE + "?tab=cart")}
@@ -96,9 +98,7 @@ const Navbar: React.FC = () => {
             />
             {isAuthenticated && (
               <HeaderBtn
-                onClick={() => {
-                  navigate(APP_ROUTES.PROFILE);
-                }}
+                onClick={() => navigate(APP_ROUTES.PROFILE + "?tab=profile")}
                 text={t("nav.cabinet")}
               />
             )}
@@ -129,42 +129,81 @@ const Navbar: React.FC = () => {
                 animate={{ x: 0 }}
                 exit={{ x: "100%" }}
                 transition={{ duration: 0.3 }}
-                className="mobile-menu"
+                className="fixed top-0 right-0 w-[50%] sm:w-[55%] h-full bg-white p-5 sm:p-[10px] shadow-[-2px_0_15px_rgba(0,0,0,0.1)] z-[1000] overflow-y-auto"
                 ref={menuRef}
               >
-                <button className="close-btn" onClick={handleCloseMenu}>
+                <button
+                  className="absolute top-2.5 right-2.5 text-xl bg-none border-none cursor-pointer text-black p-0 z-[1001]"
+                  onClick={handleCloseMenu}
+                >
                   ×
                 </button>
-                <div className="mobile-menu-content">
-                  <div className="header-nav">
-                    <Link className="header-link" to={APP_ROUTES.HOME}>
+                <div className="mt-[30px]">
+                  <div className="flex flex-col items-start gap-[15px] w-full">
+                    <Link
+                      className="text-black hover:text-gray-600 transition-colors"
+                      to={APP_ROUTES.HOME}
+                    >
                       {t("nav.all")}
                     </Link>
-                    <Link className="header-link" to={APP_ROUTES.HOW_WORKS}>
+                    <Link
+                      className="text-black hover:text-gray-600 transition-colors"
+                      to={APP_ROUTES.HOW_WORKS}
+                    >
                       {t("nav.how")}
                     </Link>
-                    <Link className="header-link" to={APP_ROUTES.FAQ}>
+                    <Link
+                      className="text-black hover:text-gray-600 transition-colors"
+                      to={APP_ROUTES.FAQ}
+                    >
                       F.A.Q
                     </Link>
-                    <Link className="header-link" to={APP_ROUTES.ABOUT}>
+                    <Link
+                      className="text-black hover:text-gray-600 transition-colors"
+                      to={APP_ROUTES.ABOUT}
+                    >
                       {t("nav.about")}
                     </Link>
                   </div>
-                  <div className="header-right">
+                  <div className="flex flex-col items-start gap-[15px] w-full mt-5">
                     {isAuthenticated && (
-                      <div className="header-btn">
-                        <p className="header-text">{t("nav.korzina")}</p>
-                        <div className="header-span">{cartCount}</div>
+                      <>
+                        <div className="bg-[#d9d9d9] px-[19px] py-[5px] flex items-center gap-2.5 rounded-[10px] overflow-hidden cursor-pointer w-[120px] justify-start">
+                          <p className="font-bold text-black text-sm leading-[21px]">
+                            {t("nav.korzina")}
+                          </p>
+                          <div className="w-[35px] sm:w-[30px] h-[22px] sm:h-[20px] rounded-[10px] bg-[#e31d1c] text-white flex items-center justify-center text-[15px] sm:text-[14px] font-semibold">
+                            {cartCount}
+                          </div>
+                        </div>
+                        <div
+                          className="bg-[#d9d9d9] px-[19px] py-[5px] flex items-center gap-2.5 rounded-[10px] overflow-hidden cursor-pointer w-[120px] justify-start"
+                          onClick={() => {
+                            navigate(APP_ROUTES.PROFILE + "?tab=profile");
+                            setIsMenuOpen(false);
+                          }}
+                        >
+                          <p className="font-bold text-black text-sm leading-[21px]">
+                            {t("nav.cabinet")}
+                          </p>
+                        </div>
+                      </>
+                    )}
+                    {!isAuthenticated && (
+                      <div
+                        className="bg-[#d9d9d9] px-[19px] py-[5px] flex items-center gap-2.5 rounded-[10px] overflow-hidden cursor-pointer w-[120px] justify-start"
+                        onClick={handleOpenModal}
+                      >
+                        <p className="font-bold text-black text-sm leading-[21px]">
+                          {t("nav.login")}
+                        </p>
                       </div>
                     )}
-                    <div className="header-btn" onClick={handleOpenModal}>
-                      <p className="header-text">{t("nav.login")}</p>
-                    </div>
-                    <div className="header-btn language-btn">
+                    <div className="p-0">
                       <select
                         value={currentLang.code}
                         onChange={changeLanguage}
-                        className="language-select"
+                        className="bg-[#d9d9d9] border-none rounded-[10px] py-[5px] px-2.5 font-bold text-sm leading-[21px] text-black cursor-pointer outline-none w-full"
                       >
                         {languages.map((lang) => (
                           <option key={lang.code} value={lang.code}>

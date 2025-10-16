@@ -15,6 +15,7 @@ interface AuthStore {
   token: string | null;
   user: User | null;
   isLoading: boolean;
+  isInitialized: boolean;
   logout: () => void;
   getProfile: () => Promise<{
     success: boolean;
@@ -24,6 +25,7 @@ interface AuthStore {
   setToken: (token: string) => void;
   setUser: (user: User) => void;
   isAuthenticated: boolean;
+  initializeAuth: () => void;
 }
 
 // --- Store ---
@@ -31,7 +33,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
   token: localStorage.getItem("token") || null,
   user: null,
   isLoading: false,
-  isAuthenticated: false,
+  isInitialized: false,
+  isAuthenticated: !!localStorage.getItem("token"),
   logout: () => {
     set({ token: null, user: null, isAuthenticated: false });
     removeToken();
@@ -74,5 +77,14 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
   setUser: (user: User) => {
     set({ user, isAuthenticated: true });
+  },
+
+  initializeAuth: () => {
+    const token = localStorage.getItem("token");
+    set({
+      token,
+      isAuthenticated: !!token,
+      isInitialized: true,
+    });
   },
 }));

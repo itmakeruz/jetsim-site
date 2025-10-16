@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import "./Profile.css";
+import { useAuthStore } from "../../store/authStore";
 
 export const ProfileRender = () => {
   const handleFileUpload = (event: any) => {
@@ -11,16 +11,30 @@ export const ProfileRender = () => {
   };
 
   const { t } = useTranslation();
+  const { user } = useAuthStore();
 
   const [formData, setFormData] = useState({
-    fio: "unknown",
-    homePhone: "unknown",
+    fio: "",
+    homePhone: "",
     country: "",
-    city: "unknown",
-    address: "unknown",
-    about:
-      "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed aliquam, nisi quis porttitor congue,\n\nelit erat euismod orci, ac placerat erat dolor lectus quis orci.",
+    city: "",
+    address: "",
+    about: "",
   });
+
+  // Update form data when user data is loaded
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        fio: user.name || "",
+        homePhone: "",
+        country: "",
+        city: "",
+        address: "",
+        about: "",
+      });
+    }
+  }, [user]);
 
   const countries = ["Россия", "Украина", "Беларусь"]; // Пример стран
 
@@ -38,12 +52,15 @@ export const ProfileRender = () => {
   };
 
   return (
-    <div className="info">
-      <div className="info-left">
-        <div className="upload-photo-container">
-          <label htmlFor="upload-input" className="upload-photo-circle">
+    <div className="flex gap-6 lg:flex-row flex-col items-stretch w-full">
+      <div className="flex flex-col items-center p-[80px] lg:p-[80px] md:p-[60px] sm:p-[40px] xs:p-[20px] border border-[#b2b2b2] rounded-lg">
+        <div className="flex flex-col items-center mb-[15px]">
+          <label
+            htmlFor="upload-input"
+            className="w-[120px] md:w-[120px] sm:w-[100px] xs:w-[80px] h-[120px] md:h-[120px] sm:h-[100px] xs:h-[80px] rounded-full bg-[#6a696970] flex items-center justify-center mb-2.5 border-2 border-dashed border-[#ccc] relative cursor-pointer"
+          >
             <svg
-              className="upload-icon"
+              className="text-[#999] w-6 h-6 md:w-6 md:h-6 sm:w-6 sm:h-6 xs:w-5 xs:h-5"
               width="24"
               height="24"
               viewBox="0 0 24 24"
@@ -63,43 +80,53 @@ export const ProfileRender = () => {
             onChange={handleFileUpload}
             style={{ display: "none" }}
           />
-          <div className="upload-photo-label">
+          <div className="text-base md:text-base sm:text-sm xs:text-xs text-[#333] mb-2.5 text-center">
             {t("profile.profile.download")}
           </div>
         </div>
-        <p className="file-text">{t("profile.profile.permission")}</p>
-        <p className="file-text file-mb">{t("profile.profile.permission2")}</p>
+        <p className="text-[#919eab] font-normal text-[15px] md:text-[15px] sm:text-[13px] xs:text-[11px] leading-[18px] tracking-[0px] text-center">
+          {t("profile.profile.permission")}
+        </p>
+        <p className="text-[#919eab] font-normal text-[15px] md:text-[15px] sm:text-[13px] xs:text-[11px] leading-[18px] tracking-[0px] text-center mb-[25px]">
+          {t("profile.profile.permission2")}
+        </p>
 
-        <button className="upload-button">{t("profile.profile.delete")}</button>
+        <button className="bg-[#ff563014] text-[#b71d18] border-none py-[10px] md:py-[10px] sm:py-[8px] xs:py-[6px] px-5 md:px-5 sm:px-4 xs:px-3 rounded cursor-pointer text-sm md:text-sm sm:text-xs xs:text-[10px] transition-colors">
+          {t("profile.profile.delete")}
+        </button>
       </div>
 
-      <form className="info-right">
-        <div className="form-row">
-          <div className="form-group">
-            <label className="form-label">{t("profile.profile.fio")}</label>
+      <form className="flex-1 flex flex-col items-center p-6 lg:p-6 md:p-4 sm:p-3 xs:p-2 border border-[#b2b2b2] rounded-lg">
+        <div className="flex gap-4 lg:flex-row flex-col w-full">
+          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
+            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
+              {t("profile.profile.fio")}
+            </label>
             <input
               type="text"
               name="fio"
               value={formData.fio}
               onChange={handleInputChange}
-              className="form-input"
+              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
           </div>
-          <div className="form-group">
-            <label className="form-label">Email</label>
+          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
+            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
+              Email
+            </label>
             <input
               type="email"
               name="email"
-              value="unknown"
-              className="form-input"
+              value={user?.email || ""}
+              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
               readOnly
             />
           </div>
         </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label className="form-label">
+        <div className="flex gap-4 lg:flex-row flex-col w-full">
+          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
+            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
               {t("profile.profile.phone")}
             </label>
             <input
@@ -107,29 +134,33 @@ export const ProfileRender = () => {
               name="homePhone"
               value={formData.homePhone}
               onChange={handleInputChange}
-              className="form-input"
+              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
           </div>
-          <div className="form-group">
-            <label className="form-label">{t("profile.profile.adres")}</label>
+          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
+            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
+              {t("profile.profile.adres")}
+            </label>
             <input
               type="text"
               name="address"
               value={formData.address}
               onChange={handleInputChange}
-              className="form-input"
+              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
           </div>
         </div>
 
-        <div className="form-row">
-          <div className="form-group">
-            <label className="form-label">{t("profile.profile.country")}</label>
+        <div className="flex gap-4 lg:flex-row flex-col w-full">
+          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
+            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
+              {t("profile.profile.country")}
+            </label>
             <select
               name="country"
               value={formData.country}
               onChange={handleInputChange}
-              className="form-select"
+              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none cursor-pointer"
             >
               {countries.map((country) => (
                 <option key={country} value={country}>
@@ -138,32 +169,40 @@ export const ProfileRender = () => {
               ))}
             </select>
           </div>
-          <div className="form-group">
-            <label className="form-label">{t("profile.profile.region")}</label>
+          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
+            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
+              {t("profile.profile.region")}
+            </label>
             <input
               type="text"
               name="city"
               value={formData.city}
               onChange={handleInputChange}
-              className="form-input"
+              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
           </div>
         </div>
 
-        <div className="form-group full-width">
-          <label className="form-label">{t("profile.profile.about")}</label>
+        <div className="flex flex-col mb-4 w-full">
+          <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
+            {t("profile.profile.about")}
+          </label>
           <textarea
             name="about"
             value={formData.about}
             onChange={handleInputChange}
             rows={4}
-            className="form-textarea"
+            className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none resize-y min-h-[80px]"
           />
         </div>
 
-        <button type="button" className="save-button" onClick={handleSave}>
+        <button
+          type="button"
+          className="bg-[#007bff] text-white border-none py-5 px-6 rounded-[16.18px] text-base md:text-base sm:text-sm xs:text-xs cursor-pointer self-end w-full"
+          onClick={handleSave}
+        >
           {t("profile.profile.save")}
-        </button>   
+        </button>
       </form>
     </div>
   );

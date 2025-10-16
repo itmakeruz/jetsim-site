@@ -29,14 +29,6 @@ const Home: React.FC = () => {
     setInputValue(event.target.value);
   };
 
-  const handleCategoryClick = (categoryId: number | null) => {
-    setActiveCategory(categoryId);
-    setSearchTerm(null);
-    setInputValue("");
-    setPage(1);
-    setAllRegions([]);
-  };
-
   // Reset page when search or category changes
   useEffect(() => {
     setPage(1);
@@ -87,7 +79,6 @@ const Home: React.FC = () => {
   const regions = allRegions;
   const loading = isCategoriesLoading || isRegionLoading;
   const hasNextPage = regionResponse?.meta?.hasNextPage || false;
-  console.log(regions);
 
   return (
     <div className="container">
