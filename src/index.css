@@ -62,3 +62,35 @@ body {
     padding-right: 15px;
   }
 }
+.upload-label::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  width: calc(100% + 16px);
+  height: calc(100% + 16px);
+  border: 2px dashed rgba(0, 0, 0, 0.3);
+  border-radius: 9999px;
+  pointer-events: none;
+  transition: border-color 0.3s ease;
+}
+
+.upload-label:hover::before {
+  border-color: rgba(0, 0, 0, 0.6);
+  animation: pulse-border 1.5s infinite ease-out;
+}
+
+@keyframes pulse-border {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  70% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 0;
+  }
+}

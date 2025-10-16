@@ -38,7 +38,10 @@ export const tariffAPI = {
 // Boshqa API'larni qo'shishingiz mumkin
 export const userAPI = {
   // getProfile: () => axios.get("/user/profile"),
-  // updateProfile: (data: any) => axios.put("/user/profile", data),
+  updateUser: (data: FormData) => axios.post("/users", data),
+  deleteAccount: () => axios.delete("/users/delete-account"),
+  deleteProfileImage: (userId: number) =>
+    axios.delete(`/users/delete-profile-image/${userId}`),
 };
 
 // Yagona default export - barcha API'larni birlashtiradi

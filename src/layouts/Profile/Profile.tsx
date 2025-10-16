@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/authStore";
+import { FormField } from "../../components/FormField";
+import { UniversalInput } from "../../components/UniversalInput";
+import { ImageUp, Trash2 } from "lucide-react";
+import { UniversalTextarea } from "../../components/UniversalTextarea";
+import { userAPI } from "../../services/api.service";
+import { toast } from "react-toastify";
 
 export const ProfileRender = () => {
-  const handleFileUpload = (event: any) => {
-    const file = event.target.files[0];
-    if (file) {
-      console.log("Uploaded file:", file.name);
-    }
-  };
-
   const { t } = useTranslation();
-  const { user } = useAuthStore();
+  const { user, setUser } = useAuthStore();
 
   const [formData, setFormData] = useState({
     fio: "",
@@ -22,21 +21,30 @@ export const ProfileRender = () => {
     about: "",
   });
 
+  const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDeletingImage, setIsDeletingImage] = useState(false);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedImage(file);
+    }
+  };
+
   // Update form data when user data is loaded
   useEffect(() => {
     if (user) {
       setFormData({
         fio: user.name || "",
-        homePhone: "",
+        homePhone: user.phone_number || "",
         country: "",
         city: "",
-        address: "",
-        about: "",
+        address: user.address || "",
+        about: user.about || "",
       });
     }
   }, [user]);
-
-  const countries = ["Россия", "Украина", "Беларусь"]; // Пример стран
 
   const handleInputChange = (
     e: React.ChangeEvent<
@@ -47,32 +55,117 @@ export const ProfileRender = () => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSave = () => {
-    console.log("Saving profile:", formData);
+  const handleSave = async () => {
+    setIsLoading(true);
+
+    try {
+      const formDataToSend = new FormData();
+
+      formDataToSend.append("name", formData.fio);
+      formDataToSend.append("phone_number", formData.homePhone);
+      formDataToSend.append("address", formData.address);
+      formDataToSend.append("about", formData.about);
+
+      if (selectedImage) {
+        formDataToSend.append("image", selectedImage);
+      }
+
+      const response = await userAPI.updateUser(formDataToSend);
+
+      if (response.data.success) {
+        toast.success("Profile updated successfully!");
+        if (response.data.data) {
+          setUser(response.data.data);
+        }
+        setSelectedImage(null);
+        const fileInput = document.getElementById(
+          "upload-input"
+        ) as HTMLInputElement;
+        if (fileInput) {
+          fileInput.value = "";
+        }
+      } else {
+        toast.error(response.data.message || "Failed to update profile");
+      }
+    } catch (error: any) {
+      toast.error(
+        error.response?.data?.message ||
+          "An error occurred while updating profile"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleDeleteImage = async () => {
+    if (!user?.id) return;
+
+    setIsDeletingImage(true);
+    try {
+      const response = await userAPI.deleteProfileImage(user.id);
+      if (response.data.success) {
+        toast.success("Profile image deleted successfully!");
+        // Update user in store to remove image
+        if (user) {
+          setUser({ ...user, image: null });
+        }
+      } else {
+        toast.error(response.data.message || "Failed to delete profile image");
+      }
+    } catch (error: any) {
+      toast.error(
+        error.response?.data?.message || "Failed to delete profile image"
+      );
+    } finally {
+      setIsDeletingImage(false);
+    }
+  };
+
+  const handleClearSelectedImage = () => {
+    setSelectedImage(null);
+    // Reset file input
+    const fileInput = document.getElementById(
+      "upload-input"
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   return (
-    <div className="flex gap-6 lg:flex-row flex-col items-stretch w-full">
+    <div className="w-full grid grid-cols-[450px_1fr] gap-6">
       <div className="flex flex-col items-center p-[80px] lg:p-[80px] md:p-[60px] sm:p-[40px] xs:p-[20px] border border-[#b2b2b2] rounded-lg">
         <div className="flex flex-col items-center mb-[15px]">
           <label
             htmlFor="upload-input"
-            className="w-[120px] md:w-[120px] sm:w-[100px] xs:w-[80px] h-[120px] md:h-[120px] sm:h-[100px] xs:h-[80px] rounded-full bg-[#6a696970] flex items-center justify-center mb-2.5 border-2 border-dashed border-[#ccc] relative cursor-pointer"
+            className="upload-label w-[128px] max-w-[128px] h-[128px] shrink-0 rounded-full text-white gap-2 bg-[rgba(0,0,0,48%)] flex flex-col items-center justify-center mb-2.5 relative cursor-pointer"
           >
-            <svg
-              className="text-[#999] w-6 h-6 md:w-6 md:h-6 sm:w-6 sm:h-6 xs:w-5 xs:h-5"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                fill="currentColor"
-              />
-            </svg>
+            {selectedImage ? (
+              <div className="w-full h-full rounded-full overflow-hidden">
+                <img
+                  src={URL.createObjectURL(selectedImage)}
+                  alt="Selected"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ) : user?.image ? (
+              <div className="w-full h-full rounded-full overflow-hidden">
+                <img
+                  src={`${import.meta.env.VITE_API_URL}${user.image}`}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ) : (
+              <>
+                <ImageUp className="w-[24px] h-[24px]" />
+                <span className="text-[12px]">
+                  {t("profile.profile.download")}
+                </span>
+              </>
+            )}
           </label>
+
           <input
             id="upload-input"
             type="file"
@@ -80,9 +173,6 @@ export const ProfileRender = () => {
             onChange={handleFileUpload}
             style={{ display: "none" }}
           />
-          <div className="text-base md:text-base sm:text-sm xs:text-xs text-[#333] mb-2.5 text-center">
-            {t("profile.profile.download")}
-          </div>
         </div>
         <p className="text-[#919eab] font-normal text-[15px] md:text-[15px] sm:text-[13px] xs:text-[11px] leading-[18px] tracking-[0px] text-center">
           {t("profile.profile.permission")}
@@ -91,117 +181,79 @@ export const ProfileRender = () => {
           {t("profile.profile.permission2")}
         </p>
 
-        <button className="bg-[#ff563014] text-[#b71d18] border-none py-[10px] md:py-[10px] sm:py-[8px] xs:py-[6px] px-5 md:px-5 sm:px-4 xs:px-3 rounded cursor-pointer text-sm md:text-sm sm:text-xs xs:text-[10px] transition-colors">
-          {t("profile.profile.delete")}
-        </button>
+        {(user?.image || selectedImage) && (
+          <button
+            className="bg-[#ff563014] text-[#b71d18] border-none py-[10px] md:py-[10px] sm:py-[8px] xs:py-[6px] px-5 md:px-5 sm:px-4 xs:px-3 rounded cursor-pointer text-sm md:text-sm sm:text-xs xs:text-[10px] transition-colors"
+            onClick={() => {
+              if (selectedImage) {
+                handleClearSelectedImage();
+              } else {
+                handleDeleteImage();
+              }
+            }}
+            disabled={isDeletingImage}
+          >
+            {t("profile.profile.delete")}
+          </button>
+        )}
       </div>
 
       <form className="flex-1 flex flex-col items-center p-6 lg:p-6 md:p-4 sm:p-3 xs:p-2 border border-[#b2b2b2] rounded-lg">
-        <div className="flex gap-4 lg:flex-row flex-col w-full">
-          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
-            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
-              {t("profile.profile.fio")}
-            </label>
-            <input
+        <div className="grid grid-cols-2 gap-4 w-full">
+          <FormField label={t("profile.profile.fio")}>
+            <UniversalInput
               type="text"
               name="fio"
+              placeholder="ФИО"
               value={formData.fio}
               onChange={handleInputChange}
-              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
-          </div>
-          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
-            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
-              Email
-            </label>
-            <input
+          </FormField>
+          <FormField label="Email">
+            <UniversalInput
               type="email"
               name="email"
+              placeholder="Электронная почта"
               value={user?.email || ""}
-              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
+              variant="readonly"
               readOnly
             />
-          </div>
-        </div>
-
-        <div className="flex gap-4 lg:flex-row flex-col w-full">
-          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
-            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
-              {t("profile.profile.phone")}
-            </label>
-            <input
+          </FormField>
+          <FormField label={t("profile.profile.phone")}>
+            <UniversalInput
               type="tel"
               name="homePhone"
+              placeholder="Номер телефона"
               value={formData.homePhone}
               onChange={handleInputChange}
-              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
-          </div>
-          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
-            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
-              {t("profile.profile.adres")}
-            </label>
-            <input
+          </FormField>
+          <FormField label={t("profile.profile.adres")}>
+            <UniversalInput
               type="text"
               name="address"
+              placeholder="Адрес"
               value={formData.address}
               onChange={handleInputChange}
-              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
-          </div>
-        </div>
-
-        <div className="flex gap-4 lg:flex-row flex-col w-full">
-          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
-            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
-              {t("profile.profile.country")}
-            </label>
-            <select
-              name="country"
-              value={formData.country}
+          </FormField>
+          <FormField className="col-span-2" label={t("profile.profile.about")}>
+            <UniversalTextarea
+              name="about"
+              placeholder="О себе"
+              value={formData.about}
               onChange={handleInputChange}
-              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none cursor-pointer"
-            >
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="flex flex-col mb-4 flex-1 min-w-0 max-w-full">
-            <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
-              {t("profile.profile.region")}
-            </label>
-            <input
-              type="text"
-              name="city"
-              value={formData.city}
-              onChange={handleInputChange}
-              className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none"
             />
-          </div>
-        </div>
-
-        <div className="flex flex-col mb-4 w-full">
-          <label className="text-sm md:text-sm sm:text-xs xs:text-[10px] leading-[18px] font-normal text-[#637381] mb-0.5">
-            {t("profile.profile.about")}
-          </label>
-          <textarea
-            name="about"
-            value={formData.about}
-            onChange={handleInputChange}
-            rows={4}
-            className="py-3 px-3 border border-[#919EAB33] rounded-xl text-sm md:text-sm sm:text-xs xs:text-[10px] bg-white transition-colors text-[#919EAB] focus:outline-none resize-y min-h-[80px]"
-          />
+          </FormField>
         </div>
 
         <button
           type="button"
-          className="bg-[#007bff] text-white border-none py-5 px-6 rounded-[16.18px] text-base md:text-base sm:text-sm xs:text-xs cursor-pointer self-end w-full"
+          className="bg-[#007bff] mt-auto text-white border-none py-5 px-6 rounded-[10px] text-base md:text-base sm:text-sm xs:text-xs cursor-pointer self-end w-full disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handleSave}
+          disabled={isLoading}
         >
-          {t("profile.profile.save")}
+          {isLoading ? "Saving..." : t("profile.profile.save")}
         </button>
       </form>
     </div>
