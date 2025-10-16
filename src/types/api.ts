@@ -57,7 +57,10 @@ export interface Tariff {
   quantity_internet: number;
   validity_period: number;
   price_sell: number;
-  type: "TURBO" | "STANDARD" | "ECONOMY" | null;
+  type: {
+    id: number;
+    name: string;
+  };
   regions: Region[];
   created_at: string;
 }
@@ -101,4 +104,41 @@ export interface RegionWithTariffs {
   status: "ACTIVE" | "INACTIVE";
   created_at: string;
   tariffs: ProcessedTariff[];
+}
+
+// Cart API Types
+export interface CartItemFromAPI {
+  id: number;
+  name: number;
+  price: number;
+  quantity: number;
+  total_amount: number;
+  region: {
+    id: number;
+    name: string;
+    image: string;
+  };
+  tariff: {
+    id: number;
+    type: {
+      id: number;
+      name: string;
+    };
+    quantity_sms: number;
+    quantity_minute: number;
+    quantity_internet: number;
+    validity_period: number;
+    is_4g: boolean;
+    is_5g: boolean;
+    price_sell: number;
+  };
+}
+
+export interface CartResponse {
+  success: boolean;
+  message: string;
+  data: {
+    items: CartItemFromAPI[];
+    total: number;
+  };
 }

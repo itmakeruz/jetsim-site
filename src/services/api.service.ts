@@ -35,6 +35,29 @@ export const tariffAPI = {
   getTariffs: () => axios.get("/tariff"),
 };
 
+// Cart API'lar
+export const cartAPI = {
+  getCart: () => axios.get("/order/cart"),
+  addToBasket: (data: {
+    tariff_id: number;
+    quantity: number;
+    region_id: number;
+  }) => axios.post("/order/add-to-basket", data),
+  addToBasketFromCache: (
+    data: {
+      tariff_id: number;
+      quantity: number;
+      region_id: number;
+    }[]
+  ) => axios.post("/order/add-items", data),
+  decreaseItemFromBasket: (data: { item_id: string }) =>
+    axios.post("/order/decrease-item-from-basket", data),
+  removeItemFromBasket: (data: { item_id: string }) =>
+    axios.post("/order/remove-item-from-basket", data),
+
+  postESIM: () => axios.post("/order/esim"),
+};
+
 // Boshqa API'larni qo'shishingiz mumkin
 export const userAPI = {
   // getProfile: () => axios.get("/user/profile"),
@@ -49,6 +72,7 @@ const api = {
   auth: authAPI,
   region: regionAPI,
   tariff: tariffAPI,
+  cart: cartAPI,
   user: userAPI,
 };
 

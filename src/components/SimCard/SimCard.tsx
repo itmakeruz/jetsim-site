@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import "./SimCard.css";
 import { Plus } from "lucide-react";
 import { getImageUrl } from "../../config/imageUtils";
 import { useCart } from "../../context/CartContext";
@@ -18,8 +17,8 @@ const SimCard = ({ region }: SimCardProps) => {
   }>({});
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const handlePlusClick = (tariff: Tariff) => {
-    addToCart(region, tariff);
+  const handlePlusClick = async (tariff: Tariff) => {
+    await addToCart(region, tariff);
   };
 
   const toggleDropdown = (planId: number) => {
@@ -60,7 +59,7 @@ const SimCard = ({ region }: SimCardProps) => {
             alt=""
           />
         </div>
-        <div className="country-name">{region.name}</div>
+        <div className="text-lg font-medium">{region.name}</div>
       </div>
       <div className="grid grid-cols-3 gap-[10px]">
         {region.tariffs?.slice(0, 3)?.map((tariff: Tariff, index: number) => (
@@ -70,7 +69,7 @@ const SimCard = ({ region }: SimCardProps) => {
           >
             <div className="flex w-full border-[2px] items-center border-main-blue bg-main-blue rounded-[10px] overflow-hidden">
               <h3 className="bg-white rounded-l-[8px] w-full py-1 px-2 text-[20px] font-medium">
-                {/* {tariff?.type} */}
+                {tariff?.type?.name}
               </h3>
               <button
                 className="w-[100px] flex items-center justify-center"
@@ -84,12 +83,12 @@ const SimCard = ({ region }: SimCardProps) => {
             <p>
               {t("sims.trafic")}{" "}
               <span className="font-bold">
-                {tariff.quantity_internet.toLocaleString()}мб
+                {tariff.quantity_internet.toLocaleString()} мб
               </span>
             </p>
             <p>
               {t("sims.srok")}{" "}
-              <span className="font-bold">{tariff.validity_period}</span>
+              <span className="font-bold">{tariff.validity_period} дней</span>
             </p>
             <p>
               {t("sims.set")}
@@ -98,6 +97,18 @@ const SimCard = ({ region }: SimCardProps) => {
                 {tariff.is_4g ? "4G" : ""} {tariff.is_5g ? "5G" : ""}
               </span>
             </p>{" "}
+            <p>
+              {t("sims.trafic")}{" "}
+              <span className="font-bold">
+                {tariff.quantity_internet.toLocaleString()}мб
+              </span>
+            </p>
+            <p>
+              {t("sims.price")}{" "}
+              <span className="font-bold">
+                {tariff.price_sell.toLocaleString()} руб.
+              </span>
+            </p>
             <div className="w-full flex items-center gap-2">
               <p className="text-[12px]">Зона покрытия:</p>{" "}
               <div
