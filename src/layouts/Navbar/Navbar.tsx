@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { APP_ROUTES } from "../../router/path";
 import ModalLayout from "../Modal/Modal";
 import { useCart } from "../../context/CartContext";
-import { removeToken } from "../../config/api";
 import HeaderBtn from "../../components/headerStuffs/HeaderBtn";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
@@ -16,7 +15,7 @@ const Navbar: React.FC = () => {
   const { cartCount } = useCart();
   const { i18n, t } = useTranslation();
   const menuRef = useRef<HTMLDivElement>(null);
-  const { isAuthenticated } = useAuthStore();
+  const { isAuthenticated, logout } = useAuthStore();
   const languages = [
     { code: "ru", label: "Ру" },
     { code: "en", label: "En" },
@@ -104,7 +103,7 @@ const Navbar: React.FC = () => {
             )}
 
             {isAuthenticated ? (
-              <HeaderBtn onClick={removeToken} text={t("nav.exit")} />
+              <HeaderBtn onClick={logout} text={t("nav.exit")} />
             ) : (
               <HeaderBtn onClick={handleOpenModal} text={t("nav.login")} />
             )}

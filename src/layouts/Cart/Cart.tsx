@@ -1,10 +1,9 @@
 import { useCart } from "../../context/CartContext";
 import { useTranslation } from "react-i18next";
-import { Plus, Minus, Trash2, X } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { useRef, useState } from "react";
-import { APP_ROUTES } from "../../router/path";
+// import { APP_ROUTES } from "../../router/path";
 import { getImageUrl } from "../../config/imageUtils";
-import { toast } from "react-toastify";
 import type { Region } from "../../types/api";
 import { cartAPI } from "../../services/api.service";
 
@@ -12,119 +11,104 @@ export const CartRender = () => {
   const { t } = useTranslation();
   const {
     cartItems,
-    updateQuantity,
     removeFromCart,
     cartTotal,
-    clearCart,
     addToCart,
   } = useCart();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
+  // const [isModalOpen, setIsModalOpen] = useState(false);
+  // const [isProcessing, setIsProcessing] = useState(false);
+  // const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
 
   // Payment form state
-  const [paymentMethod, setPaymentMethod] = useState("debit");
-  const [paymentData, setPaymentData] = useState({
-    cardNumber: "",
-    cvv: "",
-    expiryDate: "",
-    cardHolderName: "",
-  });
-  const [promoCode, setPromoCode] = useState("");
-  const [discount, setDiscount] = useState(0);
-  const [agreedToTerms, setAgreedToTerms] = useState(false);
+  // const [paymentMethod, setPaymentMethod] = useState("debit");
+  // const [paymentData, setPaymentData] = useState({
+  //   cardNumber: "",
+  //   cvv: "",
+  //   expiryDate: "",
+  //   cardHolderName: "",
+  // });
+  // const [promoCode, setPromoCode] = useState("");
+  // const [discount, setDiscount] = useState(0);
+  // const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   const handleBuyClick = () => {
     // setIsModalOpen(true);
     cartAPI.postESIM();
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    // Reset form state when closing modal
-    setPaymentData({
-      cardNumber: "",
-      cvv: "",
-      expiryDate: "",
-      cardHolderName: "",
-    });
-    setPromoCode("");
-    setDiscount(0);
-    setAgreedToTerms(false);
-  };
+  // const handleCloseModal = () => {
+  //   setIsModalOpen(false);
+  //   // Reset form state when closing modal
+  //   setPaymentData({
+  //     cardNumber: "",
+  //     cvv: "",
+  //     expiryDate: "",
+  //     cardHolderName: "",
+  //   });
+  //   setPromoCode("");
+  //   setDiscount(0);
+  //   setAgreedToTerms(false);
+  // };
 
-  const handlePromoCodeApply = () => {
-    // Simulate promo code validation
-    if (promoCode.toLowerCase() === "welcome10") {
-      setDiscount(0.1); // 10% discount
-      toast.success("Promo code applied! 10% discount");
-    } else if (promoCode.toLowerCase() === "save20") {
-      setDiscount(0.2); // 20% discount
-      toast.success("Promo code applied! 20% discount");
-    } else {
-      toast.error("Invalid promo code");
-    }
-  };
+  // const handlePromoCodeApply = () => {
+  //   // Simulate promo code validation
+  //   if (promoCode.toLowerCase() === "welcome10") {
+  //     setDiscount(0.1); // 10% discount
+  //     toast.success("Promo code applied! 10% discount");
+  //   } else if (promoCode.toLowerCase() === "save20") {
+  //     setDiscount(0.2); // 20% discount
+  //     toast.success("Promo code applied! 20% discount");
+  //   } else {
+  //     toast.error("Invalid promo code");
+  //   }
+  // };
 
-  const handlePaymentSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // const handlePaymentSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
 
-    if (!agreedToTerms) {
-      toast.error("Please agree to the terms and conditions");
-      return;
-    }
+  //   if (!agreedToTerms) {
+  //     toast.error("Please agree to the terms and conditions");
+  //     return;
+  //   }
 
-    if (
-      paymentMethod === "debit" &&
-      (!paymentData.cardNumber ||
-        !paymentData.cvv ||
-        !paymentData.expiryDate ||
-        !paymentData.cardHolderName)
-    ) {
-      toast.error("Please fill in all payment details");
-      return;
-    }
+  //   if (
+  //     paymentMethod === "debit" &&
+  //     (!paymentData.cardNumber ||
+  //       !paymentData.cvv ||
+  //       !paymentData.expiryDate ||
+  //       !paymentData.cardHolderName)
+  //   ) {
+  //     toast.error("Please fill in all payment details");
+  //     return;
+  //   }
 
-    setIsProcessing(true);
+  //   setIsProcessing(true);
 
-    try {
-      // Simulate API call for payment processing
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      // Here you would call your payment API
-      // const response = await paymentAPI.processPayment({
-      //   items: cartItems.filter(item => selectedItems.has(item.id)),
-      //   paymentMethod,
-      //   paymentData,
-      //   total: finalTotal,
-      //   discount
-      // });
-
-      toast.success("Payment successful! Your order has been processed.");
-      clearCart();
-      setSelectedItems(new Set());
-      handleCloseModal();
-    } catch (error) {
-      toast.error("Payment failed. Please try again.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+  //   try {
+  //     await cartAPI.postESIM();
+  //     toast.success("Payment successful! Your order has been processed.");
+  //     clearCart();
+  //     setSelectedItems(new Set());
+  //     handleCloseModal();
+  //   } catch (error) {
+  //     toast.error("Payment failed. Please try again.");
+  //   } finally {
+  //     setIsProcessing(false);
+  //   }
+  // };
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: string]: boolean;
   }>({});
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-  const selectedItemsTotal = cartItems
-    .filter((item) => selectedItems.has(item.id))
-    .reduce((total, item) => total + item.plan.price_sell * item.quantity, 0);
 
-  const finalTotal = selectedItemsTotal * (1 - discount);
-  const toggleDropdown = (planId: string) => {
+
+  const toggleDropdown = (tariffId: number) => {
     setOpenDropdowns((prev) => ({
       ...prev,
-      [planId]: !prev[planId],
+      [tariffId]: !prev[tariffId],
     }));
   };
+  console.log(cartItems);
   return (
     <div className="w-full">
       {cartItems.length === 0 ? (
@@ -143,7 +127,7 @@ export const CartRender = () => {
                   <div className="w-[40px]">
                     <img
                       className="w-full h-full object-contain rounded-[2px] outline-[1px] outline-[rgb(0,0,0,0.1)] outline-offset-[-1px]"
-                      src={getImageUrl(item.flag)}
+                      src={getImageUrl(item.region.image)}
                       alt=""
                     />
                   </div>
@@ -151,45 +135,36 @@ export const CartRender = () => {
                     {item.region.name}
                   </h3>
                 </div>
-                {/* <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleRemoveItem(item.serverItemId)}
-                    className="text-red-500 hover:text-red-700 p-1"
-                    title="Remove item"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
-                </div> */}
               </div>
               <p>
                 {t("sims.trafic")}{" "}
                 <span className="font-bold">
-                  {item.plan.quantity_internet.toLocaleString()}мб
+                  {item.tariff.quantity_internet.toLocaleString()}мб
                 </span>
               </p>
               <p>
                 {t("sims.srok")}{" "}
                 <span className="font-bold">
-                  {item.plan.validity_period} дней
+                  {item.tariff.validity_period} дней
                 </span>
               </p>
               <p>
                 {t("sims.set")}
                 <span className="font-bold">
                   {" "}
-                  {item.plan.is_4g ? "4G" : ""} {item.plan.is_5g ? "5G" : ""}
+                  {item.tariff.is_4g ? "4G" : ""} {item.tariff.is_5g ? "5G" : ""}
                 </span>
               </p>{" "}
               <p>
                 {t("sims.trafic")}{" "}
                 <span className="font-bold">
-                  {item.plan.quantity_internet.toLocaleString()}мб
+                  {item.tariff.quantity_internet.toLocaleString()}мб
                 </span>
               </p>
               <p>
                 {t("sims.price")}{" "}
                 <span className="font-bold">
-                  {item.plan.price_sell.toLocaleString()} руб.
+                  {item.tariff.price_sell.toLocaleString()} руб.
                 </span>
               </p>
               <div className="w-full flex items-center gap-2">
@@ -197,10 +172,10 @@ export const CartRender = () => {
                 <div
                   className="relative flex h-[20px]"
                   ref={(el) => {
-                    dropdownRefs.current[item.id] = el;
+                    dropdownRefs.current[item.tariff.id] = el;
                   }}
                 >
-                  {item?.plan?.regions
+                  {item?.tariff?.regions
                     .slice(0, 4)
                     .map((region: Region, index: number) => (
                       <img
@@ -212,13 +187,13 @@ export const CartRender = () => {
                     ))}
                   <button
                     className="text-[14px] leading-[1.2] bg-main-blue text-white min-w-[95px] rounded-r-[10px] rounded-l-[2px] hover:bg-blue-600 transition-colors duration-200"
-                    onClick={() => toggleDropdown(item.id)}
+                    onClick={() => toggleDropdown(item.tariff.id)}
                   >
                     Подробнее
                   </button>
-                  {openDropdowns[item.id] && (
+                  {openDropdowns[item.tariff.id] && (
                     <div className="absolute top-full left-0 mt-1 rounded-[20px] p-2 z-50 min-w-[300px] max-h-[300px] overflow-y-auto bg-[#EFF6FF] flex flex-wrap gap-1">
-                      {item.plan.regions.map(
+                      {item.tariff.regions.map(
                         (region: Region, index: number) => (
                           <div
                             key={index}
@@ -241,13 +216,11 @@ export const CartRender = () => {
               </div>
               <div className="flex w-full border-[2px] items-center border-main-blue bg-main-blue rounded-[10px] overflow-hidden">
                 <h3 className="bg-white rounded-l-[8px] w-full py-1 px-2 text-[20px] font-medium">
-                  {item.plan.type?.name}
+                  {item.tariff.type?.name}
                 </h3>
                 <div className="flex items-center gap-2 bg-main-blue rounded-lg px-4 py-2">
                   <button
-                    onClick={async () =>
-                      await updateQuantity(item.id, item.quantity - 1)
-                    }
+                    onClick={() => removeFromCart(item.region, item.tariff)}
                     className="flex items-center justify-center w-6 h-6 bg-[#FFFFFF4D] text-white rounded-full hover:bg-blue-600 transition-colors"
                   >
                     <Minus className="w-3 h-3" />
@@ -258,9 +231,7 @@ export const CartRender = () => {
                   </span>
 
                   <button
-                    onClick={async () =>
-                      await addToCart(item.region, item.plan)
-                    }
+                    onClick={() => addToCart(item.region, item.tariff)}
                     className="flex items-center justify-center w-6 h-6 bg-[#FFFFFF4D] text-white rounded-full hover:bg-blue-600 transition-colors"
                   >
                     <Plus className="w-3 h-3" />
@@ -290,7 +261,7 @@ export const CartRender = () => {
 
       {/* MODAL */}
 
-      {isModalOpen && (
+      {/* {isModalOpen && (
         <div
           className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-[1000]"
           onClick={handleCloseModal}
@@ -484,7 +455,6 @@ export const CartRender = () => {
                       </button>
                     </div>
 
-                    {/* Price Breakdown */}
                     <div className="mt-4 space-y-2">
                       <div className="flex justify-between text-sm">
                         <span>Subtotal:</span>
@@ -571,7 +541,7 @@ export const CartRender = () => {
             </ul>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

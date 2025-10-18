@@ -50,8 +50,11 @@ export const cartAPI = {
       region_id: number;
     }[]
   ) => axios.post("/order/add-items", data),
-  decreaseItemFromBasket: (data: { item_id: string }) =>
-    axios.post("/order/decrease-item-from-basket", data),
+  decreaseItemFromBasket: (data: {
+    tariff_id: number;
+    quantity: number;
+    region_id: number;
+  }) => axios.post("/order/decrease-item-from-basket", data),
   removeItemFromBasket: (data: { item_id: string }) =>
     axios.post("/order/remove-item-from-basket", data),
 

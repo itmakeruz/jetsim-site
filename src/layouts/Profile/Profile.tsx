@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/authStore";
 import { FormField } from "../../components/FormField";
 import { UniversalInput } from "../../components/UniversalInput";
-import { ImageUp, Trash2 } from "lucide-react";
+import { ImageUp } from "lucide-react";
 import { UniversalTextarea } from "../../components/UniversalTextarea";
 import { userAPI } from "../../services/api.service";
 import { toast } from "react-toastify";
@@ -90,7 +90,7 @@ export const ProfileRender = () => {
     } catch (error: any) {
       toast.error(
         error.response?.data?.message ||
-          "An error occurred while updating profile"
+        "An error occurred while updating profile"
       );
     } finally {
       setIsLoading(false);

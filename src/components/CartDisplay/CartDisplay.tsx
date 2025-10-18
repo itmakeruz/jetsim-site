@@ -6,12 +6,11 @@ import { Minus, Plus } from "lucide-react";
 
 const CartDisplay: React.FC = () => {
   const { t } = useTranslation();
-  const { cartItems, updateQuantity, addToCart } = useCart();
+  const { cartItems, removeFromCart, addToCart } = useCart();
 
   if (cartItems.length === 0) {
     return null;
   }
-
   return (
     <div className="my-4 mx-auto w-max">
       <div className="flex items-center gap-4 mb-4">
@@ -27,18 +26,18 @@ const CartDisplay: React.FC = () => {
             className="flex items-center gap-3 bg-white border border-main-blue rounded-lg px-4 py-2"
           >
             <img
-              src={getImageUrl(item.flag)}
-              alt={item.name}
+              src={getImageUrl(item.region.image)}
+              alt={item.region.name}
               className="w-6 h-4 object-cover rounded-sm"
             />
 
             <span className="text-sm font-medium text-gray-700">
-              {item.plan.type?.name}
+              {item.tariff.type?.name}
             </span>
 
             <div className="flex items-center gap-2 bg-main-blue rounded-lg px-4 py-2">
               <button
-                onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                onClick={() => removeFromCart(item.region, item.tariff)}
                 className="flex items-center justify-center w-6 h-6 bg-[#FFFFFF4D] text-white rounded-full hover:bg-blue-600 transition-colors"
               >
                 <Minus className="w-3 h-3" />
@@ -49,7 +48,7 @@ const CartDisplay: React.FC = () => {
               </span>
 
               <button
-                onClick={() => addToCart(item.region, item.plan)}
+                onClick={() => addToCart(item.region, item.tariff)}
                 className="flex items-center justify-center w-6 h-6 bg-[#FFFFFF4D] text-white rounded-full hover:bg-blue-600 transition-colors"
               >
                 <Plus className="w-3 h-3" />

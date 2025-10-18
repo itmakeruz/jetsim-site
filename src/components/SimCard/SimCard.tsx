@@ -17,7 +17,7 @@ const SimCard = ({ region }: SimCardProps) => {
   }>({});
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const handlePlusClick = async (tariff: Tariff) => {
+  const handlePlusClick = async (region: Region, tariff: Tariff) => {
     await addToCart(region, tariff);
   };
 
@@ -73,7 +73,9 @@ const SimCard = ({ region }: SimCardProps) => {
               </h3>
               <button
                 className="w-[100px] flex items-center justify-center"
-                onClick={() => handlePlusClick(tariff)}
+                onClick={() => {
+                  handlePlusClick(region, tariff)
+                }}
               >
                 <span className="flex items-center justify-center bg-[#FFFFFF4D] rounded-full w-[22px] h-[22px]">
                   <Plus className="w-4 text-white" />

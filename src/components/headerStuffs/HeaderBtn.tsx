@@ -26,7 +26,7 @@ function HeaderBtn({
       <span className="text-sm xl:text-base font-bold flex items-center gap-1">
         {text}
         {count ? (
-          <span className="text-white font-bold xl:text-base text-[15px] bg-[#E31D1C] w-[35px] h-[22px] flex items-center justify-center rounded-2xl">
+          <span className="text-white font-bold xl:text-base text-[15px] bg-[#E31D1C] min-w-[35px] px-2 h-[22px] flex items-center justify-center rounded-2xl">
             {count}
           </span>
         ) : null}

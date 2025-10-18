@@ -112,9 +112,8 @@ const Home: React.FC = () => {
                   setActiveCategory(category.id);
                 }
               }}
-              className={`${
-                activeCategory === category.id ? "bg-main-blue text-white" : ""
-              } flex items-center gap-2 border border-main-blue px-[12px] py-[10px] rounded-[12px] text-[18px]`}
+              className={`${activeCategory === category.id ? "bg-main-blue text-white" : ""
+                } flex items-center gap-2 border border-main-blue px-[12px] py-[10px] rounded-[12px] text-[18px]`}
             >
               <img
                 className="w-[25px] h-[25px] object-contain"
@@ -133,7 +132,7 @@ const Home: React.FC = () => {
               className="static bg-transparent my-4"
             />
           ) : regions.filter((region: Region) => region.tariffs.length > 0)
-              .length === 0 ? (
+            .length === 0 ? (
             <div className="text-center py-10">
               <p className="text-xl text-gray-500">
                 {searchTerm ? t("sims.no_results") : t("sims.no_data")}

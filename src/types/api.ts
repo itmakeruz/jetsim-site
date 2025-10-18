@@ -109,29 +109,9 @@ export interface RegionWithTariffs {
 // Cart API Types
 export interface CartItemFromAPI {
   id: number;
-  name: number;
-  price: number;
+  region: Region;
+  tariff: Tariff;
   quantity: number;
-  total_amount: number;
-  region: {
-    id: number;
-    name: string;
-    image: string;
-  };
-  tariff: {
-    id: number;
-    type: {
-      id: number;
-      name: string;
-    };
-    quantity_sms: number;
-    quantity_minute: number;
-    quantity_internet: number;
-    validity_period: number;
-    is_4g: boolean;
-    is_5g: boolean;
-    price_sell: number;
-  };
 }
 
 export interface CartResponse {
