@@ -7,6 +7,7 @@ import { regionAPI } from "../../services/api.service";
 import type { RegionCategory, Region, RegionResponse } from "../../types/api";
 import { getImageUrl } from "../../config/imageUtils";
 import Loader from "../../components/Loader";
+import { CategoryButton } from "../../components/Buttons";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -103,25 +104,16 @@ const Home: React.FC = () => {
         <CartDisplay />
         <div className="flex gap-[25px] justify-center items-center mt-[20px] mb-[25px]">
           {regionCategories.map((category: RegionCategory) => (
-            <button
+            <CategoryButton
               key={category.id}
-              onClick={() => {
-                if (activeCategory === category.id) {
-                  setActiveCategory(null);
-                } else {
-                  setActiveCategory(category.id);
-                }
+              id={category.id}
+              name={category.name}
+              icon={getImageUrl(category.icon)}
+              active={activeCategory === category.id}
+              onClick={(id) => {
+                setActiveCategory(activeCategory === id ? null : Number(id));
               }}
-              className={`${activeCategory === category.id ? "bg-main-blue text-white" : ""
-                } flex items-center gap-2 border border-main-blue px-[12px] py-[10px] rounded-[12px] text-[18px]`}
-            >
-              <img
-                className="w-[25px] h-[25px] object-contain"
-                src={`${getImageUrl(category.icon)}`}
-                alt={category.name}
-              />
-              {category.name}{" "}
-            </button>
+            />
           ))}
         </div>
 
@@ -132,7 +124,7 @@ const Home: React.FC = () => {
               className="static bg-transparent my-4"
             />
           ) : regions.filter((region: Region) => region.tariffs.length > 0)
-            .length === 0 ? (
+              .length === 0 ? (
             <div className="text-center py-10">
               <p className="text-xl text-gray-500">
                 {searchTerm ? t("sims.no_results") : t("sims.no_data")}

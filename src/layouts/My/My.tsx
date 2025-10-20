@@ -1,66 +1,78 @@
-// import { useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { useQuery } from "@tanstack/react-query";
+import { cartAPI } from "../../services/api.service";
+import StaticOrderCard from "../../components/StaticOrderCard/StaticOrderCard";
+import Loader from "../../components/Loader";
+import type { StaticOrderItem } from "../../types/api";
 import "./My.css";
-// import SimCard from "../../components/SimCard/SimCard";
 
 export const MyRender = () => {
-  // const { t } = useTranslation();
-  // const mysims = [
-  //   {
-  //     id: 1,
-  //     country: t("sims.germany"),
-  //     flag: "🇩🇪",
-  //     plans: [
-  //       {
-  //         type: t("economy"),
-  //         traffic: "5 000 MB",
-  //         remaining: "10",
-  //         network: ["4G", "5G"],
-  //         status: "details",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 2,
-  //     country: t("sims.turkey"),
-  //     flag: "🇹🇷",
-  //     plans: [
-  //       {
-  //         type: t("turbo"),
-  //         traffic: "35 000 MB ",
-  //         remaining: "13",
-  //         network: ["4G", "5G"],
-  //         status: "details",
-  //       },
-  //     ],
-  //   },
-  //   {
-  //     id: 3,
-  //     country: t("sims.usa"),
-  //     flag: "🇺🇸",
-  //     plans: [
-  //       {
-  //         type: t("standard"),
-  //         traffic: "15 000 MB",
-  //         remaining: "4",
-  //         network: ["4G", "5G"],
-  //         status: "details",
-  //       },
-  //     ],
-  //   },
-  // ];
+  const { t } = useTranslation();
+
+  const {
+    data: ordersResponse,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery({
+    queryKey: ["staticOrders"],
+    queryFn: async () => {
+      return await cartAPI.getStaticOrders();
+    },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 30 * 60 * 1000, // 30 minutes
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    refetchOnMount: false,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="my">
+        <div className="flex justify-center items-center min-h-[400px]">
+          <Loader />
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="my">
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+          <div className="text-red-500 text-lg mb-4">{t("error.title")}</div>
+          <p className="text-gray-600 mb-4">
+            {error.message || "Failed to fetch orders"}
+          </p>
+          <button
+            onClick={() => refetch()}
+            className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            {t("error.retry")}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const orders = ordersResponse?.data?.data || [];
+
+  if (orders.length === 0) {
+    return (
+      <div className="my">
+        <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
+          <div className="text-gray-500 text-lg mb-4">{t("my.no_orders")}</div>
+          <p className="text-gray-400">{t("my.no_orders_description")}</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="my">
-      {/* <div className="my-wrapper">
-        {mysims.map((my) => (
-          <SimCard
-            key={my.id}
-            flag={my.flag}
-            country={my.country}
-            myPlans={my.plans}
-            type="my"
-          />
-        ))}
-      </div> */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {orders.map((order: StaticOrderItem) => (
+        <StaticOrderCard key={order.id} order={order} />
+      ))}
     </div>
   );
 };

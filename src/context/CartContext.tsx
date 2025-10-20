@@ -1,15 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import type {
-  Tariff,
-  Region,
-  CartResponse,
-} from "../types/api";
+import type { Tariff, Region, CartResponse } from "../types/api";
 import { cartAPI } from "../services/api.service";
 import { useAuthStore } from "../store/authStore";
 
@@ -31,7 +22,9 @@ interface CartContextType {
   removeFromCart: (region: Region, tariff: Tariff) => void;
   clearCart: () => void;
   cartCount: number;
+  mySimCount: number;
   cartTotal: number;
+  setMySimCount: any;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -41,17 +34,16 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 }) => {
   const { isAuthenticated } = useAuthStore();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
-
+  const [mySimCount, setMySimCount] = useState<number>(0);
   useEffect(() => {
     if (isAuthenticated) {
-      fetchCartFromServer()
+      fetchCartFromServer();
     } else {
       loadCartFromLocalStorage();
     }
   }, [isAuthenticated]);
 
   const addToCart = async (region: Region, tariff: Tariff) => {
-
     if (isAuthenticated) {
       try {
         const response = await cartAPI.addToBasket({
@@ -77,7 +69,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
           region_id: region.id,
         });
         setCartItems(response.data?.data?.items);
-
       } catch (error: any) {
         console.error("Error removing from cart:", error);
       }
@@ -94,13 +85,16 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         })
         .filter(
           (item) =>
-            !(item.region.id === region.id && item.tariff.id === tariff.id && item.quantity === 0)
+            !(
+              item.region.id === region.id &&
+              item.tariff.id === tariff.id &&
+              item.quantity === 0
+            )
         );
       setCartItems(updatedCart);
       localStorage.setItem("cartItems", JSON.stringify(updatedCart));
     }
   };
-
 
   const clearCart = () => {
     setCartItems([]);
@@ -112,7 +106,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
   const fetchCartFromServer = async () => {
     if (!isAuthenticated) return;
     const localStorageCart = getLocalStorageCart();
-
 
     try {
       if (localStorageCart.length > 0) {
@@ -131,7 +124,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
       console.error("Error fetching cart from server:", error);
     }
   };
-
 
   const addToLocalStorageCart = (region: Region, tariff: Tariff) => {
     const localStorageCart = getLocalStorageCart();
@@ -171,12 +163,13 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
 
     try {
       localStorage.removeItem("cartItems");
-      return await cartAPI.addToBasketFromCache(localStorageCart.map((item) => ({
-        tariff_id: item.tariff.id,
-        quantity: item.quantity,
-        region_id: item.region.id,
-      })));
-
+      return await cartAPI.addToBasketFromCache(
+        localStorageCart.map((item) => ({
+          tariff_id: item.tariff.id,
+          quantity: item.quantity,
+          region_id: item.region.id,
+        }))
+      );
     } catch (error: any) {
       console.error("Error syncing cart:", error);
       return null;
@@ -198,6 +191,8 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         removeFromCart,
         clearCart,
         cartCount,
+        mySimCount,
+        setMySimCount,
         cartTotal,
       }}
     >

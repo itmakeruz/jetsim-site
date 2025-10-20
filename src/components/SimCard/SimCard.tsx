@@ -4,6 +4,7 @@ import { Plus } from "lucide-react";
 import { getImageUrl } from "../../config/imageUtils";
 import { useCart } from "../../context/CartContext";
 import type { Region, Tariff } from "../../types/api";
+import { ImagePreview } from "../ImgCards";
 
 interface SimCardProps {
   region: Region;
@@ -52,13 +53,13 @@ const SimCard = ({ region }: SimCardProps) => {
   return (
     <div className="grid grid-cols-[125px_1fr] items-center gap-[10px]">
       <div className="flex flex-col gap-[10px]">
-        <div className="w-[40px]">
-          <img
-            className="w-full h-full object-contain rounded-[2px] outline-[1px] outline-[rgb(0,0,0,0.1)] outline-offset-[-1px]"
-            src={getImageUrl(region.image)}
-            alt=""
-          />
-        </div>
+        <ImagePreview
+          src={getImageUrl(region.image)}
+          alt={region.name}
+          width={50}
+          height={30}
+          rounded={2}
+        />
         <div className="text-lg font-medium">{region.name}</div>
       </div>
       <div className="grid grid-cols-3 gap-[10px]">
@@ -74,7 +75,7 @@ const SimCard = ({ region }: SimCardProps) => {
               <button
                 className="w-[100px] flex items-center justify-center"
                 onClick={() => {
-                  handlePlusClick(region, tariff)
+                  handlePlusClick(region, tariff);
                 }}
               >
                 <span className="flex items-center justify-center bg-[#FFFFFF4D] rounded-full w-[22px] h-[22px]">

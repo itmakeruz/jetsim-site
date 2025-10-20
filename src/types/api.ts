@@ -63,6 +63,8 @@ export interface Tariff {
   };
   regions: Region[];
   created_at: string;
+  day_left?: number;
+  usage?: number;
 }
 
 export interface TariffResponse {
@@ -121,4 +123,23 @@ export interface CartResponse {
     items: CartItemFromAPI[];
     total: number;
   };
+}
+
+// Static Orders API Types
+export interface StaticOrderItem {
+  id: number;
+  region: Region;
+  tariff: Tariff;
+  quantity: number;
+  status: string;
+  created_at: string;
+  updated_at: string;
+  remaining_days?: number;
+  remaining_traffic?: number;
+}
+
+export interface StaticOrdersResponse {
+  success: boolean;
+  message: string;
+  data: StaticOrderItem[];
 }

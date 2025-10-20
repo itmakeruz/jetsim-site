@@ -59,6 +59,7 @@ export const cartAPI = {
     axios.post("/order/remove-item-from-basket", data),
 
   postESIM: () => axios.post("/order/esim"),
+  getStaticOrders: () => axios.get("/order/static"),
 };
 
 // Boshqa API'larni qo'shishingiz mumkin
