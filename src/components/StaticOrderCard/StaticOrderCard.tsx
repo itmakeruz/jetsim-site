@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getImageUrl } from "../../config/imageUtils";
-import { Share, Grid3X3 } from "lucide-react";
+import { Share, QrCode } from "lucide-react";
 import type { StaticOrderItem } from "../../types/api";
 import { NetworkBadge } from "../Badge";
 
@@ -11,21 +11,35 @@ interface StaticOrderCardProps {
 
 const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
   const { t } = useTranslation();
+  const [isQrOpen, setIsQrOpen] = useState(false);
+
+  const totalTraffic = order.tariff.quantity_internet || 0;
+  const usedTraffic = order.tariff.usage || 0;
+  const remainingTraffic = Math.max(totalTraffic - usedTraffic, 0);
+
+  const getRemainingTrafficProgress = () => {
+    if (totalTraffic === 0) return 0;
+    return Math.min((remainingTraffic / totalTraffic) * 100, 100);
+  };
 
   const formatTraffic = (traffic: number) => {
-    if (traffic >= 1000) {
-      return `${(traffic / 1000).toFixed(1)} GB`;
-    }
-    return `${traffic} MB`;
+    // 1000 MB dan katta bo‘lsa — GB formatda ko‘rsatamiz
+    // if (traffic >= 1000) {
+    //   return `${(traffic / 1000).toFixed(2)} ГБ`;
+    // }
+    return `${traffic.toLocaleString()} МБ`;
   };
 
-  const getTrafficProgress = (used: number, total: number) => {
-    return Math.min((used / total) * 100, 100);
-  };
+  // const getTrafficProgress = () => {
+  //   if (totalTraffic === 0) return 0;
+  //   return Math.min((usedTraffic / totalTraffic) * 100, 100);
+  // };
 
   const getDaysProgress = (remaining: number, total: number) => {
     return Math.min((remaining / total) * 100, 100);
   };
+
+  const qrImageUrl = getImageUrl(order.tariff.qrcode || "");
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 max-w-md mx-auto">
@@ -35,8 +49,9 @@ const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
           <h3 className="text-2xl font-bold text-gray-900 mb-1">
             {order.region.name}
           </h3>
-          <p className="text-gray-600 text-sm">
-            {t("sims.tariff")}: {order.tariff.type?.name}
+          <p className="text-black text-sm">
+            {t("sims.tariff")}:{" "}
+            <span className="font-bold">{order.tariff?.name}</span>
           </p>
         </div>
         <div className="w-16">
@@ -54,23 +69,17 @@ const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
         <div>
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium text-gray-700">
-              {t("sims.trafic")}:
+              {t("sims.trafic")}
             </span>
             <span className="text-sm font-bold text-gray-900">
-              {formatTraffic(
-                order.remaining_traffic || order.tariff.quantity_internet
-              )}
+              {formatTraffic(remainingTraffic)} / {formatTraffic(totalTraffic)}
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
             <div
               className="bg-blue-500 h-2 rounded-full transition-all duration-300"
               style={{
-                width: `${getTrafficProgress(
-                  (order.remaining_traffic || order.tariff.quantity_internet) *
-                    0.3,
-                  order.tariff.quantity_internet
-                )}%`,
+                width: `${getRemainingTrafficProgress()}%`,
               }}
             ></div>
           </div>
@@ -136,14 +145,46 @@ const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
 
       {/* Action Buttons */}
       <div className="flex items-center gap-3">
-        <button className="flex-1 bg-blue-500 text-white py-3 px-4 rounded-xl font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2">
-          <Grid3X3 className="w-4 h-4" />
+        <button
+          onClick={() => setIsQrOpen(true)}
+          className="flex-1 bg-blue-500 text-white py-3 px-4 rounded-xl font-medium hover:bg-blue-600 transition-colors flex items-center justify-center gap-2"
+        >
           {t("sims.connect")}
+          <QrCode className="w-4 h-4" />
         </button>
         <button className="bg-blue-500 text-white p-3 rounded-xl hover:bg-blue-600 transition-colors">
           <Share className="w-4 h-4" />
         </button>
       </div>
+
+      {isQrOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div
+            onClick={() => setIsQrOpen(false)}
+            className="absolute inset-0 bg-black/50"
+          ></div>
+          <div className="relative z-10 bg-white p-6 rounded-2xl shadow-xl max-w-sm w-[90%]">
+            <div className="flex items-center justify-between mb-4">
+              <h4 className="text-lg font-semibold">QR</h4>
+              <button
+                onClick={() => setIsQrOpen(false)}
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
+            </div>
+            {qrImageUrl ? (
+              <img
+                src={qrImageUrl}
+                alt="QR Code"
+                className="w-full h-auto rounded-xl"
+              />
+            ) : (
+              <p className="text-sm text-gray-500">{t("common.notFound")}</p>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Disclaimer */}
       <p className="text-xs text-red-500 text-center mt-4 leading-relaxed">

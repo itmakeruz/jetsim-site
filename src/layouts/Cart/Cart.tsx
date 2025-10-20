@@ -6,15 +6,14 @@ import { useRef, useState } from "react";
 import { getImageUrl } from "../../config/imageUtils";
 import type { Region } from "../../types/api";
 import { cartAPI } from "../../services/api.service";
+import { toast } from "react-toastify";
+import { APP_ROUTES } from "../../router/path";
+import { useNavigate } from "react-router-dom";
 
 export const CartRender = () => {
   const { t } = useTranslation();
-  const {
-    cartItems,
-    removeFromCart,
-    cartTotal,
-    addToCart,
-  } = useCart();
+  const { cartItems, removeFromCart, cartTotal, addToCart, clearCart } =
+    useCart();
   // const [isModalOpen, setIsModalOpen] = useState(false);
   // const [isProcessing, setIsProcessing] = useState(false);
   // const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
@@ -30,10 +29,12 @@ export const CartRender = () => {
   // const [promoCode, setPromoCode] = useState("");
   // const [discount, setDiscount] = useState(0);
   // const [agreedToTerms, setAgreedToTerms] = useState(false);
-
+  const navigate = useNavigate();
   const handleBuyClick = () => {
-    // setIsModalOpen(true);
     cartAPI.postESIM();
+    toast.success("Ваш заказ обработан.");
+    clearCart();
+    navigate(APP_ROUTES.HOME);
   };
 
   // const handleCloseModal = () => {
@@ -101,7 +102,6 @@ export const CartRender = () => {
   }>({});
   const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-
   const toggleDropdown = (tariffId: number) => {
     setOpenDropdowns((prev) => ({
       ...prev,
@@ -152,7 +152,8 @@ export const CartRender = () => {
                 {t("sims.set")}
                 <span className="font-bold">
                   {" "}
-                  {item.tariff.is_4g ? "4G" : ""} {item.tariff.is_5g ? "5G" : ""}
+                  {item.tariff.is_4g ? "4G" : ""}{" "}
+                  {item.tariff.is_5g ? "5G" : ""}
                 </span>
               </p>{" "}
               <p>

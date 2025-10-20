@@ -65,6 +65,7 @@ export interface Tariff {
   created_at: string;
   day_left?: number;
   usage?: number;
+  qrcode?: string;
 }
 
 export interface TariffResponse {
@@ -136,6 +137,7 @@ export interface StaticOrderItem {
   updated_at: string;
   remaining_days?: number;
   remaining_traffic?: number;
+  usage?: number;
 }
 
 export interface StaticOrdersResponse {
