@@ -8,18 +8,18 @@ export interface Region {
   tariffs: Tariff[];
 }
 
-export interface RegionCategory {
+export interface RegionGroup {
   id: number;
   name: string;
-  icon: string;
+  image: string;
   regions: Region[];
   created_at: string;
 }
 
-export interface RegionCategoryResponse {
+export interface RegionGroupResponse {
   success: boolean;
   message: string;
-  data: RegionCategory[];
+  data: RegionGroup[];
   meta: {
     totalPage: number;
     totalSize: number;

@@ -10,8 +10,8 @@ export const authAPI = {
 
 // Region/Tariff API'lar
 export const regionAPI = {
-  getCategories: () => axios.get("/region/category"),
-  getById: (id: string | number) => axios.get(`/region/${id}`),
+  getRegionGroups: () => axios.get("/region-group"),
+  getById: (id: string | number) => axios.get(`/region-group/${id}`),
   getRegions: (
     categoryId: number | null,
     searchTerm: string | null,

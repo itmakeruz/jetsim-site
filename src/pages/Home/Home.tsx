@@ -4,10 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import SimCard from "../../components/SimCard/SimCard";
 import CartDisplay from "../../components/CartDisplay/CartDisplay";
 import { regionAPI } from "../../services/api.service";
-import type { RegionCategory, Region, RegionResponse } from "../../types/api";
+import type { RegionGroup, Region, RegionResponse } from "../../types/api";
 import { getImageUrl } from "../../config/imageUtils";
 import Loader from "../../components/Loader";
 import { CategoryButton } from "../../components/Buttons";
+import { regionGroupsQuery } from "../../hooks/queries";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
@@ -36,20 +37,16 @@ const Home: React.FC = () => {
     setAllRegions([]);
   }, [searchTerm, activeCategory]);
 
-  const { data: categoriesResponse, isLoading: isCategoriesLoading } = useQuery(
-    {
-      queryKey: ["regionCategories"],
-      queryFn: async () => {
-        const response = await regionAPI.getCategories();
-        return response.data.data;
-      },
+  const { data: regionGroupsResponse, isLoading: isRegionGroupsLoading } =
+    useQuery({
+      queryKey: ["regionGroups"],
+      queryFn: regionGroupsQuery,
       staleTime: 5 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
       refetchOnWindowFocus: true,
       refetchOnReconnect: true,
       refetchOnMount: false,
-    }
-  );
+    });
 
   const { data: regionResponse, isLoading: isRegionLoading } = useQuery({
     queryKey: ["regions", activeCategory, searchTerm, page],
@@ -76,9 +73,9 @@ const Home: React.FC = () => {
     }
   }, [regionResponse, page]);
 
-  const regionCategories = categoriesResponse || [];
+  const regionCategories = regionGroupsResponse || [];
   const regions = allRegions;
-  const loading = isCategoriesLoading || isRegionLoading;
+  const loading = isRegionGroupsLoading || isRegionLoading;
   const hasNextPage = regionResponse?.meta?.hasNextPage || false;
 
   return (
@@ -103,12 +100,12 @@ const Home: React.FC = () => {
 
         <CartDisplay />
         <div className="flex gap-[25px] justify-center items-center mt-[20px] mb-[25px]">
-          {regionCategories.map((category: RegionCategory) => (
+          {regionCategories.map((category: RegionGroup) => (
             <CategoryButton
               key={category.id}
               id={category.id}
               name={category.name}
-              icon={getImageUrl(category.icon)}
+              icon={getImageUrl(category.image)}
               active={activeCategory === category.id}
               onClick={(id) => {
                 setActiveCategory(activeCategory === id ? null : Number(id));
@@ -117,7 +114,7 @@ const Home: React.FC = () => {
           ))}
         </div>
 
-        <div className="relative space-y-[25px]">
+        {/* <div className="relative space-y-[25px]">
           {loading && page === 1 ? (
             <Loader
               isFullScreen={false}
@@ -131,13 +128,11 @@ const Home: React.FC = () => {
               </p>
             </div>
           ) : (
-            regions
-              .filter((region: Region) => region.tariffs.length > 0)
-              .map((region: Region) => (
-                <SimCard key={region.id} region={region} />
-              ))
+            regions.map((region: Region) => (
+              <SimCard key={region.id} region={region} />
+            ))
           )}
-        </div>
+        </div> */}
         {hasNextPage && (
           <div className="flex justify-center items-center mt-[25px]">
             <button
