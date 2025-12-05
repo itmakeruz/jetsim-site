@@ -1,10 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { regionAPI } from "../services/api.service";
-import type {
-  Region,
-  RegionResponse,
-  SingleRegionResponse,
-} from "../types/api";
+import type { RegionResponse, SingleRegionResponse } from "../types/api";
 
 export const regionGroupsQuery = async () => {
   const { data } = await regionAPI.getRegionGroups();
