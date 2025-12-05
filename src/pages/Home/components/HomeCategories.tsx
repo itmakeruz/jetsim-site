@@ -21,7 +21,7 @@ const categories = [
 function HomeCategories() {
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   return (
-    <div className="flex gap-[25px] justify-center items-center mt-[28px] mb-[25px]">
+    <div className="flex gap-[25px] justify-center items-center mt-[28px] mb-[50px]">
       {categories.map((category: any) => (
         <CategoryButton
           key={category.id}

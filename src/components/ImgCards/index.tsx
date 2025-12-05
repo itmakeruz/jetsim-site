@@ -1,3 +1,5 @@
+import { getImageUrl } from "@/config/imageUtils";
+
 interface ImagePreviewProps {
   src: string;
   alt?: string;
@@ -11,22 +13,16 @@ export const ImagePreview = ({
   alt = "",
   width = 40,
   height = 30,
-  rounded = 2,
 }: ImagePreviewProps) => {
   return (
     <div
-      className={`w-[${width}px] h-[${height}px]`}
+      className={`w-[${width}px] h-[${height}px] rounded-full overflow-hidden border-2 border-white drop-shadow-[0px_0px_12px_#C1CDD9]`}
       style={{ width: width, height: height }}
     >
       <img
-        src={src}
+        src={getImageUrl(src)}
         alt={alt}
-        className="w-full h-full object-cover object-left"
-        style={{
-          borderRadius: `${rounded}px`,
-          outline: "1px solid rgba(0,0,0,0.1)",
-          outlineOffset: "-1px",
-        }}
+        className="w-full h-full object-cover object-center"
       />
     </div>
   );
