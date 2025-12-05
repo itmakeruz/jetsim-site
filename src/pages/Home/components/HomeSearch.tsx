@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 function HomeSearch() {
   const [inputValue, setInputValue] = useState("");
-  const [searchTerm, setSearchTerm] = useState<string | null>(null);
+  // const [searchTerm, setSearchTerm] = useState<string | null>(null);
   const { t } = useTranslation();
-  // Debounce effect
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSearchTerm(inputValue || null);
-    }, 500); // 500ms kutadi
-
-    return () => clearTimeout(timer);
-  }, [inputValue]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value);

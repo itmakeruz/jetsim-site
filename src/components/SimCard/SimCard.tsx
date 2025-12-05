@@ -1,6 +1,5 @@
-import { useTranslation } from "react-i18next";
-import { useCart } from "../../context/CartContext";
-import type { Region, Tariff } from "../../types/api";
+// import { useCart } from "../../context/CartContext";
+import type { Region } from "../../types/api";
 import { ImagePreview } from "../ImgCards";
 import { Link } from "react-router-dom";
 
@@ -9,12 +8,11 @@ interface SimCardProps {
 }
 
 const SimCard = ({ region }: SimCardProps) => {
-  const { t } = useTranslation();
-  const { addToCart } = useCart();
+  // const { addToCart } = useCart();
 
-  const handlePlusClick = async (region: Region, tariff: Tariff) => {
-    await addToCart(region, tariff);
-  };
+  // const handlePlusClick = async (region: Region, tariff: Tariff) => {
+  //   await addToCart(region, tariff);
+  // };
   console.log(region);
 
   return (
