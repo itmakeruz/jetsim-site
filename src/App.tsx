@@ -16,7 +16,6 @@ function App() {
       });
     }
   }, []);
-  console.log("re render app");
 
   return (
     <BrowserRouter>

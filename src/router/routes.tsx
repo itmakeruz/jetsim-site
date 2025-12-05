@@ -1,6 +1,7 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 import { APP_ROUTES } from "./path";
 import MainLayout from "../layouts/MainLayout/MainLayout";
+import Loader from "../components/Loader";
 
 const Home = lazy(() => import("../pages/Home/Home"));
 const About = lazy(() => import("../pages/AboutUs/About"));
@@ -17,15 +18,78 @@ export const appRoutes = [
     path: "/",
     element: <MainLayout />,
     children: [
-      { index: true, element: <Home /> },
-      { path: APP_ROUTES.ABOUT, element: <About /> },
-      { path: APP_ROUTES.CONFIDENTIAL, element: <Confidential /> },
-      { path: APP_ROUTES.OFERTA, element: <Oferta /> },
-      { path: APP_ROUTES.RULE, element: <Rules /> },
-      { path: APP_ROUTES.USLOVIYA, element: <Usloviya /> },
-      { path: APP_ROUTES.FAQ, element: <FAQ /> },
-      { path: APP_ROUTES.HOW_WORKS, element: <How /> },
-      { path: APP_ROUTES.PROFILE, element: <Profile /> },
+      {
+        index: true,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Home />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.ABOUT,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <About />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.CONFIDENTIAL,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Confidential />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.OFERTA,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Oferta />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.RULE,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Rules />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.USLOVIYA,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Usloviya />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.FAQ,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <FAQ />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.HOW_WORKS,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <How />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.PROFILE,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Profile />
+          </Suspense>
+        ),
+      },
     ],
   },
 ];

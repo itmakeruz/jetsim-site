@@ -41,6 +41,7 @@ const Navbar: React.FC = () => {
   };
 
   const navigate = useNavigate();
+  console.log("re render navbar");
 
   return (
     <header className="relative z-[1]">
@@ -107,7 +108,7 @@ const Navbar: React.FC = () => {
             ) : (
               <HeaderBtn onClick={handleOpenModal} text={t("nav.login")} />
             )}
-            {/* <div className="header-btn language-btn">
+            <div className="header-btn language-btn">
               <select
                 value={currentLang.code}
                 onChange={changeLanguage}
@@ -119,7 +120,7 @@ const Navbar: React.FC = () => {
                   </option>
                 ))}
               </select>
-            </div> */}
+            </div>
           </div>
           <AnimatePresence>
             {isMenuOpen && (
