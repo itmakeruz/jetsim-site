@@ -34,6 +34,9 @@ import yt from "./yt.svg";
 import arrow from "./arrow.svg";
 import share from "./share.svg";
 import qr from "./qr.svg";
+import cart from "./cart.svg";
+import user from "./user.svg";
+import logout from "./logout.svg";
 import en from "./united-kingdom.png";
 import ru from "./russia.png";
 export const ASSETS = {
@@ -75,4 +78,7 @@ export const ASSETS = {
   arrow,
   qr,
   share,
+  cart,
+  user,
+  logout,
 };
