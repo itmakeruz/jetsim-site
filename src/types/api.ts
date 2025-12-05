@@ -3,6 +3,7 @@ export interface Region {
   id: number;
   name: string;
   image: string;
+  min_price: number;
   status: "ACTIVE" | "INACTIVE";
   created_at: string;
   tariffs: Tariff[];

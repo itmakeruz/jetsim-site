@@ -34,7 +34,7 @@ const SimCard = ({ region }: SimCardProps) => {
             {region.name}
           </h2>
           <span className="text-[16px] text-[#4F7096] font-medium">
-            От 150 ₽
+            От {region.min_price.toLocaleString()} ₽
           </span>
         </div>
         <div className="absolute right-0 bottom-0">
