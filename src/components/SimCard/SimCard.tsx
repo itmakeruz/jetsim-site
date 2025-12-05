@@ -1,7 +1,4 @@
-import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { ArrowBigRight, ArrowRight, Plus } from "lucide-react";
-import { getImageUrl } from "../../config/imageUtils";
 import { useCart } from "../../context/CartContext";
 import type { Region, Tariff } from "../../types/api";
 import { ImagePreview } from "../ImgCards";
