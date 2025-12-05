@@ -23,9 +23,9 @@ const SimCard = ({ region }: SimCardProps) => {
   return (
     <Link
       to={`/sim-card/${region.id}`}
-      className="shadow-[0px_4px_8.4px_0px_#AAAFB361] group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] px-[18px] py-[27px]"
+      className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] px-[18px] py-[27px]"
     >
-      <div className="flex items-center gap-[18px] z-1">
+      <div className="flex items-center gap-[18px]">
         <ImagePreview
           src={region.image}
           alt={region.name}
@@ -70,8 +70,8 @@ const SimCard = ({ region }: SimCardProps) => {
             </div>
           </div>
         </div>
+        <div className="absolute z-[-1] bottom-0 right-0 group-hover:scale-[1.5] bg-[#F0F0FB] transition-all duration-500 w-0 h-0 group-hover:w-full group-hover:h-full"></div>
       </div>
-      <div className="absolute z-[-1] bottom-0 right-0 group-hover:scale-[1.5] bg-[#F0F0FB] transition-all duration-500 w-0 h-0 group-hover:w-full group-hover:h-full"></div>
     </Link>
   );
 };

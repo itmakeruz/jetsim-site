@@ -7,13 +7,17 @@ import HomeSimCards from "./components/HomeSimCards";
 
 const Home: React.FC = () => {
   return (
-    <div className="container">
+    <div className="">
       <div className="content">
         <HomeHero />
-        <HomeSearch />
+        <div className="bg-[linear-gradient(180deg,#FFFFFF_6.01%,rgba(136,196,255,0.59)_100%)]">
+          <div className="container pb-7">
+            <HomeSearch />
 
-        <HomeCategories />
-        <HomeSimCards />
+            <HomeCategories />
+            <HomeSimCards />
+          </div>
+        </div>
       </div>
     </div>
   );
