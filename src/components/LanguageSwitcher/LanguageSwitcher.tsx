@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 import { ASSETS } from "@/assets";
 const languages = [
   { code: "ru", image: ASSETS.ru, label: "Русский" },
-  { code: "en", image: ASSETS.en, label: "Английский" },
+  { code: "en", image: ASSETS.en, label: "English" },
 ];
 
 function LanguageSwitcher() {
@@ -30,7 +30,7 @@ function LanguageSwitcher() {
 
   return (
     <Select value={language} onValueChange={handleChange}>
-      <SelectTrigger className="w-[150px] border-none shadow-none! focus:ring-0! focus:ring-offset-0! focus:shadow-none! focus:outline-none! text-[16px] font-semibold [&_svg]:hidden">
+      <SelectTrigger className="w-[120px] border-none shadow-none! focus:ring-0! focus:ring-offset-0! focus:shadow-none! focus:outline-none! text-[16px] font-semibold [&_svg]:hidden">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
       <SelectContent className="border-none shadow w-max">

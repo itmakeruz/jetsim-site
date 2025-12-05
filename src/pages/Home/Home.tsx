@@ -1,41 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "@tanstack/react-query";
 import SimCard from "../../components/SimCard/SimCard";
-import CartDisplay from "../../components/CartDisplay/CartDisplay";
 import { regionAPI } from "../../services/api.service";
 import type { RegionGroup, Region, RegionResponse } from "../../types/api";
 import { getImageUrl } from "../../config/imageUtils";
 import Loader from "../../components/Loader";
 import { CategoryButton } from "../../components/Buttons";
 import { regionGroupsQuery } from "../../hooks/queries";
+import HomeHero from "./components/HomeHero";
+import HomeSearch from "./components/HomeSearch";
+import HomeCategories from "./components/HomeCategories";
 
 const Home: React.FC = () => {
   const { t } = useTranslation();
-  const [inputValue, setInputValue] = useState("");
-  const [searchTerm, setSearchTerm] = useState<string | null>(null);
+
   const [activeCategory, setActiveCategory] = useState<number | null>(null);
   const [page, setPage] = useState(1);
   const [allRegions, setAllRegions] = useState<Region[]>([]);
-
-  // Debounce effect
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setSearchTerm(inputValue || null);
-    }, 500); // 500ms kutadi
-
-    return () => clearTimeout(timer);
-  }, [inputValue]);
-
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  // Reset page when search or category changes
-  useEffect(() => {
-    setPage(1);
-    setAllRegions([]);
-  }, [searchTerm, activeCategory]);
 
   const { data: regionGroupsResponse, isLoading: isRegionGroupsLoading } =
     useQuery({
@@ -49,70 +31,28 @@ const Home: React.FC = () => {
     });
 
   const { data: regionResponse, isLoading: isRegionLoading } = useQuery({
-    queryKey: ["regions", activeCategory, searchTerm, page],
+    queryKey: ["regions", activeCategory, page],
     queryFn: async () => {
-      const response = await regionAPI.getRegions(
-        activeCategory,
-        searchTerm,
-        page
-      );
+      const response = await regionAPI.getRegions(activeCategory, null, page);
       return response.data as RegionResponse;
     },
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
 
-  // Update allRegions when new data arrives
-  useEffect(() => {
-    if (regionResponse?.data) {
-      if (page === 1) {
-        setAllRegions(regionResponse.data);
-      } else {
-        setAllRegions((prev) => [...prev, ...regionResponse.data]);
-      }
-    }
-  }, [regionResponse, page]);
-
   const regionCategories = regionGroupsResponse || [];
-  const regions = allRegions;
+  const regions = regionResponse?.data;
   const loading = isRegionGroupsLoading || isRegionLoading;
   const hasNextPage = regionResponse?.meta?.hasNextPage || false;
 
   return (
     <div className="container">
       <div className="content">
-        <div className="flex flex-col items-center mt-[40px] gap-[32px]">
-          <h1 className="text-center text-[44px] max-w-[930px] leading-[1.3] font-extrabold text-[#393939]">
-            {t("sims.title")}
-          </h1>
-          <div className="flex flex-col items-center">
-            <p className="subtitle">{t("sims.subtitle")}</p>
-            <p className="subtitle">{t("sims.subtitle2")}</p>
-          </div>
-          <input
-            type="text"
-            placeholder={t("sims.search_placeholder")}
-            value={inputValue}
-            onChange={handleSearch}
-            className="bg-[#E8EDF2] max-w-[730px] w-full p-5 text-center text-base text-[#4F7096] rounded-[10px] outline-none"
-          />
-        </div>
+        <HomeHero />
+        <HomeSearch />
 
-        <CartDisplay />
-        <div className="flex gap-[25px] justify-center items-center mt-[20px] mb-[25px]">
-          {regionCategories.map((category: RegionGroup) => (
-            <CategoryButton
-              key={category.id}
-              id={category.id}
-              name={category.name}
-              icon={getImageUrl(category.image)}
-              active={activeCategory === category.id}
-              onClick={(id) => {
-                setActiveCategory(activeCategory === id ? null : Number(id));
-              }}
-            />
-          ))}
-        </div>
+        {/* <CartDisplay /> */}
+        <HomeCategories />
 
         {/* <div className="relative space-y-[25px]">
           {loading && page === 1 ? (
