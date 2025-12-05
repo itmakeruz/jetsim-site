@@ -5,9 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { APP_ROUTES } from "../../router/path";
 import ModalLayout from "../Modal/Modal";
 import { useCart } from "../../context/CartContext";
-import HeaderBtn from "../../components/headerStuffs/HeaderBtn";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -41,7 +41,6 @@ const Navbar: React.FC = () => {
   };
 
   const navigate = useNavigate();
-  console.log("re render navbar");
 
   return (
     <header className="relative z-[1]">
@@ -90,37 +89,85 @@ const Navbar: React.FC = () => {
               ☰
             </button>
           </div>
-          <div className="hidden lg:flex items-center gap-5">
-            <HeaderBtn
-              count={cartCount}
-              onClick={() => navigate(APP_ROUTES.PROFILE + "?tab=cart")}
-              text={t("nav.korzina")}
-            />
-            {isAuthenticated && (
-              <HeaderBtn
-                onClick={() => navigate(APP_ROUTES.PROFILE + "?tab=profile")}
-                text={t("nav.cabinet")}
-              />
-            )}
-
-            {isAuthenticated ? (
-              <HeaderBtn onClick={logout} text={t("nav.exit")} />
-            ) : (
-              <HeaderBtn onClick={handleOpenModal} text={t("nav.login")} />
-            )}
-            <div className="header-btn language-btn">
-              <select
-                value={currentLang.code}
-                onChange={changeLanguage}
-                className="language-select"
-              >
-                {languages.map((lang) => (
-                  <option key={lang.code} value={lang.code}>
-                    {lang.label}
-                  </option>
-                ))}
-              </select>
+          <div className="flex items-center gap-5">
+            <LanguageSwitcher />
+            <div className="flex items-center gap-5">
+              <button className="flex flex-col items-center gap-1 text-[#4F7096] text-sm font-medium">
+                <div>
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 35 35"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6.16509 19.5473C7.03799 15.1828 7.47443 13.0006 8.91657 11.5951C9.18312 11.3353 9.47147 11.0989 9.77847 10.8885C11.4395 9.75 13.665 9.75 18.1159 9.75H20.8831C25.3342 9.75 27.5596 9.75 29.2207 10.8885C29.5276 11.0989 29.8159 11.3353 30.0826 11.5951C31.5246 13.0006 31.9611 15.1828 32.834 19.5473C34.0872 25.8133 34.7138 28.9463 33.2713 31.1664C33.0102 31.5684 32.7053 31.9402 32.3625 32.2751C30.4684 34.125 27.2733 34.125 20.8831 34.125H18.1159C11.7258 34.125 8.53076 34.125 6.63671 32.2751C6.29375 31.9402 5.9889 31.5684 5.72773 31.1664C4.28529 28.9463 4.91189 25.8133 6.16509 19.5473Z"
+                      stroke="#112D6C"
+                      stroke-width="2.4375"
+                    />
+                    <path
+                      d="M14.625 11.9999V8.12488C14.625 5.4325 16.8075 3.24988 19.5 3.24988C22.1925 3.24988 24.375 5.4325 24.375 8.12488V11.9999"
+                      stroke="#112D6C"
+                      stroke-width="2.4375"
+                      stroke-linecap="round"
+                    />
+                    <path
+                      d="M14.9023 24.375C15.5716 26.2684 17.3774 27.625 19.5 27.625C21.6225 27.625 23.4284 26.2684 24.0976 24.375"
+                      stroke="#112D6C"
+                      stroke-width="2.4375"
+                      stroke-linecap="round"
+                    />
+                  </svg>
+                </div>
+                <span className="relative leading-none">
+                  Корзина
+                  {false && (
+                    <span className="leading-none absolute bottom-full right-0 py-[2px] px-[6px] text-xs bg-[#FECA00] text-black font-semibold rounded-full">
+                      12
+                    </span>
+                  )}
+                </span>
+              </button>
+              <button className="flex flex-col gap-1 items-center text-[#4F7096] text-sm font-medium">
+                <div className="relative">
+                  <svg
+                    width="26"
+                    height="26"
+                    viewBox="0 0 39 39"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M32.5 34.125V30.875C32.5 27.2852 29.5898 24.375 26 24.375H13C9.41015 24.375 6.5 27.2852 6.5 30.875V34.125M26 11.375C26 14.9649 23.0898 17.875 19.5 17.875C15.9101 17.875 13 14.9649 13 11.375C13 7.78515 15.9101 4.875 19.5 4.875C23.0898 4.875 26 7.78515 26 11.375Z"
+                      stroke="#001A72"
+                      stroke-width="2.4375"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                </div>
+                <span className="relative leading-none">Кабинет</span>
+              </button>
             </div>
+            <div className="bg-[#D9D9D9] w-[1px] min-h-full shrink-0 self-stretch"></div>
+            <button className="flex flex-col gap-1 items-center text-[#E84118] text-sm font-medium">
+              <div className="relative">
+                <svg
+                  width="26"
+                  height="26"
+                  viewBox="0 0 39 39"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M27.625 11.375L25.3337 13.6663L29.5263 17.875H13V21.125H29.5263L25.3337 25.3175L27.625 27.625L35.75 19.5M6.5 8.125H19.5V4.875H6.5C4.7125 4.875 3.25 6.3375 3.25 8.125V30.875C3.25 32.6625 4.7125 34.125 6.5 34.125H19.5V30.875H6.5V8.125Z"
+                    fill="#E84118"
+                  />
+                </svg>
+              </div>
+              <span className="relative leading-none">Выйти</span>
+            </button>
           </div>
           <AnimatePresence>
             {isMenuOpen && (

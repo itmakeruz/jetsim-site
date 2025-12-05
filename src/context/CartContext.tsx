@@ -32,14 +32,17 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 export const CartProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const getLocalStorageCart = (): LocalStorageCartItem[] => {
+    const cart = localStorage.getItem("cartItems");
+    return cart ? JSON.parse(cart) : [];
+  };
   const { isAuthenticated } = useAuthStore();
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
+  const [cartItems, setCartItems] = useState<CartItem[]>(getLocalStorageCart());
   const [mySimCount, setMySimCount] = useState<number>(0);
+
   useEffect(() => {
     if (isAuthenticated) {
       fetchCartFromServer();
-    } else {
-      loadCartFromLocalStorage();
     }
   }, [isAuthenticated]);
 
@@ -144,15 +147,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
     setCartItems(localStorageCart);
   };
 
-  const getLocalStorageCart = (): LocalStorageCartItem[] => {
-    const cart = localStorage.getItem("cartItems");
-    return cart ? JSON.parse(cart) : [];
-  };
-
-  const loadCartFromLocalStorage = () => {
-    const localStorageCart = getLocalStorageCart();
-    setCartItems(localStorageCart);
-  };
+  // const loadCartFromLocalStorage = () => {
+  //   const localStorageCart = getLocalStorageCart();
+  //   setCartItems(localStorageCart);
+  // };
 
   const syncLocalStorageCart = async () => {
     const localStorageCart = getLocalStorageCart();
