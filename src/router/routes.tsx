@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { APP_ROUTES } from "./path";
 import MainLayout from "../layouts/MainLayout/MainLayout";
+import SimpleLayout from "../layouts/SimpleLayout/SimpleLayout";
 import Loader from "../components/Loader";
 
 const Home = lazy(() => import("../pages/Home/Home"));
@@ -12,6 +13,7 @@ const Usloviya = lazy(() => import("../pages/Usloviya/Usloviya"));
 const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const How = lazy(() => import("../pages/HowWorks/How"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
+const SingleRegion = lazy(() => import("../pages/SIngleRegion/SingleRegion"));
 
 export const appRoutes = [
   {
@@ -87,6 +89,20 @@ export const appRoutes = [
         element: (
           <Suspense fallback={<Loader />}>
             <Profile />
+          </Suspense>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/",
+    element: <SimpleLayout />,
+    children: [
+      {
+        path: "/region/:id",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <SingleRegion />
           </Suspense>
         ),
       },

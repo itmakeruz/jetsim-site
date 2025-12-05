@@ -12,6 +12,7 @@ export const authAPI = {
 export const regionAPI = {
   getRegionGroups: () => axios.get("/region-group"),
   getById: (id: string | number) => axios.get(`/region-group/${id}`),
+  getRegionById: (id: string | number) => axios.get(`/region/plans/${id}`),
   getRegions: (
     categoryId: number | null,
     searchTerm: string | null,

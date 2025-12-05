@@ -37,6 +37,9 @@ import qr from "./qr.svg";
 import cart from "./cart.svg";
 import user from "./user.svg";
 import logout from "./logout.svg";
+import backArrow from "./back-arrow.svg";
+import questionMark from "./question-mark.svg";
+import availableCountries from "./available-countries.svg";
 import en from "./united-kingdom.png";
 import ru from "./russia.png";
 export const ASSETS = {
@@ -81,4 +84,7 @@ export const ASSETS = {
   cart,
   user,
   logout,
+  backArrow,
+  questionMark,
+  availableCountries,
 };

@@ -8,13 +8,39 @@ export interface Region {
   created_at: string;
   tariffs: Tariff[];
 }
-
 export interface RegionGroup {
   id: number;
   name: string;
   image: string;
+}
+
+export interface SingleRegion {
+  id: number;
+  name: string;
+  image: string;
+}
+
+export interface LocalItem {
+  id: number;
+  name: string;
+  price_sell: number;
+  quantity_internet: number;
+  validity_period: number;
+  region_group: RegionGroup;
   regions: Region[];
-  created_at: string;
+}
+export interface ApiResponse {
+  local: LocalItem[];
+  regional: LocalItem[];
+  global: LocalItem[];
+  name: string;
+  image: string;
+  id: string;
+}
+export interface SingleRegionResponse {
+  data: ApiResponse;
+  message: string;
+  success: boolean;
 }
 
 export interface RegionGroupResponse {

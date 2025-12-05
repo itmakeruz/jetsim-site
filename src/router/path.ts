@@ -10,4 +10,5 @@ export const APP_ROUTES = {
   RULE: "/rule",
   PAYMENT: "/payment",
   PROFILE: "/profile",
+  SINGLE_REGION: "/region/:id",
 };

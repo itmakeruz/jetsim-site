@@ -8,16 +8,9 @@ interface SimCardProps {
 }
 
 const SimCard = ({ region }: SimCardProps) => {
-  // const { addToCart } = useCart();
-
-  // const handlePlusClick = async (region: Region, tariff: Tariff) => {
-  //   await addToCart(region, tariff);
-  // };
-  console.log(region);
-
   return (
     <Link
-      to={`/sim-card/${region.id}`}
+      to={`/region/${region.id}`}
       className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] px-[18px] py-[27px]"
     >
       <div className="flex items-center gap-[18px]">

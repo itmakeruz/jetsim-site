@@ -19,7 +19,7 @@ const categories = [
   },
 ];
 function HomeCategories() {
-  const [activeCategory, setActiveCategory] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<number | null>(1);
   return (
     <div className="flex gap-[25px] justify-center items-center mt-[28px] mb-[50px]">
       {categories.map((category: any) => (
