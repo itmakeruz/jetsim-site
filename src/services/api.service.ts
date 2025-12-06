@@ -17,7 +17,7 @@ export const regionAPI = {
 
     if (type) params.type = type;
 
-    return axios.get("/region-group", { params });
+    return axios.get("/region-group?size=12", { params });
   },
   getById: (id: string | number) => axios.get(`/region-group/${id}`),
   getRegionById: (id: string | number) => axios.get(`/region/plans/${id}`),

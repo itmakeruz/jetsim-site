@@ -51,35 +51,19 @@ function HomeSimCards({ activeCategory }: HomeSimCardsProps) {
       isRegionGroupCategory
     );
 
-  // RegionGroup[] ni Region[] formatiga o'tkazish
-  const convertRegionGroupsToRegions = (
-    regionGroups: RegionGroup[] | undefined
-  ): Region[] | undefined => {
-    if (!regionGroups) return undefined;
-    return regionGroups.map((group) => ({
-      id: group.id,
-      name: group.name,
-      image: group.image,
-      min_price: 0, // Default qiymat, chunki RegionGroup da min_price yo'q
-      status: "ACTIVE" as const,
-      created_at: "",
-      tariffs: [],
-    }));
-  };
-
   const isLoading = isRegionGroupCategory
     ? isLoadingRegionGroups
     : isLoadingRegions;
 
   const regions = isRegionGroupCategory
-    ? convertRegionGroupsToRegions(regionGroupResponse?.data)
+    ? regionGroupResponse?.data
     : regionResponse?.data;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {!isLoading
-        ? regions?.map((region: Region) => (
-            <SimCard key={region.id} region={region} />
+        ? regions?.map((region: Region | RegionGroup) => (
+            <SimCard key={region.id} region={region as Region} />
           ))
         : Array.from({ length: 12 }).map((_, index) => (
             <SimCardSkeleton key={index} />
