@@ -8,6 +8,9 @@ html {
   scrollbar-gutter: stable !important;
   height: 100%;
 }
+html body[data-scroll-locked] {
+  margin-right: 0px !important;
+}
 @theme {
   --color-main-blue: #1978e5;
   --font-norms: "TTNormsMedium";

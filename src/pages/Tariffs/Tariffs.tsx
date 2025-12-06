@@ -3,15 +3,15 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/Loader";
 import SingleRegionHead from "./components/SingleRegionHead";
 import TariffSection from "./components/TariffSection";
-import { singleRegionGroupQuery } from "../../hooks/queries";
+import { tariffsQuery } from "../../hooks/queries";
 import { useTranslation } from "react-i18next";
 
-function SingleRegion() {
+function Tariffs() {
   const { i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useQuery({
-    queryKey: ["regionGroup", id, i18n.language],
-    queryFn: () => singleRegionGroupQuery(id!),
+    queryKey: ["tariffs", id, i18n.language],
+    queryFn: () => tariffsQuery(id!),
     enabled: !!id,
   });
 
@@ -23,30 +23,28 @@ function SingleRegion() {
     );
   }
 
-  const region = data?.data;
+  const region = data?.data?.regions;
+  const tariffs = data?.data?.tariffs;
 
   return (
     <div className="container py-8">
-      <SingleRegionHead region={region as any} />
+      <SingleRegionHead regions={region as any} />
       <div className="flex flex-col gap-[40px]">
-        <TariffSection
+        {/* <TariffSection
           title="Локальные тарифы"
-          tariffs={region?.tariffs?.local || []}
-          getImageUrl={() => region?.image || ""}
-        />
+          tariffs={tariffs?.local || []}
+        /> */}
         <TariffSection
           title="Региональные тарифы"
-          tariffs={region?.regional || []}
-          getImageUrl={(tariff) => tariff?.region_group?.image || ""}
+          tariffs={tariffs?.regional || []}
         />
-        <TariffSection
+        {/* <TariffSection
           title="Глобальные тарифы"
-          tariffs={region?.global || []}
-          getImageUrl={(tariff) => tariff?.region_group?.image || ""}
-        />
+          tariffs={tariffs?.global || []}
+        /> */}
       </div>
     </div>
   );
 }
 
-export default SingleRegion;
+export default Tariffs;

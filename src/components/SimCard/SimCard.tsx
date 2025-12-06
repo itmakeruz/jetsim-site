@@ -1,31 +1,31 @@
-import type { Region } from "../../types/api";
+import type { RegionGroup } from "../../types/api";
 import { ImagePreview } from "../ImgCards";
 import { Link } from "react-router-dom";
 import { ASSETS } from "@/assets";
 
 interface SimCardProps {
-  region: Region;
+  regionGroup: RegionGroup;
 }
 
-const SimCard = ({ region }: SimCardProps) => {
+const SimCard = ({ regionGroup }: SimCardProps) => {
   return (
     <Link
-      to={`/region/${region.id}`}
+      to={`/tariffs/${regionGroup.id}`}
       className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] px-[18px] py-[27px]"
     >
       <div className="flex items-center gap-[18px]">
         <ImagePreview
-          src={region.image}
-          alt={region.name}
+          src={regionGroup.image}
+          alt={regionGroup.name}
           width={66}
           height={66}
         />
         <div className="flex flex-col">
           <h2 className="text-[18px] font-semibold text-black">
-            {region.name}
+            {regionGroup.name}
           </h2>
           <span className="text-[16px] text-[#4F7096] font-medium">
-            От {region?.min_price?.toLocaleString() || 0} ₽
+            От {regionGroup?.min_price?.toLocaleString() || 0} ₽
           </span>
         </div>
         <div className="absolute right-0 bottom-0">

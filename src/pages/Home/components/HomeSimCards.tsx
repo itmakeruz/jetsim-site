@@ -26,7 +26,7 @@ function HomeSimCards({ activeCategory }: HomeSimCardsProps) {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {!isLoading
         ? regionGroups?.map((regionGroup: RegionGroup) => (
-            <SimCard key={regionGroup.id} region={regionGroup as any} />
+            <SimCard key={regionGroup.id} regionGroup={regionGroup as any} />
           ))
         : Array.from({ length: 12 }).map((_, index) => (
             <SimCardSkeleton key={index} />

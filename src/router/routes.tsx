@@ -13,7 +13,7 @@ const Usloviya = lazy(() => import("../pages/Usloviya/Usloviya"));
 const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const How = lazy(() => import("../pages/HowWorks/How"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
-const SingleRegion = lazy(() => import("../pages/SIngleRegion/SingleRegion"));
+const Tariffs = lazy(() => import("../pages/Tariffs/Tariffs"));
 
 export const appRoutes = [
   {
@@ -99,10 +99,10 @@ export const appRoutes = [
     element: <SimpleLayout />,
     children: [
       {
-        path: "/region/:id",
+        path: APP_ROUTES.TARIFFS,
         element: (
           <Suspense fallback={<Loader />}>
-            <SingleRegion />
+            <Tariffs />
           </Suspense>
         ),
       },

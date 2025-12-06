@@ -2,15 +2,15 @@ import { useState } from "react";
 import { ImagePreview } from "@/components/ImgCards";
 import { getImageUrl } from "@/config/imageUtils";
 import { ASSETS } from "@/assets";
-import type { LocalItem } from "@/types/api";
+import type { Tariff } from "@/types/api";
 import RegionsModal from "./RegionsModal";
 
 interface TariffCardProps {
-  tariff: LocalItem;
-  regionImage: string;
+  tariff: Tariff;
 }
 
-export default function TariffCard({ tariff, regionImage }: TariffCardProps) {
+export default function TariffCard({ tariff }: TariffCardProps) {
+  console.log(tariff);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -28,7 +28,7 @@ export default function TariffCard({ tariff, regionImage }: TariffCardProps) {
       <div className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] px-[18px] py-[20px] flex flex-col gap-[15px]">
         <div className="flex items-center gap-[18px]">
           <ImagePreview
-            src={getImageUrl(regionImage)}
+            src={getImageUrl(tariff?.region_group?.image || "")}
             alt={tariff.name}
             width={66}
             height={66}
@@ -43,7 +43,7 @@ export default function TariffCard({ tariff, regionImage }: TariffCardProps) {
             {tariff.validity_period} дней
           </span>
           <span className="text-[#1978E5]">
-            {tariff.price_sell.toLocaleString()} ₽
+            {tariff?.price_sell?.toLocaleString()} ₽
           </span>
         </div>
         <button

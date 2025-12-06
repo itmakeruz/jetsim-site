@@ -32,6 +32,7 @@ export const regionAPI = {
 
     return axios.get("/region", { params });
   },
+  getTariffs: (id: string | number) => axios.get(`/region-group/plans/${id}`),
 };
 
 export const tariffAPI = {

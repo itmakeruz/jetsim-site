@@ -3,15 +3,14 @@ export interface Region {
   id: number;
   name: string;
   image: string;
-  min_price: number;
-  status: "ACTIVE" | "INACTIVE";
-  created_at: string;
-  tariffs: Tariff[];
 }
 export interface RegionGroup {
   id: number;
   name: string;
   image: string;
+  min_price: number;
+  created_at: string;
+  regions: Region[];
 }
 
 export interface SingleRegion {
@@ -93,19 +92,18 @@ export interface Tariff {
   day_left?: number;
   usage?: number;
   qrcode?: string;
+  region_group: RegionGroup;
 }
 
 export interface TariffResponse {
   success: boolean;
-  message: string;
-  data: Tariff[];
-  meta: {
-    totalPage: number;
-    totalSize: number;
-    currentPage: number;
-    hasNextPage: boolean;
-    hasPreviousPage: boolean;
-    totalItems: number;
+  data: {
+    regions: Region[];
+    tariffs: {
+      local: Tariff[];
+      regional: Tariff[];
+      global: Tariff[];
+    };
   };
 }
 

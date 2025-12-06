@@ -5,6 +5,7 @@ import type {
   RegionResponse,
   SingleRegionResponse,
   RegionGroupResponse,
+  TariffResponse,
 } from "../types/api";
 
 export const regionGroupsQuery = async (
@@ -30,11 +31,11 @@ export const singleRegionQuery = async (
   return response.data;
 };
 
-export const singleRegionGroupQuery = async (
+export const tariffsQuery = async (
   id: string | number
-): Promise<RegionGroupResponse> => {
-  if (!id) throw new Error("Region Group ID is required");
-  const response = await regionAPI.getById(id);
+): Promise<TariffResponse> => {
+  if (!id) throw new Error("Tariff ID is required");
+  const response = await regionAPI.getTariffs(id);
   return response.data;
 };
 

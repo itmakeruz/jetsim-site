@@ -1,9 +1,10 @@
 import { ASSETS } from "@/assets";
-import type { SingleRegion } from "@/types/api";
+import type { Region } from "@/types/api";
 import { useNavigate } from "react-router-dom";
 
-function SingleRegionHead({ region }: { region: SingleRegion }) {
+function SingleRegionHead({ regions }: { regions: Region[] }) {
   const navigate = useNavigate();
+
   return (
     <div className="flex items-center justify-between mb-[26px]">
       <button
@@ -19,7 +20,9 @@ function SingleRegionHead({ region }: { region: SingleRegion }) {
             height="22"
           />
         </div>
-        <h1 className="text-[30px] font-bold text-[#0D141C]">{region?.name}</h1>
+        <h1 className="text-[30px] font-bold text-[#0D141C]">
+          {regions.map((region) => region.name).join(", ")}
+        </h1>
       </button>
       <button className="flex flex-col items-center gap-[6px] max-w-[150px]">
         <div className="w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
