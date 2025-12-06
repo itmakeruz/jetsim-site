@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { regionAPI } from "../services/api.service";
 import type {
   RegionResponse,
@@ -40,7 +41,7 @@ export const singleRegionGroupQuery = async (
 export const searchRegionsQuery = async (
   search: string
 ): Promise<RegionResponse> => {
-  const response = await regionAPI.getRegions(1, null, search);
+  const response = await regionAPI.getRegions(search, null);
   return response.data as RegionResponse;
 };
 
@@ -48,8 +49,9 @@ export const useSearchRegionsQuery = (
   search: string,
   enabled: boolean = true
 ) => {
+  const { i18n } = useTranslation();
   return useQuery({
-    queryKey: ["searchRegions", search],
+    queryKey: ["searchRegions", search, i18n.language],
     queryFn: () => searchRegionsQuery(search),
     enabled: enabled && search.length > 0,
     staleTime: 0,

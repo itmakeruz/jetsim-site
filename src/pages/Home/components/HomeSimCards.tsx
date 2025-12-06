@@ -4,16 +4,18 @@ import { regionGroupsQuery } from "@/hooks/queries";
 import SimCardSkeleton from "@/components/SimCard/SimCardSkeleton";
 import { useQuery } from "@tanstack/react-query";
 import { categories } from "@/constants";
+import { useTranslation } from "react-i18next";
 
 interface HomeSimCardsProps {
   activeCategory: number | null;
 }
 
 function HomeSimCards({ activeCategory }: HomeSimCardsProps) {
+  const { i18n } = useTranslation();
   const category = categories.find((cat) => cat.id === activeCategory);
   const categoryKey = category?.key || null;
   const { data: regionGroupResponse, isLoading } = useQuery({
-    queryKey: ["regionGroup", categoryKey],
+    queryKey: ["regionGroup", categoryKey, i18n.language],
     queryFn: () => regionGroupsQuery(categoryKey),
     enabled: !!activeCategory,
   });

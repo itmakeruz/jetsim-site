@@ -1,10 +1,13 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { getAllRegions } from "@/hooks/queries";
-import { ImagePreview } from "@/components/ImgCards";
-import { ChevronRight, X, Search } from "lucide-react";
-import type { Region } from "@/types/api";
 import { useQuery } from "@tanstack/react-query";
+import type { Region } from "@/types/api";
+import SelectedRegionChip from "./HomeSearch/SelectedRegionChip";
+import SearchInput from "./HomeSearch/SearchInput";
+import RegionDropdown from "./HomeSearch/RegionDropdown";
+
+const MAX_SELECTIONS = 3;
 
 function HomeSearch() {
   const [inputValue, setInputValue] = useState("");
@@ -12,16 +15,17 @@ function HomeSearch() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
+  const { i18n } = useTranslation();
 
-  // Agar input bo'sh bo'lsa, barcha regionlarni olish
+  // Regionlarni API dan olish
   const { data: allRegionsData, isLoading: isLoadingAll } = useQuery({
-    queryKey: ["regions", inputValue],
+    queryKey: ["regions", inputValue, i18n.language],
     queryFn: () => getAllRegions(inputValue, 1000000),
   });
 
   const regions = allRegionsData?.data || [];
 
+  // Tashqariga bosilganda dropdown yopish
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -40,21 +44,20 @@ function HomeSearch() {
     };
   }, []);
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value;
+  // Input o'zgarishini boshqarish
+  const handleSearchChange = (value: string) => {
     setInputValue(value);
-    // Dropdown har doim ochiq bo'lsin
     if (!isDropdownOpen) {
       setIsDropdownOpen(true);
     }
   };
 
+  // Region tanlash
   const handleSelectRegion = (region: Region) => {
-    if (selectedRegions.length >= 3) {
-      return; // Maksimal 3 ta
+    if (selectedRegions.length >= MAX_SELECTIONS) {
+      return;
     }
 
-    // Agar allaqachon tanlangan bo'lsa, qo'shmaslik
     if (selectedRegions.some((r) => r.id === region.id)) {
       return;
     }
@@ -64,10 +67,12 @@ function HomeSearch() {
     setIsDropdownOpen(false);
   };
 
+  // Region olib tashlash
   const handleRemoveRegion = (regionId: number) => {
     setSelectedRegions(selectedRegions.filter((r) => r.id !== regionId));
   };
 
+  // Input focus
   const handleInputFocus = () => {
     setIsDropdownOpen(true);
   };
@@ -76,100 +81,42 @@ function HomeSearch() {
     <div className="mx-auto w-full max-w-[730px]">
       <div ref={searchRef} className="relative">
         <form className="border border-[#8A8AC7] bg-[#F0F0FB] rounded-[10px] relative">
-          <div className="flex items-center">
-            <input
-              type="text"
-              placeholder={t("common.search_placeholder")}
+          <div className="flex items-center flex-wrap gap-2 p-2 pr-14 min-h-[60px]">
+            {/* Tanlangan regionlar */}
+            {selectedRegions.map((region) => (
+              <SelectedRegionChip
+                key={region.id}
+                region={region}
+                onRemove={handleRemoveRegion}
+              />
+            ))}
+
+            {/* Qidiruv input */}
+            <SearchInput
               value={inputValue}
-              onChange={handleSearch}
+              onChange={handleSearchChange}
               onFocus={handleInputFocus}
-              className="w-full p-5 pr-12 text-base text-[#4F7096] outline-none bg-transparent"
+              selectedCount={selectedRegions.length}
             />
-            <button className="absolute right-2 bg-[#8A8AC7] rounded-[10px] w-[50px] h-[50px] flex items-center justify-center">
-              <Search className="w-6 h-6 text-[#FFFFFF]" />
-            </button>
           </div>
         </form>
 
-        {/* Dropdown */}
+        {/* Dropdown ro'yxat */}
         {isDropdownOpen && (
           <div
             ref={dropdownRef}
             className="absolute top-full left-0 right-0 mt-2 bg-white rounded-[10px] border border-[#E8EDF2] shadow-lg max-h-[400px] overflow-y-auto overscroll-contain z-50"
           >
-            {isLoadingAll ? (
-              <div className="p-4 text-center text-[#4F7096]">
-                {t("common.loading") || "Загрузка..."}
-              </div>
-            ) : regions.length > 0 ? (
-              <div>
-                {regions.map((region: Region) => {
-                  const isSelected = selectedRegions.some(
-                    (r) => r.id === region.id
-                  );
-                  return (
-                    <button
-                      key={region.id}
-                      type="button"
-                      onClick={() => handleSelectRegion(region)}
-                      disabled={isSelected || selectedRegions.length >= 3}
-                      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-[#F0F0FB] transition-colors ${
-                        isSelected || selectedRegions.length >= 3
-                          ? "opacity-50 cursor-not-allowed"
-                          : "cursor-pointer"
-                      }`}
-                    >
-                      <ImagePreview
-                        src={region.image}
-                        alt={region.name}
-                        width={40}
-                        height={40}
-                      />
-                      <span className="flex-1 text-left text-[#4F7096] font-medium">
-                        {region.name}
-                      </span>
-                      <ChevronRight className="w-5 h-5 text-[#4F7096]" />
-                    </button>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className="p-4 text-center text-[#4F7096]">
-                {t("common.no_results") || "Результаты не найдены"}
-              </div>
-            )}
+            <RegionDropdown
+              regions={regions}
+              selectedRegions={selectedRegions}
+              isLoading={isLoadingAll}
+              onSelectRegion={handleSelectRegion}
+              maxSelections={MAX_SELECTIONS}
+            />
           </div>
         )}
       </div>
-
-      {/* Selected Regions */}
-      {selectedRegions.length > 0 && (
-        <div className="mt-4 flex flex-wrap gap-3">
-          {selectedRegions.map((region) => (
-            <div
-              key={region.id}
-              className="flex items-center gap-2 bg-white border border-[#E8EDF2] rounded-[8px] px-3 py-2 shadow-sm"
-            >
-              <ImagePreview
-                src={region.image}
-                alt={region.name}
-                width={30}
-                height={30}
-              />
-              <span className="text-sm text-[#4F7096] font-medium">
-                {region.name}
-              </span>
-              <button
-                type="button"
-                onClick={() => handleRemoveRegion(region.id)}
-                className="ml-1 p-1 hover:bg-[#F0F0FB] rounded-full transition-colors"
-              >
-                <X className="w-4 h-4 text-[#4F7096]" />
-              </button>
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

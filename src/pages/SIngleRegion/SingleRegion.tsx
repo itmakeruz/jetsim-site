@@ -4,11 +4,13 @@ import Loader from "../../components/Loader";
 import SingleRegionHead from "./components/SingleRegionHead";
 import TariffSection from "./components/TariffSection";
 import { singleRegionGroupQuery } from "../../hooks/queries";
+import { useTranslation } from "react-i18next";
 
 function SingleRegion() {
+  const { i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useQuery({
-    queryKey: ["regionGroup", id],
+    queryKey: ["regionGroup", id, i18n.language],
     queryFn: () => singleRegionGroupQuery(id!),
     enabled: !!id,
   });
