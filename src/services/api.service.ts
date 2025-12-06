@@ -14,21 +14,21 @@ export const regionAPI = {
   getById: (id: string | number) => axios.get(`/region-group/${id}`),
   getRegionById: (id: string | number) => axios.get(`/region/plans/${id}`),
   getRegions: (
-    categoryId: number | null,
     searchTerm: string | null,
-    page: number = 1
+    page: number = 1,
+    type: string | null = null
   ) => {
     const params: {
-      category_id?: number | null;
       search?: string | null;
       page?: number;
+      type?: string | null;
     } = {};
 
-    if (categoryId) params.category_id = categoryId;
     if (searchTerm) params.search = searchTerm;
     if (page > 1) params.page = page;
+    if (type) params.type = type;
 
-    return axios.get("/region", { params });
+    return axios.get("/region?size=12", { params });
   },
 };
 

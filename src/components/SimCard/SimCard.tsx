@@ -2,6 +2,8 @@
 import type { Region } from "../../types/api";
 import { ImagePreview } from "../ImgCards";
 import { Link } from "react-router-dom";
+import waveSvg from "../../assets/sim-card-wave.svg";
+import arrowSvg from "../../assets/sim-card-arrow.svg";
 
 interface SimCardProps {
   region: Region;
@@ -30,31 +32,21 @@ const SimCard = ({ region }: SimCardProps) => {
         </div>
         <div className="absolute right-0 bottom-0">
           <div className="relative">
-            <svg
-              width="138"
-              height="35"
-              viewBox="0 0 138 35"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M145.001 19.7283C145.001 29.3933 143.748 41.3592 120 41.3592C96.2518 41.3592 0 44.5244 0 34.8594C64.5 29.3594 93 4.4814 109.5 0.859195C126 -2.76301 140 5.35936 145.001 19.7283Z"
-                fill="#F0F0FB"
-              />
-            </svg>
+            <img
+              src={waveSvg}
+              alt=""
+              width={138}
+              height={35}
+              className="block"
+            />
             <div className="absolute translate-x-[-50%] right-0 bottom-0 translate-y-[-50%]">
-              <svg
-                width="22"
-                height="12"
-                viewBox="0 0 22 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M0.75 4.77295C0.335786 4.77295 3.62117e-08 5.10874 0 5.52295C-3.62117e-08 5.93716 0.335786 6.27295 0.75 6.27295L0.75 5.52295L0.75 4.77295ZM21.2803 6.05328C21.5732 5.76039 21.5732 5.28551 21.2803 4.99262L16.5074 0.21965C16.2145 -0.0732437 15.7396 -0.0732437 15.4467 0.21965C15.1538 0.512543 15.1538 0.987417 15.4467 1.28031L19.6893 5.52295L15.4467 9.76559C15.1538 10.0585 15.1538 10.5334 15.4467 10.8263C15.7396 11.1191 16.2145 11.1191 16.5074 10.8263L21.2803 6.05328ZM0.75 5.52295L0.75 6.27295L20.75 6.27295L20.75 5.52295L20.75 4.77295L0.75 4.77295L0.75 5.52295Z"
-                  fill="black"
-                />
-              </svg>
+              <img
+                src={arrowSvg}
+                alt=""
+                width={22}
+                height={12}
+                className="block"
+              />
             </div>
           </div>
         </div>

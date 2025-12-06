@@ -8,22 +8,22 @@ export const regionGroupsQuery = async () => {
 };
 
 export const regionsQuery = async (
-  categoryId: number | null = null,
   searchTerm: string | null = null,
-  page: number = 1
+  page: number = 1,
+  type: string | null = null
 ): Promise<RegionResponse> => {
-  const response = await regionAPI.getRegions(categoryId, searchTerm, page);
+  const response = await regionAPI.getRegions(searchTerm, page, type);
   return response.data as RegionResponse;
 };
 
 export const useRegionsQuery = (
-  categoryId: number | null = null,
   searchTerm: string | null = null,
-  page: number = 1
+  page: number = 1,
+  type: string | null = null
 ) => {
   return useQuery({
-    queryKey: ["regions", categoryId, searchTerm, page],
-    queryFn: () => regionsQuery(categoryId, searchTerm, page),
+    queryKey: ["regions", searchTerm, page, type],
+    queryFn: () => regionsQuery(searchTerm, page, type),
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
