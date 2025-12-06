@@ -170,3 +170,10 @@ export interface StaticOrdersResponse {
   message: string;
   data: StaticOrderItem[];
 }
+
+export interface TariffDetail {
+  id: number;
+  name: string;
+  key: string;
+  icon: string;
+}

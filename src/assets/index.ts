@@ -44,6 +44,10 @@ import en from "./united-kingdom.png";
 import ru from "./russia.png";
 import waveSvg from "./sim-card-wave.svg";
 import arrowSvg from "./sim-card-arrow.svg";
+import internet from "./internet.svg";
+import sms from "./sms.svg";
+import calls from "./call.svg";
+import internetSpeed from "./internet_speed.svg";
 export const ASSETS = {
   en,
   ru,
@@ -91,4 +95,8 @@ export const ASSETS = {
   availableCountries,
   waveSvg,
   arrowSvg,
+  internet,
+  sms,
+  calls,
+  internetSpeed,
 };

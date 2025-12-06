@@ -34,7 +34,7 @@ function SearchInput({
       />
       <button
         type="button"
-        className="absolute right-2 bg-[#8A8AC7] rounded-[10px] w-[50px] h-[50px] flex items-center justify-center"
+        className="absolute right-1 bg-[#8A8AC7] rounded-[10px] w-[50px] h-[50px] flex items-center justify-center"
       >
         <Search className="w-6 h-6 text-[#FFFFFF]" />
       </button>

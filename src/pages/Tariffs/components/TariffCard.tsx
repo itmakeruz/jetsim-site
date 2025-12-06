@@ -10,7 +10,6 @@ interface TariffCardProps {
 }
 
 export default function TariffCard({ tariff }: TariffCardProps) {
-  console.log(tariff);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
