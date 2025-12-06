@@ -1,9 +1,7 @@
-// import { useCart } from "../../context/CartContext";
 import type { Region } from "../../types/api";
 import { ImagePreview } from "../ImgCards";
 import { Link } from "react-router-dom";
-import waveSvg from "../../assets/sim-card-wave.svg";
-import arrowSvg from "../../assets/sim-card-arrow.svg";
+import { ASSETS } from "@/assets";
 
 interface SimCardProps {
   region: Region;
@@ -27,13 +25,13 @@ const SimCard = ({ region }: SimCardProps) => {
             {region.name}
           </h2>
           <span className="text-[16px] text-[#4F7096] font-medium">
-            От {region.min_price.toLocaleString()} ₽
+            От {region?.min_price?.toLocaleString() || 0} ₽
           </span>
         </div>
         <div className="absolute right-0 bottom-0">
           <div className="relative">
             <img
-              src={waveSvg}
+              src={ASSETS.waveSvg}
               alt=""
               width={138}
               height={35}
@@ -41,7 +39,7 @@ const SimCard = ({ region }: SimCardProps) => {
             />
             <div className="absolute translate-x-[-50%] right-0 bottom-0 translate-y-[-50%]">
               <img
-                src={arrowSvg}
+                src={ASSETS.arrowSvg}
                 alt=""
                 width={22}
                 height={12}

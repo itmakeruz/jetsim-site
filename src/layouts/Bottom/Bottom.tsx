@@ -5,7 +5,7 @@ import Footer from "../Footer/Footer";
 import "./Bottom.css";
 
 const Bottom = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   return (
     <div style={{ marginTop: "25px" }}>
       <div className="phone">
@@ -13,26 +13,22 @@ const Bottom = () => {
           <div>
             <h1 className="phone-heading">
               {t("phone.heading")}
-              <span style={{color: "#1978E5"}}>
-                {t("phone.heading2")}
-              </span>
+              <span style={{ color: "#1978E5" }}>{t("phone.heading2")}</span>
               {t("phone.heading3")}
             </h1>
 
             <ul className="phone-list">
               <li className="phone-item">
                 {t("phone.nav1")}
-                <span style={{color: "#1978E5"}}>{t("phone.nav1-2")}</span>
+                <span style={{ color: "#1978E5" }}>{t("phone.nav1-2")}</span>
                 {t("phone.nav1-3")}
               </li>
 
-              <li className="phone-item">
-                {t("phone.nav2")}
-              </li>
+              <li className="phone-item">{t("phone.nav2")}</li>
 
               <li className="phone-item">
                 {t("phone.nav3")}
-                <span style={{color: "#28AF40"}}>{t("phone.nav3-2")}</span>
+                <span style={{ color: "#28AF40" }}>{t("phone.nav3-2")}</span>
                 {t("phone.nav3-3")}
               </li>
             </ul>

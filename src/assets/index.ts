@@ -42,6 +42,8 @@ import questionMark from "./question-mark.svg";
 import availableCountries from "./available-countries.svg";
 import en from "./united-kingdom.png";
 import ru from "./russia.png";
+import waveSvg from "./sim-card-wave.svg";
+import arrowSvg from "./sim-card-arrow.svg";
 export const ASSETS = {
   en,
   ru,
@@ -87,4 +89,6 @@ export const ASSETS = {
   backArrow,
   questionMark,
   availableCountries,
+  waveSvg,
+  arrowSvg,
 };
