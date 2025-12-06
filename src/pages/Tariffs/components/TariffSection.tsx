@@ -14,7 +14,7 @@ export default function TariffSection({ title, tariffs }: TariffSectionProps) {
 
   return (
     <div className="flex flex-col gap-[15px]">
-      {/* <h2 className="text-[#4F7096] text-[30px] font-bold leading-none">
+      <h2 className="text-[#4F7096] text-[30px] font-bold leading-none">
         {title}
       </h2>
       <div className="w-full h-[1px] bg-[#4F7096]"></div>
@@ -22,7 +22,7 @@ export default function TariffSection({ title, tariffs }: TariffSectionProps) {
         {tariffs.map((tariff) => (
           <TariffCard key={tariff.id} tariff={tariff} />
         ))}
-      </div> */}
+      </div>
     </div>
   );
 }

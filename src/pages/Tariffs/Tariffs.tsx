@@ -30,18 +30,18 @@ function Tariffs() {
     <div className="container py-8">
       <SingleRegionHead regions={region as any} />
       <div className="flex flex-col gap-[40px]">
-        {/* <TariffSection
+        <TariffSection
           title="Локальные тарифы"
           tariffs={tariffs?.local || []}
-        /> */}
+        />
         <TariffSection
           title="Региональные тарифы"
           tariffs={tariffs?.regional || []}
         />
-        {/* <TariffSection
+        <TariffSection
           title="Глобальные тарифы"
           tariffs={tariffs?.global || []}
-        /> */}
+        />
       </div>
     </div>
   );
