@@ -1,4 +1,9 @@
 {
+  "common": {
+    "search_placeholder": "Select one or more countries",
+    "loading": "Loading...",
+    "no_results": "No such country"
+  },
   "nav": {
     "all": "All destinations",
     "how": "How it works?",
@@ -85,7 +90,6 @@
     "title": "Stay online anywhere in the world with JETSIM!",
     "subtitle": "Get instant connection with eSIM",
     "subtitle2": "No more roaming charges and hidden fees!",
-    "search_placeholder": "150+ countries",
     "srok": "Validity period:",
     "days": "days",
     "tarif": "Tariff:",

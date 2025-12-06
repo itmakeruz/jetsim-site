@@ -19,24 +19,18 @@ export const regionAPI = {
 
     return axios.get("/region-group?size=12", { params });
   },
-  getById: (id: string | number) => axios.get(`/region-group/${id}`),
+  getById: (id: string | number) => axios.get(`/region-group/plans/${id}`),
   getRegionById: (id: string | number) => axios.get(`/region/plans/${id}`),
-  getRegions: (
-    searchTerm: string | null,
-    page: number = 1,
-    type: string | null = null
-  ) => {
+  getRegions: (search: string | null = null, size: number | null) => {
     const params: {
       search?: string | null;
-      page?: number;
-      type?: string | null;
+      size?: number | null;
     } = {};
 
-    if (searchTerm) params.search = searchTerm;
-    if (page > 1) params.page = page;
-    if (type) params.type = type;
+    if (search) params.search = search;
+    if (size) params.size = size;
 
-    return axios.get("/region?size=12", { params });
+    return axios.get("/region", { params });
   },
 };
 

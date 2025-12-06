@@ -3,13 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/Loader";
 import SingleRegionHead from "./components/SingleRegionHead";
 import TariffSection from "./components/TariffSection";
-import { singleRegionQuery } from "../../hooks/queries";
+import { singleRegionGroupQuery } from "../../hooks/queries";
 
 function SingleRegion() {
   const { id } = useParams<{ id: string }>();
   const { data, isLoading } = useQuery({
-    queryKey: ["region", id],
-    queryFn: () => singleRegionQuery(id!),
+    queryKey: ["regionGroup", id],
+    queryFn: () => singleRegionGroupQuery(id!),
     enabled: !!id,
   });
 
@@ -29,7 +29,7 @@ function SingleRegion() {
       <div className="flex flex-col gap-[40px]">
         <TariffSection
           title="Локальные тарифы"
-          tariffs={region?.local || []}
+          tariffs={region?.tariffs?.local || []}
           getImageUrl={() => region?.image || ""}
         />
         <TariffSection

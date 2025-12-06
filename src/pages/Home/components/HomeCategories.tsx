@@ -32,7 +32,7 @@ function HomeCategories({
   setActiveCategory,
 }: HomeCategoriesProps) {
   return (
-    <div className="flex gap-[25px] justify-center items-center mt-[28px] mb-[50px]">
+    <div className="flex gap-[20px] justify-center items-center mt-[28px] mb-[50px]">
       {categories.map((category: any) => (
         <CategoryButton
           key={category.id}
@@ -40,7 +40,7 @@ function HomeCategories({
           name={category.name}
           active={activeCategory === category.id}
           onClick={(id) => {
-            setActiveCategory(activeCategory === id ? null : Number(id));
+            setActiveCategory(Number(id));
           }}
         />
       ))}
