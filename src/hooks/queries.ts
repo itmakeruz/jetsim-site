@@ -1,10 +1,29 @@
 import { useQuery } from "@tanstack/react-query";
 import { regionAPI } from "../services/api.service";
-import type { RegionResponse, SingleRegionResponse } from "../types/api";
+import type {
+  RegionResponse,
+  SingleRegionResponse,
+  RegionGroupResponse,
+} from "../types/api";
 
-export const regionGroupsQuery = async () => {
-  const { data } = await regionAPI.getRegionGroups();
-  return data.data;
+export const regionGroupsQuery = async (
+  type: string | null = null
+): Promise<RegionGroupResponse> => {
+  const response = await regionAPI.getRegionGroups(type);
+  return response.data as RegionGroupResponse;
+};
+
+export const useRegionGroupsQuery = (
+  type: string | null = null,
+  enabled: boolean = true
+) => {
+  return useQuery({
+    queryKey: ["regionGroups", type],
+    queryFn: () => regionGroupsQuery(type),
+    enabled: enabled && !!type,
+    staleTime: Infinity,
+    refetchOnWindowFocus: false,
+  });
 };
 
 export const regionsQuery = async (
@@ -19,11 +38,13 @@ export const regionsQuery = async (
 export const useRegionsQuery = (
   searchTerm: string | null = null,
   page: number = 1,
-  type: string | null = null
+  type: string | null = null,
+  enabled: boolean = true
 ) => {
   return useQuery({
     queryKey: ["regions", searchTerm, page, type],
     queryFn: () => regionsQuery(searchTerm, page, type),
+    enabled,
     staleTime: Infinity,
     refetchOnWindowFocus: false,
   });
