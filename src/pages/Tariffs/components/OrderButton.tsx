@@ -1,14 +1,14 @@
+import { cartAPI } from "@/services/api.service";
 import { useAuthStore } from "@/store/authStore";
 import { useCartStore } from "@/store/cartStore";
 import { useTariffStore } from "@/store/tariffStore";
 import { ArrowRight } from "lucide-react";
 
 interface OrderButtonProps {
-  onClick?: () => void;
   disabled?: boolean;
 }
 
-const OrderButton = ({ onClick, disabled }: OrderButtonProps) => {
+const OrderButton = ({ disabled }: OrderButtonProps) => {
   const { selectedTariff, setSelectedTariff } = useTariffStore();
   const { setCartItems } = useCartStore();
   const { isAuthenticated } = useAuthStore();
@@ -70,7 +70,7 @@ const OrderButton = ({ onClick, disabled }: OrderButtonProps) => {
   };
   return (
     <button
-      onClick={onClick}
+      onClick={handleOrderClick}
       disabled={disabled}
       className="flex items-center justify-center rounded gap-2 px-10 bg-[#112D6C] text-white font-bold text-[28px] disabled:opacity-50 disabled:cursor-not-allowed"
     >

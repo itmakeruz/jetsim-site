@@ -31,7 +31,7 @@ const getLocalStorageCart = (): LocalStorageCartItem[] => {
   return cart ? JSON.parse(cart) : [];
 };
 
-export const useCartStore = create<CartStore>((set, get) => {
+export const useCartStore = create<CartStore>((set) => {
   const fetchCartFromServer = async () => {
     const { isAuthenticated } = useAuthStore.getState();
     if (!isAuthenticated) return;
