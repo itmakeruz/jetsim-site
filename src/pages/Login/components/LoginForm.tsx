@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { ASSETS } from "@/assets";
 import { useTranslation } from "react-i18next";
@@ -12,17 +12,17 @@ const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const isValidEmail = useMemo(
+    () => email.trim() !== "" && emailRegex.test(email),
+    [email]
+  );
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!email) {
-      toast.error("Email kiriting");
-      return;
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!isValidEmail) {
       toast.error("To'g'ri email kiriting");
       return;
     }
@@ -33,10 +33,6 @@ const LoginForm = () => {
       const response = await authAPI.sendOtp({ email });
 
       if (response.data.success) {
-        toast.success(
-          response.data.message || "Код подтверждения отправлен на вашу почту!"
-        );
-        // Navigate to verification page with email
         navigate(`${APP_ROUTES.VERIFY}?email=${encodeURIComponent(email)}`);
       } else {
         toast.error(response.data.message || "Xatolik yuz berdi");
@@ -80,7 +76,7 @@ const LoginForm = () => {
       </label>
       <button
         type="submit"
-        disabled={isLoading}
+        disabled={isLoading || !isValidEmail}
         className="bg-[#112D6C] lg:text-base text-[14px] font-medium lg:py-5 py-3 lg:rounded-[16px] rounded-lg text-white lg:mt-[50px] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading ? "Yuklanmoqda..." : t("login.continue")}

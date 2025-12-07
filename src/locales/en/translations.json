@@ -158,7 +158,11 @@
     "wrong": "Invalid OTP code! Remaining ",
     "attempts": " attempts",
     "redo": "Attempts exhausted! Please try again later",
-    "password": "Enter password"
+    "password": "Enter password",
+    "logout_title": "Logout",
+    "logout_message": "Are you sure you want to logout of your account?",
+    "logout_cancel": "Cancel",
+    "logout_confirm": "Logout"
   },
   "phone": {
     "heading": "To check ",

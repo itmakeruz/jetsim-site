@@ -5,6 +5,10 @@ import { authAPI } from "@/services/api.service";
 import { toast } from "react-toastify";
 import { APP_ROUTES } from "@/router/path";
 import { useAuthStore } from "@/store/authStore";
+import VerificationHeader from "./VerificationHeader";
+import OTPInputs from "./OTPInputs";
+import ResendCode from "./ResendCode";
+import VerificationSubmitButton from "./VerificationSubmitButton";
 
 const VerificationForm = () => {
   const { t } = useTranslation();
@@ -97,10 +101,6 @@ const VerificationForm = () => {
     e.preventDefault();
 
     const code = otp.join("");
-    if (code.length !== 6) {
-      toast.error(t("verification.enter_all_digits"));
-      return;
-    }
 
     if (!email) {
       toast.error(t("verification.email_not_found"));
@@ -118,10 +118,6 @@ const VerificationForm = () => {
       });
 
       if (response.data.success) {
-        toast.success(
-          response.data.message || t("verification.email_verified")
-        );
-
         // If token is returned, save it and get profile
         if (response.data.data?.access_token) {
           setToken(response.data.data.access_token);
@@ -141,9 +137,6 @@ const VerificationForm = () => {
       if (error.response?.data?.statusCode === 401) {
         setHasError(true);
       }
-      toast.error(
-        error.response?.data?.message || t("verification.error_occurred")
-      );
     } finally {
       setIsLoading(false);
     }
@@ -174,85 +167,29 @@ const VerificationForm = () => {
     }
   };
 
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
-
   return (
     <form
       onSubmit={handleSubmit}
       className="flex flex-col lg:gap-[10px] gap-2 lg:mt-[60px] mt-4"
     >
-      <div className="flex flex-col gap-4 mb-8">
-        <h2 className="text-[26px] font-bold text-black leading-none">
-          {t("verification.title")}
-        </h2>
-        <div className="flex flex-col gap-1">
-          <p className="text-[16px] font-medium text-black leading-[1.4]">
-            {t("verification.description1")}{" "}
-            <span className="font-bold">{email}</span>
-          </p>
-          <p className="text-[16px] font-medium text-black leading-[1.4]">
-            {t("verification.description2")}
-          </p>
-        </div>
-      </div>
+      <VerificationHeader email={email} />
 
-      <div className="flex gap-2 lg:gap-3 justify-center mb-4">
-        {otp.map((digit, index) => (
-          <input
-            key={index}
-            ref={(el) => {
-              inputRefs.current[index] = el;
-            }}
-            type="text"
-            inputMode="numeric"
-            maxLength={1}
-            value={digit}
-            onChange={(e) => handleOtpChange(index, e.target.value)}
-            onKeyDown={(e) => handleKeyDown(index, e)}
-            onPaste={handlePaste}
-            disabled={isLoading}
-            className={`w-[45px] h-[45px] lg:w-[60px] lg:h-[60px] border lg:rounded-[12px] rounded text-center text-[20px] lg:text-[24px] font-bold outline-none disabled:opacity-50 ${
-              hasError
-                ? "border-red-500 border-2 focus:border-red-500 focus:border-2"
-                : "border-[#4F709680] text-[#4F7096] focus:border-[#112D6C] focus:border-2"
-            }`}
-          />
-        ))}
-      </div>
+      <OTPInputs
+        otp={otp}
+        inputRefs={inputRefs}
+        hasError={hasError}
+        isLoading={isLoading}
+        onOtpChange={handleOtpChange}
+        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
+      />
 
-      <div className="flex flex-col items-start gap-1 mb-4">
-        <span className="text-[16px] font-medium text-black">
-          {t("verification.code_not_received")}
-        </span>
-        <div className="flex items-center gap-1">
-          <span className="text-[16px] font-medium text-black">
-            {formatTime(timer)}
-          </span>
+      <ResendCode timer={timer} canResend={canResend} onResend={handleResend} />
 
-          <button
-            type="button"
-            onClick={handleResend}
-            disabled={!canResend}
-            className="text-[16px] underline font-medium text-[#112D6C] hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {t("verification.resend")}
-          </button>
-        </div>
-      </div>
-
-      <button
-        type="submit"
-        disabled={isLoading || otp.join("").length !== 6}
-        className="bg-[#112D6C] lg:text-base text-[14px] font-medium lg:py-5 py-3 lg:rounded-[16px] rounded-lg text-white lg:mt-[30px] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {isLoading ? t("verification.loading") : t("verification.continue")}
-      </button>
+      <VerificationSubmitButton
+        isLoading={isLoading}
+        isDisabled={isLoading || otp.join("").length !== 6}
+      />
     </form>
   );
 };
