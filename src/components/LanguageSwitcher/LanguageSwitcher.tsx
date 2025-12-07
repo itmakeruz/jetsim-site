@@ -30,7 +30,7 @@ function LanguageSwitcher() {
 
   return (
     <Select value={language} onValueChange={handleChange}>
-      <SelectTrigger className="w-[120px] border-none shadow-none! focus:ring-0! focus:ring-offset-0! focus:shadow-none! focus:outline-none! text-[16px] font-semibold [&_svg]:hidden">
+      <SelectTrigger className="lg:w-[120px] border-none shadow-none! focus:ring-0! focus:ring-offset-0! focus:shadow-none! focus:outline-none! lg:text-[16px] text-[14px] font-semibold [&_svg]:hidden">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
       <SelectContent className="border-none shadow w-max">
@@ -38,10 +38,10 @@ function LanguageSwitcher() {
           <SelectItem
             key={lang.code}
             value={lang.code}
-            className="text-[14px] font-semibold cursor-pointer hover:bg-gray-100"
+            className="lg:text-[14px] text-[12px] font-semibold cursor-pointer hover:bg-gray-100"
           >
             <img
-              className="w-[22px] h-[22px] object-contain"
+              className="lg:w-[22px] lg:h-[22px] w-[18px] h-[18px] object-contain"
               src={lang.image}
               alt={lang.code}
             />

@@ -6,14 +6,16 @@ import LoginAnimation from "./components/LoginAnimation";
 
 const Login = () => {
   return (
-    <div className="h-[100dvh] 2xl:px-[70px] 2xl:py-[80px] 2xl:gap-[150px] gap-[100px] lg:py-[60px] lg:px-[50px] p-4 overflow-hidden grid lg:grid-cols-[2fr_1.7fr] 2xl:grid-cols-[auto_600px]">
-      <div className="w-full flex flex-col h-full">
-        <LoginHeader />
-        <LoginTitle />
-        <LoginForm />
-        <LoginTerms />
+    <div className="h-[100dvh] 2xl:px-[70px] 2xl:py-[60px] lg:py-[40px] lg:px-[40px] flex flex-col 2xl:gap-[50px] gap-[30px] p-4 overflow-hidden">
+      <LoginHeader />
+      <div className="grid lg:grid-cols-[2fr_1.7fr] 2xl:grid-cols-[auto_600px] h-full 2xl:gap-[150px] gap-[100px]">
+        <div className="w-full flex flex-col h-full">
+          <LoginTitle />
+          <LoginForm />
+          <LoginTerms />
+        </div>
+        <LoginAnimation />
       </div>
-      <LoginAnimation />
     </div>
   );
 };

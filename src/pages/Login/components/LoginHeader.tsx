@@ -6,7 +6,10 @@ import { APP_ROUTES } from "@/router/path";
 const LoginHeader = () => {
   return (
     <div className="flex items-center justify-between">
-      <Link className="lg:w-[200px] w-[150px] h-auto" to={APP_ROUTES.HOME}>
+      <button className="lg:w-[62px] lg:h-[62px] w-[40px] h-[40px] lg:rounded-[12px] rounded border-[#4F7096] border flex items-center justify-center">
+        <img className="rotate-180 lg:w-8 w-6" src={ASSETS.arrowSvg} alt="" />
+      </button>
+      <Link className="lg:w-[300px] w-[120px] h-auto" to={APP_ROUTES.HOME}>
         <img className="w-full" src={ASSETS.logo} alt="" />
       </Link>
       <LanguageSwitcher />
