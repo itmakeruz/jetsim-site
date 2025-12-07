@@ -98,12 +98,12 @@ const VerificationForm = () => {
 
     const code = otp.join("");
     if (code.length !== 6) {
-      toast.error("Barcha raqamlarni kiriting");
+      toast.error(t("verification.enter_all_digits"));
       return;
     }
 
     if (!email) {
-      toast.error("Email topilmadi");
+      toast.error(t("verification.email_not_found"));
       navigate(APP_ROUTES.LOGIN);
       return;
     }
@@ -118,7 +118,9 @@ const VerificationForm = () => {
       });
 
       if (response.data.success) {
-        toast.success(response.data.message || "Email tasdiqlandi!");
+        toast.success(
+          response.data.message || t("verification.email_verified")
+        );
 
         // If token is returned, save it and get profile
         if (response.data.data?.access_token) {
@@ -140,8 +142,7 @@ const VerificationForm = () => {
         setHasError(true);
       }
       toast.error(
-        error.response?.data?.message ||
-          "Xatolik yuz berdi. Qayta urinib ko'ring."
+        error.response?.data?.message || t("verification.error_occurred")
       );
     } finally {
       setIsLoading(false);
@@ -155,21 +156,18 @@ const VerificationForm = () => {
     try {
       const response = await authAPI.sendOtp({ email });
       if (response.data.success) {
-        toast.success(
-          response.data.message || "Код подтверждения отправлен на вашу почту!"
-        );
+        toast.success(response.data.message || t("verification.code_sent"));
         setTimer(60);
         setCanResend(false);
         setOtp(Array(6).fill(""));
         setHasError(false);
         inputRefs.current[0]?.focus();
       } else {
-        toast.error(response.data.message || "Xatolik yuz berdi");
+        toast.error(response.data.message || t("verification.error_occurred"));
       }
     } catch (error: any) {
       toast.error(
-        error.response?.data?.message ||
-          "Xatolik yuz berdi. Qayta urinib ko'ring."
+        error.response?.data?.message || t("verification.error_occurred")
       );
     } finally {
       setIsLoading(false);
@@ -189,15 +187,20 @@ const VerificationForm = () => {
       onSubmit={handleSubmit}
       className="flex flex-col lg:gap-[10px] gap-2 lg:mt-[60px] mt-4"
     >
-      <h2 className="text-[26px] font-bold text-black leading-none mb-2">
-        Введите код подтверждения
-      </h2>
-      <p className="text-[14px] font-medium text-black leading-[1.4] mb-1">
-        Мы отправили проверочный код на {email}
-      </p>
-      <p className="text-[14px] font-medium text-black leading-[1.4] mb-4">
-        Если письма нет, проверь папку «Спам».
-      </p>
+      <div className="flex flex-col gap-4 mb-8">
+        <h2 className="text-[26px] font-bold text-black leading-none">
+          {t("verification.title")}
+        </h2>
+        <div className="flex flex-col gap-1">
+          <p className="text-[16px] font-medium text-black leading-[1.4]">
+            {t("verification.description1")}{" "}
+            <span className="font-bold">{email}</span>
+          </p>
+          <p className="text-[16px] font-medium text-black leading-[1.4]">
+            {t("verification.description2")}
+          </p>
+        </div>
+      </div>
 
       <div className="flex gap-2 lg:gap-3 justify-center mb-4">
         {otp.map((digit, index) => (
@@ -223,24 +226,24 @@ const VerificationForm = () => {
         ))}
       </div>
 
-      <div className="flex items-center justify-center gap-2 mb-4">
-        <span className="text-[14px] font-medium text-black">
-          Код не пришёл?
+      <div className="flex flex-col items-start gap-1 mb-4">
+        <span className="text-[16px] font-medium text-black">
+          {t("verification.code_not_received")}
         </span>
-        {canResend ? (
+        <div className="flex items-center gap-1">
+          <span className="text-[16px] font-medium text-black">
+            {formatTime(timer)}
+          </span>
+
           <button
             type="button"
             onClick={handleResend}
-            disabled={isLoading}
-            className="text-[14px] font-medium text-[#112D6C] hover:underline disabled:opacity-50"
+            disabled={!canResend}
+            className="text-[16px] underline font-medium text-[#112D6C] hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Отправить снова
+            {t("verification.resend")}
           </button>
-        ) : (
-          <span className="text-[14px] font-medium text-[#4F7096]">
-            {formatTime(timer)} Отправить снова
-          </span>
-        )}
+        </div>
       </div>
 
       <button
@@ -248,7 +251,7 @@ const VerificationForm = () => {
         disabled={isLoading || otp.join("").length !== 6}
         className="bg-[#112D6C] lg:text-base text-[14px] font-medium lg:py-5 py-3 lg:rounded-[16px] rounded-lg text-white lg:mt-[30px] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {isLoading ? "Yuklanmoqda..." : "Продолжить"}
+        {isLoading ? t("verification.loading") : t("verification.continue")}
       </button>
     </form>
   );

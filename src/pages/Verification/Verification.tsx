@@ -1,6 +1,7 @@
 import LoginHeader from "../Login/components/LoginHeader";
 import LoginAnimation from "../Login/components/LoginAnimation";
 import VerificationForm from "./components/VerificationForm";
+import LoginTerms from "../Login/components/LoginTerms";
 
 const Verification = () => {
   return (
@@ -9,6 +10,7 @@ const Verification = () => {
       <div className="grid lg:grid-cols-[2fr_1.7fr] 2xl:grid-cols-[auto_600px] h-full 2xl:gap-[150px] gap-[100px]">
         <div className="w-full flex flex-col h-full">
           <VerificationForm />
+          <LoginTerms />
         </div>
         <LoginAnimation />
       </div>

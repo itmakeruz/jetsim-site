@@ -236,5 +236,20 @@
     "nav4": "About company",
     "nav5": "Privacy policy",
     "nav6": "Return policy"
+  },
+  "verification": {
+    "title": "Enter confirmation code",
+    "description1": "We sent a verification code to",
+    "description2": "If you don't see the email, check your Spam folder.",
+    "code_not_received": "Code didn't come?",
+    "resend": "Send again",
+    "resend_timer": "Send again",
+    "continue": "Continue",
+    "loading": "Loading...",
+    "enter_all_digits": "Enter all digits",
+    "email_not_found": "Email not found",
+    "email_verified": "Email verified!",
+    "error_occurred": "An error occurred. Please try again.",
+    "code_sent": "Verification code sent to your email!"
   }
 }

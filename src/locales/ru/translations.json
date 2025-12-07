@@ -251,5 +251,20 @@
     "email": "E-mail:",
     "faks": "Факс:",
     "rights": "JetSim 2025 ⓒ Все права защищены"
+  },
+  "verification": {
+    "title": "Введите код подтверждения",
+    "description1": "Мы отправили проверочный код на",
+    "description2": "Если письма нет, проверь папку «Спам».",
+    "code_not_received": "Код не пришёл?",
+    "resend": "Отправить снова",
+    "resend_timer": "Отправить снова",
+    "continue": "Продолжить",
+    "loading": "Загрузка...",
+    "enter_all_digits": "Введите все цифры",
+    "email_not_found": "Email не найден",
+    "email_verified": "Email подтверждён!",
+    "error_occurred": "Произошла ошибка. Попробуйте ещё раз.",
+    "code_sent": "Код подтверждения отправлен на вашу почту!"
   }
 }
