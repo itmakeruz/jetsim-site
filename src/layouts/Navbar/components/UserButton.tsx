@@ -1,23 +1,21 @@
 import { ASSETS } from "@/assets";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
+import { APP_ROUTES } from "@/router/path";
 
-interface UserButtonProps {
-  onClick?: () => void;
-}
-
-const UserButton = ({ onClick }: UserButtonProps) => {
+const UserButton = () => {
   const { t } = useTranslation();
 
   return (
-    <button
-      onClick={onClick}
+    <Link
+      to={APP_ROUTES.PROFILE}
       className="flex flex-col gap-1 items-center text-[#4F7096] text-sm font-medium"
     >
       <div className="relative">
         <img src={ASSETS.user} alt="user" width="26" height="26" />
       </div>
       <span className="relative leading-none">{t("nav.cabinet")}</span>
-    </button>
+    </Link>
   );
 };
 
