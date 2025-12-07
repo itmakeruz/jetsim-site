@@ -12,8 +12,13 @@ interface TariffCardProps {
 
 export default function TariffCard({ tariff }: TariffCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { selectedTariff, setSelectedTariff } = useTariffStore();
-  const isSelected = selectedTariff?.id === tariff.id;
+  const {
+    selectedTariffs,
+    setSelectedTariffs,
+    setSelectedTariff,
+    selectedTariff,
+  } = useTariffStore();
+  const selectedTariffData = selectedTariffs.find((t) => t.id === tariff.id);
 
   const handleOpenModal = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -27,11 +32,13 @@ export default function TariffCard({ tariff }: TariffCardProps) {
   };
 
   const handleCardClick = () => {
-    if (isSelected) {
-      setSelectedTariff(null);
-    } else {
-      setSelectedTariff({ ...tariff, count: 1 });
+    const exists = selectedTariffs.find((t) => t.id === tariff.id);
+
+    if (!exists) {
+      setSelectedTariffs([...selectedTariffs, { ...tariff, count: 1 }]);
     }
+
+    setSelectedTariff(tariff);
   };
 
   return (
@@ -39,7 +46,7 @@ export default function TariffCard({ tariff }: TariffCardProps) {
       <div
         onClick={handleCardClick}
         className={`shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border rounded-[12px] 2xl:px-[18px] px-4 2xl:py-[20px] py-4 flex flex-col gap-[15px] cursor-pointer transition-all ${
-          isSelected
+          selectedTariff?.id === tariff.id
             ? "border-[#1978E5] border-[2px]"
             : "border-[#E8EDF2] border-[2px]"
         }`}
@@ -80,9 +87,9 @@ export default function TariffCard({ tariff }: TariffCardProps) {
               Доступные страны
             </span>
           </button>
-          {isSelected && (
+          {selectedTariffData && (
             <span className="bg-[#1978E5] shrink-0 text-white text-base font-semibold rounded-full w-[32px] h-[32px] flex items-center justify-center">
-              {selectedTariff?.count}
+              {selectedTariffData?.count}
             </span>
           )}
         </div>

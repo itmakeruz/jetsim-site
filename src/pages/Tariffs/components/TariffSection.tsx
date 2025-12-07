@@ -1,3 +1,4 @@
+// import { useTariffStore } from "@/store/tariffStore";
 import TariffCard from "./TariffCard";
 import type { Tariff } from "@/types/api";
 
@@ -7,6 +8,7 @@ interface TariffSectionProps {
 }
 
 export default function TariffSection({ title, tariffs }: TariffSectionProps) {
+  // const { selectedTariffs } = useTariffStore();
   if (!tariffs || tariffs.length === 0) {
     return null;
   }

@@ -1,7 +1,15 @@
 import { useTariffStore } from "@/store/tariffStore";
 
 const ESIMCounter = () => {
-  const { selectedTariff, setSelectedTariff } = useTariffStore();
+  const {
+    selectedTariff,
+    setSelectedTariff,
+    selectedTariffs,
+    setSelectedTariffs,
+  } = useTariffStore();
+  const selectedTariffData = selectedTariffs.find(
+    (t) => t.id === selectedTariff?.id
+  );
   const handleDecrease = () => {
     if (selectedTariff && selectedTariff?.count > 1) {
       setSelectedTariff({
@@ -14,11 +22,12 @@ const ESIMCounter = () => {
   };
 
   const handleIncrease = () => {
-    if (selectedTariff && selectedTariff?.count) {
-      setSelectedTariff({
-        ...selectedTariff,
-        count: selectedTariff?.count + 1,
-      });
+    if (selectedTariffData) {
+      setSelectedTariffs(
+        selectedTariffs.map((t) =>
+          t.id === selectedTariffData.id ? { ...t, count: t.count + 1 } : t
+        )
+      );
     }
   };
 
@@ -36,7 +45,7 @@ const ESIMCounter = () => {
         </button>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <span className="w-[40px] text-center leading-none text-[18px]">
-          {selectedTariff?.count}
+          {selectedTariffData?.count}
         </span>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <button
