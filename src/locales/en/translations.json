@@ -187,6 +187,21 @@
     "card6-t": "No plastic SIM cards - less waste and environmental care",
     "us": "We are on social networks:"
   },
+  "login": {
+    "title1": "Already bought an eSIM?",
+    "title2": "Log in to JetSim to manage it.",
+    "description": "Enter the same email address that was used during purchase.",
+    "email_placeholder": "Enter email address for purchase",
+    "remember": "Remember my information",
+    "continue": "Continue",
+    "terms_text": "By continuing, you accept our",
+    "terms_link": "Terms and Conditions",
+    "and": "and",
+    "privacy_link": "Privacy",
+    "privacy_text": "Policy.",
+    "animation_title": "Going on a trip?",
+    "animation_description": "Take Jet Sim with you and be online from the first minutes of landing."
+  },
   "footer": {
     "br1": "HappyTel LLC",
     "br2": "OKVED: 61.10",
