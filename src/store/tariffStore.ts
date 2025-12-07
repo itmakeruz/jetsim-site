@@ -7,9 +7,9 @@ interface TariffStore {
   selectedTariffs: Tariff[];
   setSelectedTariffs: (tariffs: Tariff[]) => void;
 }
-
+const localStorageCart = JSON.parse(localStorage.getItem("cartItems") || "[]");
 export const useTariffStore = create<TariffStore>((set) => ({
-  selectedTariffs: [],
+  selectedTariffs: localStorageCart || [],
   setSelectedTariffs: (tariffs) =>
     set({
       selectedTariffs: tariffs,

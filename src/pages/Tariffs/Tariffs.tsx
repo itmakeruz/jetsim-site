@@ -6,7 +6,6 @@ import TariffSection from "./components/TariffSection";
 import TariffBottomBar from "./components/TariffBottomBar";
 import { tariffsQuery } from "../../hooks/queries";
 import { useTranslation } from "react-i18next";
-import { tariffDetails } from "@/constants";
 import { useTariffStore } from "@/store/tariffStore";
 
 function Tariffs() {
@@ -48,7 +47,7 @@ function Tariffs() {
           tariffs={tariffs?.global || []}
         />
       </div>
-      {selectedTariff && <TariffBottomBar tariffDetails={tariffDetails} />}
+      {selectedTariff && <TariffBottomBar />}
     </div>
   );
 }

@@ -35,7 +35,7 @@ export default function TariffCard({ tariff }: TariffCardProps) {
     const exists = selectedTariffs.find((t) => t.id === tariff.id);
 
     if (!exists) {
-      setSelectedTariffs([...selectedTariffs, { ...tariff, count: 1 }]);
+      setSelectedTariffs([...selectedTariffs, { ...tariff, count: 0 }]);
     }
 
     setSelectedTariff(tariff);
@@ -87,7 +87,7 @@ export default function TariffCard({ tariff }: TariffCardProps) {
               Доступные страны
             </span>
           </button>
-          {selectedTariffData && (
+          {selectedTariffData && selectedTariffData.count > 0 && (
             <span className="bg-[#1978E5] shrink-0 text-white text-base font-semibold rounded-full w-[32px] h-[32px] flex items-center justify-center">
               {selectedTariffData?.count}
             </span>

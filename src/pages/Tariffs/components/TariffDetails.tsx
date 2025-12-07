@@ -1,20 +1,18 @@
 import { useTariffStore } from "@/store/tariffStore";
 import type { Tariff, TariffDetail } from "@/types/api";
+import { tariffDetails } from "@/constants";
 
-interface TariffDetailsProps {
-  details: TariffDetail[];
-}
 const keyToFlag: Record<string, string> = {
   internet: "includes_internet",
   sms: "includes_sms",
   calls: "includes_minutes",
   internetSpeed: "is_5g",
 };
-const TariffDetails = ({ details }: TariffDetailsProps) => {
+const TariffDetails = () => {
   const { selectedTariff } = useTariffStore();
   return (
     <div className="grid grid-cols-2 gap-[10px]">
-      {details.map((detail: TariffDetail) => {
+      {tariffDetails.map((detail: TariffDetail) => {
         const flagKey = keyToFlag[detail.key];
         const result = selectedTariff?.[flagKey as keyof Tariff];
         return (
@@ -30,7 +28,6 @@ const TariffDetails = ({ details }: TariffDetailsProps) => {
             <div className="flex flex-col gap-[2px]">
               <span className="leading-none text-base">{detail.name}</span>
               <span className="leading-none text-xs">
-                {" "}
                 {result ? "Есть" : "Нет"}
               </span>
             </div>

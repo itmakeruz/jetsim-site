@@ -3,20 +3,26 @@ import { useTariffStore } from "@/store/tariffStore";
 const ESIMCounter = () => {
   const {
     selectedTariff,
-    setSelectedTariff,
     selectedTariffs,
     setSelectedTariffs,
+    setSelectedTariff,
   } = useTariffStore();
   const selectedTariffData = selectedTariffs.find(
     (t) => t.id === selectedTariff?.id
   );
   const handleDecrease = () => {
-    if (selectedTariff && selectedTariff?.count > 1) {
-      setSelectedTariff({
-        ...selectedTariff,
-        count: selectedTariff?.count - 1,
-      });
+    if (!selectedTariffData) return;
+
+    if (selectedTariffData.count > 1) {
+      setSelectedTariffs(
+        selectedTariffs.map((t) =>
+          t.id === selectedTariffData.id ? { ...t, count: t.count - 1 } : t
+        )
+      );
     } else {
+      setSelectedTariffs(
+        selectedTariffs.filter((t) => t.id !== selectedTariffData.id)
+      );
       setSelectedTariff(null);
     }
   };
