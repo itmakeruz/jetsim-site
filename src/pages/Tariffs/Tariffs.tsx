@@ -30,7 +30,7 @@ function Tariffs() {
   const tariffs = data?.data?.tariffs;
 
   return (
-    <div className="container py-8">
+    <div className="container py-8 pb-[150px]">
       <SingleRegionHead regions={region as any} />
       <div className="flex flex-col gap-[40px]">
         <TariffSection

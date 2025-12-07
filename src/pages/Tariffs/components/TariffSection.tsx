@@ -18,7 +18,7 @@ export default function TariffSection({ title, tariffs }: TariffSectionProps) {
         {title}
       </h2>
       <div className="w-full h-[1px] bg-[#4F7096]"></div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:gap-5 gap-4">
         {tariffs.map((tariff) => (
           <TariffCard key={tariff.id} tariff={tariff} />
         ))}

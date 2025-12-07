@@ -2,10 +2,13 @@ import { ASSETS } from "@/assets";
 import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
 import { useCart } from "@/context/CartContext";
 import { useAuthStore } from "@/store/authStore";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "@/router/path";
 
 function HeaderRight() {
   const { isAuthenticated } = useAuthStore();
   const { cartCount } = useCart();
+  const navigate = useNavigate();
   return (
     <div className="flex items-center gap-5">
       <LanguageSwitcher />
@@ -33,7 +36,10 @@ function HeaderRight() {
             </button>
           </div>
         ) : (
-          <button className="bg-[#112D6C] text-white px-7 py-2 text-[16px] font-medium rounded-[6px]">
+          <button
+            onClick={() => navigate(APP_ROUTES.LOGIN)}
+            className="bg-[#112D6C] text-white px-7 py-2 text-[16px] font-medium rounded-[6px]"
+          >
             Войти
           </button>
         )}

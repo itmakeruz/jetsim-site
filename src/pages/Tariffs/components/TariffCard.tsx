@@ -24,7 +24,7 @@ export default function TariffCard({ tariff }: TariffCardProps) {
 
   return (
     <>
-      <div className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] px-[18px] py-[20px] flex flex-col gap-[15px]">
+      <div className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] 2xl:px-[18px] px-4 2xl:py-[20px] py-4 flex flex-col gap-[15px]">
         <div className="flex items-center gap-[18px]">
           <ImagePreview
             src={getImageUrl(tariff?.region_group?.image || "")}

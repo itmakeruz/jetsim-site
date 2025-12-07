@@ -48,6 +48,7 @@ import internet from "./internet.svg";
 import sms from "./sms.svg";
 import calls from "./call.svg";
 import internetSpeed from "./internet_speed.svg";
+import emailAddress from "./email-address.svg";
 export const ASSETS = {
   en,
   ru,
@@ -99,4 +100,5 @@ export const ASSETS = {
   sms,
   calls,
   internetSpeed,
+  emailAddress,
 };
