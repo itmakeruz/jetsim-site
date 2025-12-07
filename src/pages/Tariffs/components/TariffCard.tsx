@@ -4,6 +4,7 @@ import { getImageUrl } from "@/config/imageUtils";
 import { ASSETS } from "@/assets";
 import type { Tariff } from "@/types/api";
 import RegionsModal from "./RegionsModal";
+import { useTariffStore } from "@/store/tariffStore";
 
 interface TariffCardProps {
   tariff: Tariff;
@@ -11,8 +12,11 @@ interface TariffCardProps {
 
 export default function TariffCard({ tariff }: TariffCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { selectedTariff, setSelectedTariff } = useTariffStore();
+  const isSelected = selectedTariff?.id === tariff.id;
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (tariff.regions && tariff.regions.length > 0) {
       setIsModalOpen(true);
     }
@@ -22,9 +26,24 @@ export default function TariffCard({ tariff }: TariffCardProps) {
     setIsModalOpen(false);
   };
 
+  const handleCardClick = () => {
+    if (isSelected) {
+      setSelectedTariff(null);
+    } else {
+      setSelectedTariff({ ...tariff, count: 1 });
+    }
+  };
+
   return (
     <>
-      <div className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] 2xl:px-[18px] px-4 2xl:py-[20px] py-4 flex flex-col gap-[15px]">
+      <div
+        onClick={handleCardClick}
+        className={`shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border rounded-[12px] 2xl:px-[18px] px-4 2xl:py-[20px] py-4 flex flex-col gap-[15px] cursor-pointer transition-all ${
+          isSelected
+            ? "border-[#1978E5] border-[2px]"
+            : "border-[#E8EDF2] border-[2px]"
+        }`}
+      >
         <div className="flex items-center gap-[18px]">
           <ImagePreview
             src={getImageUrl(tariff?.region_group?.image || "")}
@@ -45,21 +64,28 @@ export default function TariffCard({ tariff }: TariffCardProps) {
             {tariff?.price_sell?.toLocaleString()} ₽
           </span>
         </div>
-        <button
-          onClick={handleOpenModal}
-          disabled={!tariff.regions || tariff.regions.length === 0}
-          className="bg-[#1978E51A] rounded-[9px] px-[9px] flex items-center justify-center gap-2 py-[6px] hover:bg-[#1978E52A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <img
-            src={ASSETS.availableCountries}
-            alt="available countries"
-            width="24"
-            height="24"
-          />
-          <span className="text-[#1978E5] text-[20px] font-normal">
-            Доступные страны
-          </span>
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleOpenModal}
+            disabled={!tariff.regions || tariff.regions.length === 0}
+            className="bg-[#1978E51A] w-full rounded-[9px] px-[9px] flex items-center justify-center gap-2 py-[6px] hover:bg-[#1978E52A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed relative"
+          >
+            <img
+              src={ASSETS.availableCountries}
+              alt="available countries"
+              width="24"
+              height="24"
+            />
+            <span className="text-[#1978E5] text-[20px] font-normal">
+              Доступные страны
+            </span>
+          </button>
+          {isSelected && (
+            <span className="bg-[#1978E5] shrink-0 text-white text-base font-semibold rounded-full w-[32px] h-[32px] flex items-center justify-center">
+              {selectedTariff?.count}
+            </span>
+          )}
+        </div>
       </div>
 
       <RegionsModal

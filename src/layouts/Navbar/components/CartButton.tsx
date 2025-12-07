@@ -1,17 +1,18 @@
 import { ASSETS } from "@/assets";
+import { APP_ROUTES } from "@/router/path";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 interface CartButtonProps {
   cartCount: number;
-  onClick?: () => void;
 }
 
-const CartButton = ({ cartCount, onClick }: CartButtonProps) => {
+const CartButton = ({ cartCount }: CartButtonProps) => {
   const { t } = useTranslation();
 
   return (
-    <button
-      onClick={onClick}
+    <Link
+      to={`${APP_ROUTES.PROFILE}?tab=cart`}
       className="flex flex-col items-center gap-1 text-[#4F7096] text-sm font-medium"
     >
       <div>
@@ -25,7 +26,7 @@ const CartButton = ({ cartCount, onClick }: CartButtonProps) => {
           </span>
         )}
       </span>
-    </button>
+    </Link>
   );
 };
 

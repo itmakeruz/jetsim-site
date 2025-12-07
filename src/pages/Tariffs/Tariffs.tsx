@@ -7,6 +7,7 @@ import TariffBottomBar from "./components/TariffBottomBar";
 import { tariffsQuery } from "../../hooks/queries";
 import { useTranslation } from "react-i18next";
 import { tariffDetails } from "@/constants";
+import { useTariffStore } from "@/store/tariffStore";
 
 function Tariffs() {
   const { i18n } = useTranslation();
@@ -16,6 +17,8 @@ function Tariffs() {
     queryFn: () => tariffsQuery(id!),
     enabled: !!id,
   });
+
+  const { selectedTariff } = useTariffStore();
 
   if (isLoading || !data?.success) {
     return (
@@ -45,7 +48,7 @@ function Tariffs() {
           tariffs={tariffs?.global || []}
         />
       </div>
-      <TariffBottomBar tariffDetails={tariffDetails} />
+      {selectedTariff && <TariffBottomBar tariffDetails={tariffDetails} />}
     </div>
   );
 }

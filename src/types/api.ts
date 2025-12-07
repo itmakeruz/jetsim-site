@@ -93,6 +93,7 @@ export interface Tariff {
   usage?: number;
   qrcode?: string;
   region_group: RegionGroup;
+  count: number;
 }
 
 export interface TariffResponse {

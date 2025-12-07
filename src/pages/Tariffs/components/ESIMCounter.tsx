@@ -1,25 +1,25 @@
-import { useState } from "react";
+import { useTariffStore } from "@/store/tariffStore";
 
-interface ESIMCounterProps {
-  initialValue?: number;
-  onCountChange?: (count: number) => void;
-}
-
-const ESIMCounter = ({ initialValue = 1, onCountChange }: ESIMCounterProps) => {
-  const [count, setCount] = useState(initialValue);
-
+const ESIMCounter = () => {
+  const { selectedTariff, setSelectedTariff } = useTariffStore();
   const handleDecrease = () => {
-    if (count > 1) {
-      const newCount = count - 1;
-      setCount(newCount);
-      onCountChange?.(newCount);
+    if (selectedTariff && selectedTariff?.count > 1) {
+      setSelectedTariff({
+        ...selectedTariff,
+        count: selectedTariff?.count - 1,
+      });
+    } else {
+      setSelectedTariff(null);
     }
   };
 
   const handleIncrease = () => {
-    const newCount = count + 1;
-    setCount(newCount);
-    onCountChange?.(newCount);
+    if (selectedTariff && selectedTariff?.count) {
+      setSelectedTariff({
+        ...selectedTariff,
+        count: selectedTariff?.count + 1,
+      });
+    }
   };
 
   return (
@@ -36,7 +36,7 @@ const ESIMCounter = ({ initialValue = 1, onCountChange }: ESIMCounterProps) => {
         </button>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <span className="w-[40px] text-center leading-none text-[18px]">
-          {count}
+          {selectedTariff?.count}
         </span>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <button

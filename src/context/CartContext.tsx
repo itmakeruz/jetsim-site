@@ -25,6 +25,7 @@ interface CartContextType {
   mySimCount: number;
   cartTotal: number;
   setMySimCount: any;
+  setCartItems: React.Dispatch<React.SetStateAction<CartItem[]>>;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -192,6 +193,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({
         mySimCount,
         setMySimCount,
         cartTotal,
+        setCartItems,
       }}
     >
       {children}

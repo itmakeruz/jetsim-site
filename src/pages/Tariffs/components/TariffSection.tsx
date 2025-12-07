@@ -10,7 +10,6 @@ export default function TariffSection({ title, tariffs }: TariffSectionProps) {
   if (!tariffs || tariffs.length === 0) {
     return null;
   }
-  console.log(tariffs);
 
   return (
     <div className="flex flex-col gap-[15px]">
