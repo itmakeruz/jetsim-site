@@ -16,6 +16,7 @@ const How = lazy(() => import("../pages/HowWorks/How"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
 const Tariffs = lazy(() => import("../pages/Tariffs/Tariffs"));
 const Login = lazy(() => import("../pages/Login/Login"));
+const Verification = lazy(() => import("../pages/Verification/Verification"));
 
 export const appRoutes = [
   {
@@ -119,6 +120,14 @@ export const appRoutes = [
         element: (
           <Suspense fallback={<Loader />}>
             <Login />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.VERIFY,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Verification />
           </Suspense>
         ),
       },

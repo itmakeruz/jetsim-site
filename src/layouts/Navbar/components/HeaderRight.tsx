@@ -4,8 +4,10 @@ import { useCart } from "@/context/CartContext";
 import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
+import { useTranslation } from "react-i18next";
 
 function HeaderRight() {
+  const { t } = useTranslation();
   const { isAuthenticated } = useAuthStore();
   const { cartCount } = useCart();
   const navigate = useNavigate();
@@ -20,7 +22,7 @@ function HeaderRight() {
                 <img src={ASSETS.cart} alt="cart" width="26" height="26" />
               </div>
               <span className="relative leading-none">
-                Корзина
+                {t("nav.korzina")}
                 {cartCount > 0 && (
                   <span className="leading-none absolute bottom-full right-0 py-[2px] px-[6px] text-xs bg-[#FECA00] text-black font-semibold rounded-full">
                     {cartCount}
@@ -32,7 +34,7 @@ function HeaderRight() {
               <div className="relative">
                 <img src={ASSETS.user} alt="user" width="26" height="26" />
               </div>
-              <span className="relative leading-none">Кабинет</span>
+              <span className="relative leading-none">{t("nav.cabinet")}</span>
             </button>
           </div>
         ) : (
@@ -40,7 +42,7 @@ function HeaderRight() {
             onClick={() => navigate(APP_ROUTES.LOGIN)}
             className="bg-[#112D6C] text-white px-7 py-2 text-[16px] font-medium rounded-[6px]"
           >
-            Войти
+            {t("nav.login")}
           </button>
         )}
       </>
@@ -51,7 +53,7 @@ function HeaderRight() {
             <div className="relative">
               <img src={ASSETS.logout} alt="logout" width="26" height="26" />
             </div>
-            <span className="relative leading-none">Выйти</span>
+            <span className="relative leading-none">{t("nav.exit")}</span>
           </button>
         ) : (
           <button className="flex flex-col items-center gap-1 text-[#4F7096] text-sm font-medium">
@@ -59,7 +61,7 @@ function HeaderRight() {
               <img src={ASSETS.cart} alt="cart" width="26" height="26" />
             </div>
             <span className="relative leading-none">
-              Корзина
+              {t("nav.korzina")}
               {cartCount > 0 && (
                 <span className="leading-none absolute bottom-full right-0 py-[2px] px-[6px] text-xs bg-[#FECA00] text-black font-semibold rounded-full">
                   {cartCount}

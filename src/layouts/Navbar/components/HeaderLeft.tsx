@@ -27,7 +27,7 @@ function HeaderLeft() {
           {t("nav.how")}
         </Link>
         <Link className="xl:text-base text-sm font-medium" to={APP_ROUTES.FAQ}>
-          F.A.Q
+          {t("nav.faq")}
         </Link>
         <Link
           className="xl:text-base text-sm font-medium"
