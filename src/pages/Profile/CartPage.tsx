@@ -2,6 +2,8 @@ import { useTariffStore } from "@/store/tariffStore";
 import { useAuthStore } from "@/store/authStore";
 import type { Tariff } from "@/types/api";
 import { useRef, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "@/router/path";
 import CartItem from "./components/CartItem";
 
 const CartPage = () => {
@@ -12,6 +14,7 @@ const CartPage = () => {
     fetchCartFromAPI,
   } = useTariffStore();
   const { isAuthenticated } = useAuthStore();
+  const navigate = useNavigate();
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: string]: boolean;
   }>({});
@@ -85,7 +88,10 @@ const CartPage = () => {
               />
             ))}
           </div>
-          <button className="bg-[#112D6C] text-white px-4 py-2 rounded-md w-full text-[22px] font-semibold">
+          <button
+            onClick={() => navigate(APP_ROUTES.PAYMENT)}
+            className="bg-[#112D6C] text-white px-4 py-2 rounded-md w-full text-[22px] font-semibold"
+          >
             Оплатить
           </button>
         </div>

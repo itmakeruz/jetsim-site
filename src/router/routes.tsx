@@ -18,6 +18,7 @@ const ProfileLayout = lazy(
 );
 const ProfilePage = lazy(() => import("../pages/Profile/ProfilePage"));
 const CartPage = lazy(() => import("../pages/Profile/CartPage"));
+const PaymentPage = lazy(() => import("../pages/Payment/PaymentPage"));
 const ActivePage = lazy(() => import("../pages/Profile/ActivePage"));
 const InactivePage = lazy(() => import("../pages/Profile/InactivePage"));
 const HistoryPage = lazy(() => import("../pages/Profile/HistoryPage"));
@@ -131,7 +132,6 @@ export const appRoutes = [
           </Suspense>
         ),
       },
-
       {
         path: APP_ROUTES.ACTIVE,
         element: (
@@ -179,6 +179,14 @@ export const appRoutes = [
         ),
       },
     ],
+  },
+  {
+    path: APP_ROUTES.PAYMENT,
+    element: (
+      <Suspense fallback={<Loader />}>
+        <PaymentPage />
+      </Suspense>
+    ),
   },
   {
     path: "*",
