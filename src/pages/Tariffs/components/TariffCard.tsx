@@ -12,12 +12,8 @@ interface TariffCardProps {
 
 export default function TariffCard({ tariff }: TariffCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const {
-    selectedTariffs,
-    setSelectedTariffs,
-    setSelectedTariff,
-    selectedTariff,
-  } = useTariffStore();
+  const { selectedTariffs, setSelectedTariff, selectedTariff } =
+    useTariffStore();
   const selectedTariffData = selectedTariffs.find((t) => t.id === tariff.id);
 
   const handleOpenModal = (e: React.MouseEvent) => {
@@ -32,12 +28,6 @@ export default function TariffCard({ tariff }: TariffCardProps) {
   };
 
   const handleCardClick = () => {
-    const exists = selectedTariffs.find((t) => t.id === tariff.id);
-
-    if (!exists) {
-      setSelectedTariffs([...selectedTariffs, { ...tariff, count: 0 }]);
-    }
-
     setSelectedTariff(tariff);
   };
 

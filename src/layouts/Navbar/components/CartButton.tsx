@@ -1,15 +1,17 @@
 import { ASSETS } from "@/assets";
 import { APP_ROUTES } from "@/router/path";
+import { useTariffStore } from "@/store/tariffStore";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-interface CartButtonProps {
-  cartCount: number;
-}
+const CartButton = () => {
+  const { selectedTariffs } = useTariffStore();
 
-const CartButton = ({ cartCount }: CartButtonProps) => {
   const { t } = useTranslation();
-
+  const cartCount = selectedTariffs.reduce(
+    (acc, tariff) => acc + tariff.count,
+    0
+  );
   return (
     <Link
       to={`${APP_ROUTES.PROFILE}?tab=cart`}

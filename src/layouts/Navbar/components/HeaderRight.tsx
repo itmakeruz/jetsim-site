@@ -1,6 +1,5 @@
 import { useState } from "react";
 import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
-import { useCart } from "@/context/CartContext";
 import { useAuthStore } from "@/store/authStore";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
@@ -12,7 +11,6 @@ import LogoutModal from "./LogoutModal";
 
 function HeaderRight() {
   const { isAuthenticated, logout } = useAuthStore();
-  const { cartCount } = useCart();
   const navigate = useNavigate();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
@@ -28,7 +26,7 @@ function HeaderRight() {
       <>
         {isAuthenticated ? (
           <div className="flex items-center gap-5">
-            <CartButton cartCount={cartCount} />
+            <CartButton />
             <UserButton />
           </div>
         ) : (
@@ -40,7 +38,7 @@ function HeaderRight() {
         {isAuthenticated ? (
           <LogoutButton onClick={() => setIsLogoutModalOpen(true)} />
         ) : (
-          <CartButton cartCount={cartCount} />
+          <CartButton />
         )}
       </>
       <LogoutModal

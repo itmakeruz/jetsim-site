@@ -1,12 +1,10 @@
 import { ASSETS } from "@/assets";
 import type { Region } from "@/types/api";
 import { useNavigate } from "react-router-dom";
-import { useTariffStore } from "@/store/tariffStore";
 import { useState } from "react";
 
 function SingleRegionHead({ regions }: { regions: Region[] }) {
   const navigate = useNavigate();
-  const { setSelectedTariff, setSelectedTariffs } = useTariffStore();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -23,8 +21,6 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
         <button
           onClick={() => {
             navigate(-1);
-            setSelectedTariff(null);
-            setSelectedTariffs([]);
           }}
           className="flex items-center gap-[15px]"
         >

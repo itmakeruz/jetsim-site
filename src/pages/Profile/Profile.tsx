@@ -1,18 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { useCart } from "../../context/CartContext";
 import { useAuthStore } from "../../store/authStore";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { ProfileRender } from "../../layouts/Profile/Profile";
 import { CartRender } from "../../layouts/Cart/Cart";
 import { MyRender } from "../../layouts/My/My";
 import { HistoryRender } from "../../layouts/History/History";
-import { useQuery } from "@tanstack/react-query";
-import { cartAPI } from "../../services/api.service";
+// import { useQuery } from "@tanstack/react-query";
+// import { cartAPI } from "../../services/api.service";
 
 const Profile: React.FC = () => {
   const { t } = useTranslation();
-  const { cartCount, mySimCount, setMySimCount } = useCart();
   const { isAuthenticated, isInitialized, initializeAuth } = useAuthStore();
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -25,26 +23,20 @@ const Profile: React.FC = () => {
       initializeAuth();
     }
   }, [isInitialized, initializeAuth]);
-  const { data: ordersResponse } = useQuery({
-    queryKey: ["staticOrders"],
-    queryFn: async () => {
-      const response = await cartAPI.getStaticOrders();
-      return response;
-    },
-    enabled: isAuthenticated, // 🔥 faqat login bo‘lsa so‘rov ketadi
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    gcTime: 30 * 60 * 1000, // 30 minutes
-    refetchOnWindowFocus: true,
-    refetchOnReconnect: true,
-    refetchOnMount: false,
-  });
+  // const { data: ordersResponse } = useQuery({
+  //   queryKey: ["staticOrders"],
+  //   queryFn: async () => {
+  //     const response = await cartAPI.getStaticOrders();
+  //     return response;
+  //   },
+  //   enabled: isAuthenticated, // 🔥 faqat login bo‘lsa so‘rov ketadi
+  //   staleTime: 5 * 60 * 1000, // 5 minutes
+  //   gcTime: 30 * 60 * 1000, // 30 minutes
+  //   refetchOnWindowFocus: true,
+  //   refetchOnReconnect: true,
+  //   refetchOnMount: false,
+  // });
 
-  // Update mySimCount when ordersResponse changes
-  useEffect(() => {
-    if (ordersResponse?.data?.success) {
-      setMySimCount(ordersResponse.data.meta.totalItems);
-    }
-  }, [ordersResponse, setMySimCount]);
   useEffect(() => {
     // Wait for authentication to be initialized before making tab decisions
     if (!isInitialized) return;
@@ -91,7 +83,7 @@ const Profile: React.FC = () => {
         <div className="flex items-center gap-2 md:gap-2">
           {t("profile.tabs.cart")}{" "}
           <span className="w-[35px] md:w-[35px] sm:w-[25px] h-[22px] md:h-[22px] sm:h-[20px] rounded-[10px] bg-[#e31d1c] text-white flex items-center justify-center text-[15px] md:text-[15px] sm:text-[13px] font-semibold">
-            {cartCount}
+            {0}
           </span>
         </div>
       ),
@@ -104,7 +96,7 @@ const Profile: React.FC = () => {
               <div className="flex items-center gap-2 md:gap-2">
                 {t("profile.tabs.esim")}{" "}
                 <span className="w-[35px] md:w-[35px] sm:w-[25px] h-[22px] md:h-[22px] sm:h-[20px] rounded-[10px] bg-[#212b36] text-white flex items-center justify-center text-[15px] md:text-[15px] sm:text-[13px] font-semibold">
-                  {mySimCount}
+                  {0}
                 </span>
               </div>
             ),

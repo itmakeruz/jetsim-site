@@ -10,10 +10,12 @@ interface TariffStore {
 const localStorageCart = JSON.parse(localStorage.getItem("cartItems") || "[]");
 export const useTariffStore = create<TariffStore>((set) => ({
   selectedTariffs: localStorageCart || [],
-  setSelectedTariffs: (tariffs) =>
+  setSelectedTariffs: (tariffs) => {
     set({
       selectedTariffs: tariffs,
-    }),
+    });
+    localStorage.setItem("cartItems", JSON.stringify(tariffs));
+  },
   selectedTariff: null,
   setSelectedTariff: (tariff) =>
     set({

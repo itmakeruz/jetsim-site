@@ -7,18 +7,25 @@ const ESIMCounter = () => {
     setSelectedTariffs,
     setSelectedTariff,
   } = useTariffStore();
+
   const selectedTariffData = selectedTariffs.find(
     (t) => t.id === selectedTariff?.id
   );
+
   const handleDecrease = () => {
     if (!selectedTariffData) return;
 
     if (selectedTariffData.count > 1) {
-      setSelectedTariffs(
-        selectedTariffs.map((t) =>
-          t.id === selectedTariffData.id ? { ...t, count: t.count - 1 } : t
-        )
+      const updated = selectedTariffs.map((t) =>
+        t.id === selectedTariffData.id ? { ...t, count: t.count - 1 } : t
       );
+
+      setSelectedTariffs(updated);
+
+      setSelectedTariff({
+        ...selectedTariffData,
+        count: selectedTariffData.count - 1,
+      });
     } else {
       setSelectedTariffs(
         selectedTariffs.filter((t) => t.id !== selectedTariffData.id)
@@ -28,12 +35,21 @@ const ESIMCounter = () => {
   };
 
   const handleIncrease = () => {
-    if (selectedTariffData) {
-      setSelectedTariffs(
-        selectedTariffs.map((t) =>
-          t.id === selectedTariffData.id ? { ...t, count: t.count + 1 } : t
-        )
+    if (!selectedTariff) return;
+
+    const exists = selectedTariffs.find((t) => t.id === selectedTariff.id);
+
+    if (exists) {
+      const updated = selectedTariffs.map((t) =>
+        t.id === selectedTariff.id ? { ...t, count: t.count + 1 } : t
       );
+
+      setSelectedTariffs(updated);
+
+      setSelectedTariff({ ...exists, count: exists.count + 1 });
+    } else {
+      setSelectedTariffs([...selectedTariffs, { ...selectedTariff, count: 1 }]);
+      setSelectedTariff({ ...selectedTariff, count: 1 });
     }
   };
 
@@ -42,6 +58,7 @@ const ESIMCounter = () => {
       <span className="text-black font-semibold text-[14px] leading-none">
         Количество eSIM
       </span>
+
       <div className="flex gap-2 h-[40px] py-2 px-2 items-center font-semibold justify-center bg-[#E8EBEE] rounded-[8px]">
         <button
           onClick={handleDecrease}
@@ -51,7 +68,7 @@ const ESIMCounter = () => {
         </button>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <span className="w-[40px] text-center leading-none text-[18px]">
-          {selectedTariffData?.count}
+          {selectedTariffData?.count || 0}
         </span>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <button
