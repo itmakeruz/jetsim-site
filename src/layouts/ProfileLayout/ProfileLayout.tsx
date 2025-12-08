@@ -4,10 +4,10 @@ import { useAuthStore } from "../../store/authStore";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileTabs from "./components/ProfileTabs";
 import Navbar from "@/layouts/Navbar/Navbar";
-import Error404 from "../404/Error404";
+import Error404 from "@/pages/404/Error404";
 import { APP_ROUTES } from "@/router/path";
 
-const Profile = () => {
+const ProfileLayout = () => {
   const { isAuthenticated, isInitialized, initializeAuth } = useAuthStore();
   const location = useLocation();
 
@@ -51,4 +51,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default ProfileLayout;

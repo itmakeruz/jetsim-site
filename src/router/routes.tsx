@@ -13,7 +13,9 @@ const Rules = lazy(() => import("../pages/Rules/Rules"));
 const Usloviya = lazy(() => import("../pages/Usloviya/Usloviya"));
 const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const How = lazy(() => import("../pages/HowWorks/How"));
-const Profile = lazy(() => import("../pages/Profile/Profile"));
+const ProfileLayout = lazy(
+  () => import("../layouts/ProfileLayout/ProfileLayout")
+);
 const ProfilePage = lazy(() => import("../pages/Profile/ProfilePage"));
 const CartPage = lazy(() => import("../pages/Profile/CartPage"));
 const ActivePage = lazy(() => import("../pages/Profile/ActivePage"));
@@ -111,7 +113,7 @@ export const appRoutes = [
   },
   {
     path: "/",
-    element: <Profile />,
+    element: <ProfileLayout />,
     children: [
       {
         path: APP_ROUTES.PROFILE,

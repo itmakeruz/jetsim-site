@@ -5,7 +5,7 @@ interface ImagePreviewProps {
   alt?: string;
   width?: number; // px bo'yicha o'lcham, default 40px
   height?: number; // px bo'yicha o'lcham, default 40px
-  rounded?: number; // px bo'yicha radius, default 2px
+  rounded?: boolean; // px bo'yicha radius, default 2px
 }
 
 export const ImagePreview = ({
@@ -13,10 +13,13 @@ export const ImagePreview = ({
   alt = "",
   width = 40,
   height = 30,
+  rounded,
 }: ImagePreviewProps) => {
   return (
     <div
-      className={`w-[${width}px] h-[${height}px] rounded-full shrink-0 overflow-hidden border-2 border-white drop-shadow-[0px_0px_12px_#C1CDD9]`}
+      className={`w-[${width}px] h-[${height}px] ${
+        !rounded ? `rounded-[${rounded}px]` : "rounded-full"
+      } shrink-0 overflow-hidden border-2 border-white drop-shadow-[0px_0px_12px_#C1CDD9]`}
       style={{ width: width, height: height }}
     >
       <img
