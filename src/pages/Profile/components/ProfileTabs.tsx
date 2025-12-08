@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 import { useAuthStore } from "../../../store/authStore";
 import { useTariffStore } from "../../../store/tariffStore";
-import type { StaticOrderItem } from "../../../types/api";
+import { APP_ROUTES } from "@/router/path";
 
 interface ProfileTabsProps {
   activeCount: number;
@@ -30,17 +30,8 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
 
   return (
     <div className="flex gap-[50px] md:gap-[50px] sm:gap-[15px] mb-[23px] flex-wrap justify-center items-center">
-      {isAuthenticated && (
-        <NavLink
-          to="/profile"
-          end
-          className={({ isActive }) => getTabClassName(isActive)}
-        >
-          {t("profile.tabs.profile")}
-        </NavLink>
-      )}
       <NavLink
-        to="/profile/cart"
+        to={APP_ROUTES.CART}
         className={({ isActive }) => getTabClassName(isActive)}
       >
         <div className="flex items-center gap-2 md:gap-2">
@@ -53,7 +44,16 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
       {isAuthenticated && (
         <>
           <NavLink
-            to="/profile/active"
+            to={APP_ROUTES.PROFILE}
+            end
+            className={({ isActive }) =>
+              getTabClassName(isActive) + " !order-[-1]"
+            }
+          >
+            {t("profile.tabs.profile")}
+          </NavLink>
+          <NavLink
+            to={APP_ROUTES.ACTIVE}
             className={({ isActive }) => getTabClassName(isActive)}
           >
             <div className="flex items-center gap-2 md:gap-2">
@@ -64,7 +64,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
             </div>
           </NavLink>
           <NavLink
-            to="/profile/inactive"
+            to={APP_ROUTES.INACTIVE}
             className={({ isActive }) => getTabClassName(isActive)}
           >
             <div className="flex items-center gap-2 md:gap-2">
@@ -75,7 +75,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
             </div>
           </NavLink>
           <NavLink
-            to="/profile/history"
+            to={APP_ROUTES.HISTORY}
             className={({ isActive }) => getTabClassName(isActive)}
           >
             {t("profile.tabs.history")}

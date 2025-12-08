@@ -22,6 +22,7 @@ const HistoryPage = lazy(() => import("../pages/Profile/HistoryPage"));
 const Tariffs = lazy(() => import("../pages/Tariffs/Tariffs"));
 const Login = lazy(() => import("../pages/Login/Login"));
 const Verification = lazy(() => import("../pages/Verification/Verification"));
+const Error404 = lazy(() => import("../pages/404/Error404"));
 
 export const appRoutes = [
   {
@@ -109,11 +110,11 @@ export const appRoutes = [
     ],
   },
   {
-    path: "/profile",
+    path: "/",
     element: <Profile />,
     children: [
       {
-        index: true,
+        path: APP_ROUTES.PROFILE,
         element: (
           <Suspense fallback={<Loader />}>
             <ProfilePage />
@@ -121,8 +122,7 @@ export const appRoutes = [
         ),
       },
       {
-        path: "cart",
-        index: false,
+        path: APP_ROUTES.CART,
         element: (
           <Suspense fallback={<Loader />}>
             <CartPage />
@@ -131,7 +131,7 @@ export const appRoutes = [
       },
 
       {
-        path: "active",
+        path: APP_ROUTES.ACTIVE,
         element: (
           <Suspense fallback={<Loader />}>
             <ActivePage />
@@ -139,7 +139,7 @@ export const appRoutes = [
         ),
       },
       {
-        path: "inactive",
+        path: APP_ROUTES.INACTIVE,
         element: (
           <Suspense fallback={<Loader />}>
             <InactivePage />
@@ -177,5 +177,9 @@ export const appRoutes = [
         ),
       },
     ],
+  },
+  {
+    path: "*",
+    element: <Error404 />,
   },
 ];
