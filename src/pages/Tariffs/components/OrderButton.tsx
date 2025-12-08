@@ -11,8 +11,6 @@ interface OrderButtonProps {
 const OrderButton = ({ disabled }: OrderButtonProps) => {
   const { selectedTariff, setSelectedTariff, selectedTariffs } =
     useTariffStore();
-  // const { setCartItems } = useCartStore();
-  // const { isAuthenticated } = useAuthStore();
   const selectedTariffData = selectedTariffs.find(
     (t) => t.id === selectedTariff?.id
   );

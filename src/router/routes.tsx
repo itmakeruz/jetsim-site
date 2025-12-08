@@ -87,14 +87,6 @@ export const appRoutes = [
           </Suspense>
         ),
       },
-      {
-        path: APP_ROUTES.PROFILE,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Profile />
-          </Suspense>
-        ),
-      },
     ],
   },
   {
@@ -106,6 +98,14 @@ export const appRoutes = [
         element: (
           <Suspense fallback={<Loader />}>
             <Tariffs />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.PROFILE,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Profile />
           </Suspense>
         ),
       },
