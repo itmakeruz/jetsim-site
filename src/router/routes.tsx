@@ -14,6 +14,11 @@ const Usloviya = lazy(() => import("../pages/Usloviya/Usloviya"));
 const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const How = lazy(() => import("../pages/HowWorks/How"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
+const ProfilePage = lazy(() => import("../pages/Profile/ProfilePage"));
+const CartPage = lazy(() => import("../pages/Profile/CartPage"));
+const ActivePage = lazy(() => import("../pages/Profile/ActivePage"));
+const InactivePage = lazy(() => import("../pages/Profile/InactivePage"));
+const HistoryPage = lazy(() => import("../pages/Profile/HistoryPage"));
 const Tariffs = lazy(() => import("../pages/Tariffs/Tariffs"));
 const Login = lazy(() => import("../pages/Login/Login"));
 const Verification = lazy(() => import("../pages/Verification/Verification"));
@@ -101,11 +106,51 @@ export const appRoutes = [
           </Suspense>
         ),
       },
+    ],
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+    children: [
       {
-        path: APP_ROUTES.PROFILE,
+        index: true,
         element: (
           <Suspense fallback={<Loader />}>
-            <Profile />
+            <ProfilePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "cart",
+        index: false,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CartPage />
+          </Suspense>
+        ),
+      },
+
+      {
+        path: "active",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ActivePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "inactive",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <InactivePage />
+          </Suspense>
+        ),
+      },
+      {
+        path: "history",
+        element: (
+          <Suspense fallback={<Loader />}>
+            <HistoryPage />
           </Suspense>
         ),
       },

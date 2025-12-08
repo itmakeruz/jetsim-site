@@ -8,7 +8,7 @@ import { UniversalTextarea } from "../../components/UniversalTextarea";
 import { userAPI } from "../../services/api.service";
 import { toast } from "react-toastify";
 
-export const ProfileRender = () => {
+const ProfilePage = () => {
   const { t } = useTranslation();
   const { user, setUser } = useAuthStore();
 
@@ -131,6 +131,7 @@ export const ProfileRender = () => {
       fileInput.value = "";
     }
   };
+  console.log(1);
 
   return (
     <div className="w-full grid grid-cols-[450px_1fr] gap-6">
@@ -259,3 +260,4 @@ export const ProfileRender = () => {
     </div>
   );
 };
+export default ProfilePage;

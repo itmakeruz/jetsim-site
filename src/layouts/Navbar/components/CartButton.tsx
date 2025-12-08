@@ -14,7 +14,7 @@ const CartButton = () => {
   );
   return (
     <Link
-      to={`${APP_ROUTES.PROFILE}?tab=cart`}
+      to={`${APP_ROUTES.CART}`}
       className="flex flex-col items-center gap-1 text-[#4F7096] text-sm font-medium"
     >
       <div>

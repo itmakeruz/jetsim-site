@@ -12,5 +12,10 @@ export const APP_ROUTES = {
   RULE: "/rule",
   PAYMENT: "/payment",
   PROFILE: "/profile",
+  PROFILE_PAGE: "/profile/profile",
+  CART: "/profile/cart",
+  ACTIVE: "/profile/active",
+  INACTIVE: "/profile/inactive",
+  HISTORY: "/profile/history",
   TARIFFS: "/tariffs/:id",
 };
