@@ -147,7 +147,7 @@ export const appRoutes = [
         ),
       },
       {
-        path: "history",
+        path: APP_ROUTES.HISTORY,
         element: (
           <Suspense fallback={<Loader />}>
             <HistoryPage />
