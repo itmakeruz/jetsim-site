@@ -16,7 +16,6 @@ const OrderButton = ({ disabled }: OrderButtonProps) => {
   const selectedTariffData = selectedTariffs.find(
     (t) => t.id === selectedTariff?.id
   );
-  console.log(selectedTariffData);
 
   const handleOrderClick = async () => {
     if (!selectedTariffData || selectedTariffData.count === 0) return;

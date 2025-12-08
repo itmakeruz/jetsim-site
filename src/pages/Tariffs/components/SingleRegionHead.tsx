@@ -1,14 +1,18 @@
 import { ASSETS } from "@/assets";
 import type { Region } from "@/types/api";
 import { useNavigate } from "react-router-dom";
+import { useTariffStore } from "@/store/tariffStore";
 
 function SingleRegionHead({ regions }: { regions: Region[] }) {
   const navigate = useNavigate();
-
+  const { setSelectedTariff } = useTariffStore();
   return (
     <div className="flex items-center justify-between mb-[26px]">
       <button
-        onClick={() => navigate(-1)}
+        onClick={() => {
+          navigate(-1);
+          setSelectedTariff(null);
+        }}
         className="flex items-center gap-[15px]"
       >
         <div className="w-[50px] h-[50px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
