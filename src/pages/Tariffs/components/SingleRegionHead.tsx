@@ -5,13 +5,14 @@ import { useTariffStore } from "@/store/tariffStore";
 
 function SingleRegionHead({ regions }: { regions: Region[] }) {
   const navigate = useNavigate();
-  const { setSelectedTariff } = useTariffStore();
+  const { setSelectedTariff, setSelectedTariffs } = useTariffStore();
   return (
     <div className="flex items-center justify-between mb-[26px]">
       <button
         onClick={() => {
           navigate(-1);
           setSelectedTariff(null);
+          setSelectedTariffs([]);
         }}
         className="flex items-center gap-[15px]"
       >
