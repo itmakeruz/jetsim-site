@@ -94,6 +94,7 @@ export interface Tariff {
   qrcode?: string;
   region_group: RegionGroup;
   count: number;
+  itemId?: number; // Cart item ID (API'dan kelgan item.id)
 }
 
 export interface TariffResponse {

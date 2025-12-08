@@ -50,6 +50,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
         isLoading: false,
         isAuthenticated: true,
       });
+
+      // Login qilgandan keyin localStorage'dan API'ga sinxronlash
+      try {
+        const { useTariffStore } = await import("./tariffStore");
+        const tariffStore = useTariffStore.getState();
+        await tariffStore.syncToAPI();
+        // Sinxronlashdan keyin API'dan cart ma'lumotlarini olish
+        await tariffStore.fetchCartFromAPI();
+      } catch (error) {
+        console.error("Error syncing cart after login:", error);
+      }
+
       return {
         success: response.data.success,
         user,

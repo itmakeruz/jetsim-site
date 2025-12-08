@@ -115,7 +115,6 @@ export const useCartStore = create<CartStore>((set) => {
           const response = await cartAPI.addToBasket({
             tariff_id: tariff.id,
             quantity: 1,
-            region_id: region.id,
           });
           set({ cartItems: response.data?.data?.items });
         } catch (error: any) {
@@ -133,7 +132,6 @@ export const useCartStore = create<CartStore>((set) => {
           const response = await cartAPI.decreaseItemFromBasket({
             tariff_id: tariff.id,
             quantity: 1,
-            region_id: region.id,
           });
           set({ cartItems: response.data?.data?.items });
         } catch (error: any) {

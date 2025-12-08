@@ -13,7 +13,7 @@ export const ImagePreview = ({
   alt = "",
   width = 40,
   height = 30,
-  rounded,
+  rounded = true,
 }: ImagePreviewProps) => {
   return (
     <div

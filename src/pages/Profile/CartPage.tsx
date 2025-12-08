@@ -1,10 +1,17 @@
 import { useTariffStore } from "@/store/tariffStore";
+import { useAuthStore } from "@/store/authStore";
 import type { Tariff } from "@/types/api";
 import { useRef, useState, useEffect } from "react";
 import CartItem from "./components/CartItem";
 
 const CartPage = () => {
-  const { selectedTariffs, setSelectedTariffs } = useTariffStore();
+  const {
+    selectedTariffs,
+    increaseQuantity,
+    decreaseQuantity,
+    fetchCartFromAPI,
+  } = useTariffStore();
+  const { isAuthenticated } = useAuthStore();
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: string]: boolean;
   }>({});
@@ -16,6 +23,13 @@ const CartPage = () => {
       [tariffId]: !prev[tariffId],
     }));
   };
+
+  // Login qilgan bo'lsa cart ma'lumotlarini API'dan olish
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchCartFromAPI();
+    }
+  }, [isAuthenticated, fetchCartFromAPI]);
 
   // Click outside to close dropdown
   useEffect(() => {
@@ -40,27 +54,12 @@ const CartPage = () => {
     };
   }, [openDropdowns]);
 
-  const handleIncrease = (tariffId: number) => {
-    const updated = selectedTariffs.map((t) =>
-      t.id === tariffId ? { ...t, count: (t.count || 1) + 1 } : t
-    );
-    setSelectedTariffs(updated);
+  const handleIncrease = async (tariffId: number) => {
+    await increaseQuantity(tariffId);
   };
 
-  const handleDecrease = (tariffId: number) => {
-    const tariff = selectedTariffs.find((t) => t.id === tariffId);
-    if (!tariff) return;
-
-    if ((tariff.count || 1) > 1) {
-      const updated = selectedTariffs.map((t) =>
-        t.id === tariffId ? { ...t, count: (t.count || 1) - 1 } : t
-      );
-      setSelectedTariffs(updated);
-    } else {
-      // Agar count 1 bo'lsa, tariffni o'chirish
-      const updated = selectedTariffs.filter((t) => t.id !== tariffId);
-      setSelectedTariffs(updated);
-    }
+  const handleDecrease = async (tariffId: number) => {
+    await decreaseQuantity(tariffId);
   };
 
   return (

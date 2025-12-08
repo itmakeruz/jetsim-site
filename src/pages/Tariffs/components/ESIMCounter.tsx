@@ -1,4 +1,6 @@
 import { useTariffStore } from "@/store/tariffStore";
+import { useAuthStore } from "@/store/authStore";
+import { cartAPI } from "@/services/api.service";
 
 const ESIMCounter = () => {
   const {
@@ -6,50 +8,83 @@ const ESIMCounter = () => {
     selectedTariffs,
     setSelectedTariffs,
     setSelectedTariff,
+    increaseQuantity,
+    decreaseQuantity,
   } = useTariffStore();
+  const { isAuthenticated } = useAuthStore();
 
   const selectedTariffData = selectedTariffs.find(
     (t) => t.id === selectedTariff?.id
   );
 
-  const handleDecrease = () => {
-    if (!selectedTariffData) return;
+  const handleDecrease = async () => {
+    if (!selectedTariffData || !selectedTariff) return;
 
-    if (selectedTariffData.count > 1) {
-      const updated = selectedTariffs.map((t) =>
-        t.id === selectedTariffData.id ? { ...t, count: t.count - 1 } : t
-      );
+    // Agar tariff cart'da bo'lsa, decreaseQuantity ishlatamiz (backend'ga ham jo'natadi)
+    if (selectedTariffData) {
+      await decreaseQuantity(selectedTariff.id);
 
-      setSelectedTariffs(updated);
-
-      setSelectedTariff({
-        ...selectedTariffData,
-        count: selectedTariffData.count - 1,
-      });
-    } else {
-      setSelectedTariffs(
-        selectedTariffs.filter((t) => t.id !== selectedTariffData.id)
-      );
-      setSelectedTariff(null);
+      // Local state'ni yangilash
+      const updated = selectedTariffs.find((t) => t.id === selectedTariff.id);
+      if (updated) {
+        if (updated.count > 1) {
+          setSelectedTariff({
+            ...selectedTariff,
+            count: updated.count,
+          });
+        } else {
+          setSelectedTariff(null);
+        }
+      }
     }
   };
 
-  const handleIncrease = () => {
+  const handleIncrease = async () => {
     if (!selectedTariff) return;
 
     const exists = selectedTariffs.find((t) => t.id === selectedTariff.id);
 
     if (exists) {
-      const updated = selectedTariffs.map((t) =>
-        t.id === selectedTariff.id ? { ...t, count: t.count + 1 } : t
-      );
+      // Agar tariff cart'da bo'lsa, increaseQuantity ishlatamiz (backend'ga ham jo'natadi)
+      await increaseQuantity(selectedTariff.id);
 
-      setSelectedTariffs(updated);
-
-      setSelectedTariff({ ...exists, count: exists.count + 1 });
+      // Local state'ni yangilash
+      const updated = selectedTariffs.find((t) => t.id === selectedTariff.id);
+      if (updated) {
+        setSelectedTariff({
+          ...selectedTariff,
+          count: updated.count,
+        });
+      }
     } else {
-      setSelectedTariffs([...selectedTariffs, { ...selectedTariff, count: 1 }]);
-      setSelectedTariff({ ...selectedTariff, count: 1 });
+      // Agar tariff cart'da yo'q bo'lsa, avval qo'shamiz
+      if (isAuthenticated) {
+        try {
+          await cartAPI.addToBasket({
+            tariff_id: selectedTariff.id,
+            quantity: 1,
+          });
+          // Cart'ni yangilash
+          const { useTariffStore } = await import("@/store/tariffStore");
+          await useTariffStore.getState().fetchCartFromAPI();
+
+          // Local state'ni yangilash
+          const updatedTariffs = useTariffStore.getState().selectedTariffs;
+          const added = updatedTariffs.find((t) => t.id === selectedTariff.id);
+          if (added) {
+            setSelectedTariff({ ...selectedTariff, count: added.count });
+          }
+        } catch (error) {
+          console.error("Error adding to cart:", error);
+        }
+      } else {
+        // localStorage'ga saqlash
+        setSelectedTariffs([
+          ...selectedTariffs,
+          { ...selectedTariff, count: 1 },
+        ]);
+        setSelectedTariff({ ...selectedTariff, count: 1 });
+      }
     }
   };
 
