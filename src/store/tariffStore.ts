@@ -1,20 +1,19 @@
 import { create } from "zustand";
-import type { Tariff } from "@/types/api";
+import type { cartTariff, Tariff } from "@/types/api";
 import { cartAPI } from "@/services/api.service";
 import { useAuthStore } from "./authStore";
 
 interface TariffStore {
   selectedTariff: Tariff | null;
   setSelectedTariff: (tariff: Tariff | null) => void;
-  selectedTariffs: Tariff[];
-  setSelectedTariffs: (tariffs: Tariff[]) => void;
+  selectedTariffs: cartTariff[];
+  setSelectedTariffs: (tariffs: cartTariff[]) => void;
   syncToAPI: () => Promise<void>;
-  fetchCartFromAPI: () => Promise<void>;
   increaseQuantity: (tariffId: number) => Promise<void>;
   decreaseQuantity: (tariffId: number) => Promise<void>;
 }
 
-const getLocalStorageCart = (): Tariff[] => {
+const getLocalStorageCart = (): cartTariff[] => {
   try {
     return JSON.parse(localStorage.getItem("cartItems") || "[]");
   } catch {
@@ -64,34 +63,10 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
     }
   },
 
-  // API'dan cart ma'lumotlarini olish
-  fetchCartFromAPI: async () => {
-    const { isAuthenticated } = useAuthStore.getState();
-    if (!isAuthenticated) return;
-
-    try {
-      const response = await cartAPI.getCart();
-      const cartData = response.data.data;
-
-      if (!cartData || !cartData.items) {
-        set({ selectedTariffs: [] });
-        return;
-      }
-      set({ selectedTariffs: cartData.items });
-    } catch (error) {
-      console.error("Error fetching cart from API:", error);
-      // Xatolik bo'lsa, bo'sh array qo'yish
-      set({ selectedTariffs: [] });
-    }
-  },
-
   // Quantity oshirish (+)
   increaseQuantity: async (tariffId: number) => {
     const { isAuthenticated } = useAuthStore.getState();
     const { selectedTariffs } = get();
-
-    const tariff = selectedTariffs.find((t) => t.id === tariffId);
-    if (!tariff) return;
 
     if (isAuthenticated) {
       // API'ga jo'natish
@@ -100,16 +75,16 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
           tariff_id: tariffId,
           quantity: 1,
         });
-        // API'dan yangi cart ma'lumotlarini olish
-        await get().fetchCartFromAPI();
       } catch (error) {
         console.error("Error increasing quantity:", error);
       }
     } else {
+      const tariff = selectedTariffs.find((t) => t.id === tariffId);
+      if (!tariff) return;
       // localStorage'ga saqlash
       const newQuantity = (tariff.quantity || 1) + 1;
       const updated = selectedTariffs.map((t) =>
-        t.id === tariffId ? { ...t, count: newQuantity } : t
+        t.id === tariffId ? { ...t, quantity: newQuantity } : t
       );
       set({ selectedTariffs: updated });
       localStorage.setItem("cartItems", JSON.stringify(updated));
@@ -130,38 +105,10 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
       // API'ga jo'natish
       try {
         // Agar count 1 bo'lsa, item'ni to'liq o'chirish uchun removeItemFromBasket ishlatamiz
-        if (currentCount <= 1) {
-          let itemIdToRemove = tariff.itemId;
-
-          // itemId bo'lmasa, avval cart'ni yangilab itemId ni olish
-          if (!itemIdToRemove) {
-            await get().fetchCartFromAPI();
-            const updatedTariffs = get().selectedTariffs;
-            const updatedTariff = updatedTariffs.find((t) => t.id === tariffId);
-            itemIdToRemove = updatedTariff?.itemId;
-          }
-
-          // itemId topilsa, removeItemFromBasket chaqiramiz
-          if (itemIdToRemove) {
-            await cartAPI.removeItemFromBasket({
-              item_id: String(itemIdToRemove),
-            });
-          } else {
-            // itemId topilmasa, decreaseItemFromBasket chaqirib, keyin fetchCartFromAPI
-            await cartAPI.decreaseItemFromBasket({
-              tariff_id: tariffId,
-              quantity: 1,
-            });
-          }
-        } else {
-          // Count > 1 bo'lsa, decreaseItemFromBasket chaqiramiz
-          await cartAPI.decreaseItemFromBasket({
-            tariff_id: tariffId,
-            quantity: 1,
-          });
-        }
-        // API'dan yangi cart ma'lumotlarini olish (bu item'ni o'chirilganini ko'rsatadi)
-        await get().fetchCartFromAPI();
+        await cartAPI.decreaseItemFromBasket({
+          tariff_id: tariffId,
+          quantity: 1,
+        });
       } catch (error) {
         console.error("Error decreasing quantity:", error);
       }
@@ -177,7 +124,7 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
 
       const newQuantity = currentCount - 1;
       const updated = selectedTariffs.map((t) =>
-        t.id === tariffId ? { ...t, count: newQuantity } : t
+        t.id === tariffId ? { ...t, quantity: newQuantity } : t
       );
       set({ selectedTariffs: updated });
       localStorage.setItem("cartItems", JSON.stringify(updated));

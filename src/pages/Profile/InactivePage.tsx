@@ -81,7 +81,7 @@ const InactivePage = () => {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {inactiveOrders.map((order: StaticOrderItem) => (
+      {inactiveOrders.map((order: any) => (
         <StaticOrderCard key={order.id} order={order} />
       ))}
     </div>

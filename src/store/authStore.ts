@@ -32,7 +32,7 @@ interface AuthStore {
 export const useAuthStore = create<AuthStore>((set) => ({
   token: localStorage.getItem("token") || null,
   user: null,
-  isLoading: false,
+  isLoading: true,
   isInitialized: false,
   isAuthenticated: !!localStorage.getItem("token"),
   logout: () => {
@@ -56,8 +56,6 @@ export const useAuthStore = create<AuthStore>((set) => ({
         const { useTariffStore } = await import("./tariffStore");
         const tariffStore = useTariffStore.getState();
         await tariffStore.syncToAPI();
-        // Sinxronlashdan keyin API'dan cart ma'lumotlarini olish
-        await tariffStore.fetchCartFromAPI();
       } catch (error) {
         console.error("Error syncing cart after login:", error);
       }

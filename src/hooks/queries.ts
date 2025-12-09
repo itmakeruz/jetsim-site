@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
-import { regionAPI } from "../services/api.service";
+import { cartAPI, regionAPI } from "../services/api.service";
 import type {
   RegionResponse,
   SingleRegionResponse,
   RegionGroupResponse,
   TariffResponse,
+  CartResponse,
 } from "../types/api";
 
 export const regionGroupsQuery = async (
@@ -58,4 +59,9 @@ export const useSearchRegionsQuery = (
     staleTime: 0,
     refetchOnWindowFocus: false,
   });
+};
+
+export const cartItemsQuery = async (): Promise<CartResponse> => {
+  const response = await cartAPI.getCart();
+  return response.data as CartResponse;
 };

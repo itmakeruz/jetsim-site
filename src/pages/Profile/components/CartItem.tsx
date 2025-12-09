@@ -1,26 +1,23 @@
 import React, { useState } from "react";
-import type { Tariff } from "@/types/api";
+import type { cartTariff } from "@/types/api";
 import TariffHeader from "./TariffHeader";
 import TariffInfo from "./TariffInfo";
 import QuantityControl from "./QuantityControl";
 import RegionsModal from "../../Tariffs/components/RegionsModal";
+import { useTariffStore } from "@/store/tariffStore";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface CartItemProps {
-  tariff: Tariff;
+  tariff: cartTariff;
   isDropdownOpen: boolean;
   onToggleDropdown: () => void;
   dropdownRef: (el: HTMLDivElement | null) => void;
-  onIncrease: () => void;
-  onDecrease: () => void;
 }
 
-const CartItem: React.FC<CartItemProps> = ({
-  tariff,
-  onIncrease,
-  onDecrease,
-}) => {
+const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
+  const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const { increaseQuantity, decreaseQuantity } = useTariffStore();
   const handleOpenModal = () => {
     if (tariff.regions && tariff.regions.length > 0) {
       setIsModalOpen(true);
@@ -30,7 +27,15 @@ const CartItem: React.FC<CartItemProps> = ({
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const handleIncrease = async () => {
+    await increaseQuantity(tariff.id);
+    queryClient.invalidateQueries({ queryKey: ["cartItems"] });
+  };
 
+  const handleDecrease = async () => {
+    await decreaseQuantity(tariff.id);
+    queryClient.invalidateQueries({ queryKey: ["cartItems"] });
+  };
   return (
     <>
       <div className="border border-[#0000004D] text-[14px] p-5 flex flex-col gap-2 rounded-[10px] relative">
@@ -42,9 +47,9 @@ const CartItem: React.FC<CartItemProps> = ({
         <TariffInfo tariff={tariff} />
         <QuantityControl
           count={tariff.quantity || 1}
-          onIncrease={onIncrease}
-          onDecrease={onDecrease}
           onOpenRegions={handleOpenModal}
+          onIncrease={handleIncrease}
+          onDecrease={handleDecrease}
         />
       </div>
 

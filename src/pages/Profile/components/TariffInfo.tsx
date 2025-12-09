@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import type { Tariff } from "@/types/api";
+import type { cartTariff } from "@/types/api";
 
 interface TariffInfoProps {
-  tariff: Tariff;
+  tariff: cartTariff;
 }
 
 const TariffInfo: React.FC<TariffInfoProps> = ({ tariff }) => {

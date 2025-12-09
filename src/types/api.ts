@@ -73,9 +73,6 @@ export interface RegionResponse {
 export interface Tariff {
   id: number;
   name: string;
-  title: string;
-  status: "ACTIVE" | "INACTIVE";
-  is_popular: boolean;
   is_4g: boolean;
   is_5g: boolean;
   quantity_sms: number;
@@ -83,19 +80,29 @@ export interface Tariff {
   quantity_internet: number;
   validity_period: number;
   price_sell: number;
-  type: {
-    id: number;
-    name: string;
-  };
   image: string;
   regions: Region[];
   created_at: string;
-  day_left?: number;
   usage?: number;
   qrcode?: string;
   region_group: RegionGroup;
   quantity: number;
-  itemId?: number;
+}
+export interface cartTariff {
+  id: number;
+  name: string;
+  is_4g: boolean;
+  is_5g: boolean;
+  quantity_sms: number;
+  quantity_minute: number;
+  quantity_internet: number;
+  validity_period: number;
+  price_sell: number;
+  image: string;
+  regions: Region[];
+  created_at: string;
+  quantity: number;
+  total_amount: number;
 }
 
 export interface TariffResponse {
@@ -137,19 +144,11 @@ export interface RegionWithTariffs {
   tariffs: ProcessedTariff[];
 }
 
-// Cart API Types
-export interface CartItemFromAPI {
-  id: number;
-  region: Region;
-  tariff: Tariff;
-  quantity: number;
-}
-
 export interface CartResponse {
   success: boolean;
   message: string;
   data: {
-    items: CartItemFromAPI[];
+    items: cartTariff[];
     total: number;
   };
 }

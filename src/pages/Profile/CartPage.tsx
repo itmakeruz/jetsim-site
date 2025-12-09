@@ -1,19 +1,12 @@
 import { useTariffStore } from "@/store/tariffStore";
-import { useAuthStore } from "@/store/authStore";
-import type { Tariff } from "@/types/api";
+import type { cartTariff } from "@/types/api";
 import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
 import CartItem from "./components/CartItem";
 
 const CartPage = () => {
-  const {
-    selectedTariffs,
-    increaseQuantity,
-    decreaseQuantity,
-    fetchCartFromAPI,
-  } = useTariffStore();
-  const { isAuthenticated } = useAuthStore();
+  const { selectedTariffs } = useTariffStore();
   const navigate = useNavigate();
   const [openDropdowns, setOpenDropdowns] = useState<{
     [key: string]: boolean;
@@ -26,13 +19,6 @@ const CartPage = () => {
       [tariffId]: !prev[tariffId],
     }));
   };
-
-  // Login qilgan bo'lsa cart ma'lumotlarini API'dan olish
-  useEffect(() => {
-    if (isAuthenticated) {
-      fetchCartFromAPI();
-    }
-  }, [isAuthenticated, fetchCartFromAPI]);
 
   // Click outside to close dropdown
   useEffect(() => {
@@ -57,14 +43,6 @@ const CartPage = () => {
     };
   }, [openDropdowns]);
 
-  const handleIncrease = async (tariffId: number) => {
-    await increaseQuantity(tariffId);
-  };
-
-  const handleDecrease = async (tariffId: number) => {
-    await decreaseQuantity(tariffId);
-  };
-
   return (
     <div>
       {selectedTariffs.length === 0 ? (
@@ -74,7 +52,7 @@ const CartPage = () => {
       ) : (
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 2xl:gap-5 gap-4">
-            {selectedTariffs.map((tariff: Tariff) => (
+            {selectedTariffs.map((tariff: cartTariff) => (
               <CartItem
                 key={tariff.id}
                 tariff={tariff}
@@ -83,8 +61,6 @@ const CartPage = () => {
                 dropdownRef={(el) => {
                   dropdownRefs.current[tariff.id] = el;
                 }}
-                onIncrease={() => handleIncrease(tariff.id)}
-                onDecrease={() => handleDecrease(tariff.id)}
               />
             ))}
           </div>

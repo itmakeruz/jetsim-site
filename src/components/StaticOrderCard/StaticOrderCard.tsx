@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { getImageUrl } from "../../config/imageUtils";
 import { Share, QrCode } from "lucide-react";
-import type { StaticOrderItem } from "../../types/api";
 import { NetworkBadge } from "../Badge";
 
 interface StaticOrderCardProps {
-  order: StaticOrderItem;
+  order: any;
 }
 
 const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
@@ -127,14 +126,16 @@ const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
           </span>
           <div className="flex items-center gap-2">
             <div className="flex -space-x-1">
-              {order.tariff.regions?.slice(0, 4).map((region, index) => (
-                <img
-                  key={index}
-                  src={getImageUrl(region.image)}
-                  alt={region.name}
-                  className="w-6 h-4 rounded-sm border border-white shadow-sm"
-                />
-              ))}
+              {order.tariff.regions
+                ?.slice(0, 4)
+                .map((region: any, index: number) => (
+                  <img
+                    key={index}
+                    src={getImageUrl(region.image)}
+                    alt={region.name}
+                    className="w-6 h-4 rounded-sm border border-white shadow-sm"
+                  />
+                ))}
             </div>
             <button className="bg-blue-500 text-white text-xs px-3 py-1 rounded-full hover:bg-blue-600 transition-colors">
               {t("sims.details")}

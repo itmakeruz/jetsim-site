@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
 import { ArrowLeft } from "lucide-react";
 import { ImagePreview } from "@/components/ImgCards";
-import type { Tariff } from "@/types/api";
+import type { cartTariff } from "@/types/api";
 
 const PaymentPage = () => {
   const { selectedTariffs, increaseQuantity, decreaseQuantity } =
@@ -128,7 +128,7 @@ const PaymentPage = () => {
             <div>
               <h2 className="text-xl font-bold mb-6">Заказ</h2>
               <div className="max-h-[500px] overflow-y-auto pr-2 space-y-4">
-                {selectedTariffs.map((tariff: Tariff) => (
+                {selectedTariffs.map((tariff: cartTariff) => (
                   <div
                     key={tariff.id}
                     className="bg-white border border-gray-200 rounded-lg p-4"
@@ -136,14 +136,14 @@ const PaymentPage = () => {
                     {/* Country Header */}
                     <div className="flex items-center gap-2 mb-3">
                       <ImagePreview
-                        src={tariff.region_group.image}
-                        alt={tariff.region_group.name}
+                        src={tariff.image}
+                        alt={tariff.name}
                         width={24}
                         height={16}
                         rounded={false}
                       />
                       <span className="font-semibold text-lg">
-                        {tariff.region_group.name}
+                        {tariff.name}
                       </span>
                     </div>
 
@@ -197,7 +197,7 @@ const PaymentPage = () => {
                     {/* Plan Type and Quantity */}
                     <div className="flex items-center gap-2">
                       <div className="bg-[#112D6C] text-white px-4 py-2 rounded-lg font-semibold flex-1 text-center">
-                        {tariff.type?.name || "Стандарт"}
+                        {tariff?.name || "Стандарт"}
                       </div>
                       <div className="flex items-center gap-2 bg-gray-800 text-white rounded-lg px-3 py-2">
                         <button

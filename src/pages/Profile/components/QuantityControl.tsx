@@ -2,16 +2,16 @@ import { Minus, Plus } from "lucide-react";
 
 interface QuantityControlProps {
   count: number;
-  onDecrease?: () => void;
-  onIncrease?: () => void;
   onOpenRegions?: () => void;
+  onIncrease?: () => void;
+  onDecrease?: () => void;
 }
 
 const QuantityControl: React.FC<QuantityControlProps> = ({
   count,
-  onDecrease,
-  onIncrease,
   onOpenRegions,
+  onIncrease,
+  onDecrease,
 }) => {
   return (
     <div className="flex w-full border-[2px] items-center border-[#112D6C] bg-[#112D6C] rounded-[10px] overflow-hidden">

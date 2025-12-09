@@ -1,6 +1,3 @@
-// import { cartAPI } from "@/services/api.service";
-// import { useAuthStore } from "@/store/authStore";
-// import { useCartStore } from "@/store/cartStore";
 import { useTariffStore } from "@/store/tariffStore";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
