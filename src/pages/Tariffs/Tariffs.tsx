@@ -8,7 +8,7 @@ import { tariffsQuery, tariffsByRegionIdsQuery } from "../../hooks/queries";
 import { useTranslation } from "react-i18next";
 import { useTariffStore } from "@/store/tariffStore";
 import { useEffect } from "react";
-import Empty from "../Empty/Empty";
+import Empty from "@/pages/Empty/Empty";
 
 function Tariffs() {
   const { i18n } = useTranslation();
@@ -19,7 +19,7 @@ function Tariffs() {
   const isRegionIds = id?.startsWith("ids=");
   const regionIds = isRegionIds ? id?.replace("ids=", "") : null;
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["tariffs", id, i18n.language],
     queryFn: () => {
       if (isRegionIds && regionIds) {
@@ -45,10 +45,7 @@ function Tariffs() {
 
   const region = data?.data?.regions;
   const tariffs = data?.data?.tariffs;
-  console.log(isError);
-  console.log(error);
-
-  if (isError || (error as any)?.response?.data?.statusCode === 404) {
+  if (isError) {
     return <Empty />;
   }
   return (
