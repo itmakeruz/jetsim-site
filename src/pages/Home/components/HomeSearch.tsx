@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { getAllRegions } from "@/hooks/queries";
 import { useQuery } from "@tanstack/react-query";
 import type { Region } from "@/types/api";
@@ -7,7 +8,7 @@ import SelectedRegionChip from "./HomeSearch/SelectedRegionChip";
 import SearchInput from "./HomeSearch/SearchInput";
 import RegionDropdown from "./HomeSearch/RegionDropdown";
 
-const MAX_SELECTIONS = 3;
+const MAX_SELECTIONS = 4;
 
 function HomeSearch() {
   const [inputValue, setInputValue] = useState("");
@@ -16,6 +17,7 @@ function HomeSearch() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLDivElement>(null);
   const { i18n } = useTranslation();
+  const navigate = useNavigate();
 
   // Regionlarni API dan olish
   const { data: allRegionsData, isLoading: isLoadingAll } = useQuery({
@@ -77,10 +79,22 @@ function HomeSearch() {
     setIsDropdownOpen(true);
   };
 
+  // Regionlarni tanlaganda navigate qilish
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (selectedRegions.length > 0) {
+      const ids = selectedRegions.map((r) => r.id).join("-");
+      navigate(`/tariffs/ids=${ids}`);
+    }
+  };
+
   return (
     <div className="mx-auto w-full max-w-[730px]">
       <div ref={searchRef} className="relative">
-        <form className="border border-[#8A8AC7] bg-[#F0F0FB] rounded-[10px] relative">
+        <form
+          onSubmit={handleSearchSubmit}
+          className="border border-[#8A8AC7] bg-[#F0F0FB] rounded-[10px] relative"
+        >
           <div className="flex items-center flex-wrap gap-2 p-2 pr-14 min-h-[60px]">
             {/* Tanlangan regionlar */}
             {selectedRegions.map((region) => (

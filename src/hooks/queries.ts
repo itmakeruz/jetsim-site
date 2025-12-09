@@ -65,3 +65,10 @@ export const cartItemsQuery = async (): Promise<CartResponse> => {
   const response = await cartAPI.getCart();
   return response.data as CartResponse;
 };
+
+export const tariffsByRegionIdsQuery = async (
+  ids: string
+): Promise<TariffResponse> => {
+  const response = await regionAPI.getTariffsByRegionIds(ids);
+  return response.data as TariffResponse;
+};

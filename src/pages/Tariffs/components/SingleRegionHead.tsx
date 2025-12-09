@@ -34,7 +34,9 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
             />
           </div>
           <h1 className="text-[30px] font-bold text-[#0D141C]">
-            {regions.map((region) => region.name).join(", ")}
+            {regions && regions.length > 0
+              ? regions.map((region) => region.name).join(", ")
+              : ""}
           </h1>
         </button>
         <button

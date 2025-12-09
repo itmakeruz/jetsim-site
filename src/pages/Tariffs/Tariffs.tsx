@@ -4,7 +4,7 @@ import Loader from "../../components/Loader";
 import SingleRegionHead from "./components/SingleRegionHead";
 import TariffSection from "./components/TariffSection";
 import TariffBottomBar from "./components/TariffBottomBar";
-import { tariffsQuery } from "../../hooks/queries";
+import { tariffsQuery, tariffsByRegionIdsQuery } from "../../hooks/queries";
 import { useTranslation } from "react-i18next";
 import { useTariffStore } from "@/store/tariffStore";
 import { useEffect } from "react";
@@ -13,9 +13,19 @@ function Tariffs() {
   const { i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { selectedTariff, setSelectedTariff } = useTariffStore();
+
+  // ids format: "ids=17-34" yoki oddiy id
+  const isRegionIds = id?.startsWith("ids=");
+  const regionIds = isRegionIds ? id.replace("ids=", "") : null;
+
   const { data, isLoading } = useQuery({
     queryKey: ["tariffs", id, i18n.language],
-    queryFn: () => tariffsQuery(id!),
+    queryFn: () => {
+      if (isRegionIds && regionIds) {
+        return tariffsByRegionIdsQuery(regionIds);
+      }
+      return tariffsQuery(id!);
+    },
     enabled: !!id,
   });
 
