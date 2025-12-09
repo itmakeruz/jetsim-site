@@ -16,7 +16,7 @@ const CartButton = () => {
   return (
     <Link
       to={`${APP_ROUTES.CART}`}
-      className="flex flex-col items-center gap-1 text-[#4F7096] text-sm font-medium"
+      className="flex flex-col items-center gap-1 text-black text-sm font-medium"
     >
       <div>
         <img src={ASSETS.cart} alt="cart" width="26" height="26" />

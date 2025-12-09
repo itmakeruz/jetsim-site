@@ -9,7 +9,7 @@ const UserButton = () => {
   return (
     <Link
       to={APP_ROUTES.PROFILE}
-      className="flex flex-col gap-1 items-center text-[#4F7096] text-sm font-medium"
+      className="flex flex-col gap-1 items-center text-black text-sm font-medium"
     >
       <div className="relative">
         <img src={ASSETS.user} alt="user" width="26" height="26" />
