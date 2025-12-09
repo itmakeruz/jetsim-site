@@ -19,7 +19,7 @@ function Tariffs() {
   const isRegionIds = id?.startsWith("ids=");
   const regionIds = isRegionIds ? id?.replace("ids=", "") : null;
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, error } = useQuery({
     queryKey: ["tariffs", id, i18n.language],
     queryFn: () => {
       if (isRegionIds && regionIds) {
@@ -45,7 +45,10 @@ function Tariffs() {
 
   const region = data?.data?.regions;
   const tariffs = data?.data?.tariffs;
-  if (isError) {
+  console.log(isError);
+  console.log(error);
+
+  if (isError || (error as any)?.response?.data?.statusCode === 404) {
     return <Empty />;
   }
   return (
