@@ -8,6 +8,7 @@ import { tariffsQuery, tariffsByRegionIdsQuery } from "../../hooks/queries";
 import { useTranslation } from "react-i18next";
 import { useTariffStore } from "@/store/tariffStore";
 import { useEffect } from "react";
+import Empty from "../Empty/Empty";
 
 function Tariffs() {
   const { i18n } = useTranslation();
@@ -18,7 +19,7 @@ function Tariffs() {
   const isRegionIds = id?.startsWith("ids=");
   const regionIds = isRegionIds ? id?.replace("ids=", "") : null;
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ["tariffs", id, i18n.language],
     queryFn: () => {
       if (isRegionIds && regionIds) {
@@ -34,7 +35,7 @@ function Tariffs() {
       setSelectedTariff(null);
     }
   }, []);
-  if (isLoading || !data?.success) {
+  if (isLoading) {
     return (
       <div className="container py-8">
         <Loader />
@@ -44,9 +45,11 @@ function Tariffs() {
 
   const region = data?.data?.regions;
   const tariffs = data?.data?.tariffs;
-
+  if (isError) {
+    return <Empty />;
+  }
   return (
-    <div className="container py-8 pb-[150px]">
+    <div className={`container py-8 ${selectedTariff ? "pb-[150px]" : ""}`}>
       <SingleRegionHead regions={region as any} />
       <div className="flex flex-col gap-[40px]">
         <TariffSection
