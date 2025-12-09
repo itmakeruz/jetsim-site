@@ -16,7 +16,7 @@ function Tariffs() {
 
   // ids format: "ids=17-34" yoki oddiy id
   const isRegionIds = id?.startsWith("ids=");
-  const regionIds = isRegionIds ? id.replace("ids=", "") : null;
+  const regionIds = isRegionIds ? id?.replace("ids=", "") : null;
 
   const { data, isLoading } = useQuery({
     queryKey: ["tariffs", id, i18n.language],
