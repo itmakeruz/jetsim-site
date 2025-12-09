@@ -52,7 +52,7 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
       // Format: [{ tariff_id, quantity }]
       const itemsToSync = localStorageCart.map((tariff) => ({
         tariff_id: tariff.id,
-        quantity: tariff.count || 1,
+        quantity: tariff.quantity || 1,
       }));
 
       await cartAPI.addToBasketFromCache(itemsToSync);
@@ -77,54 +77,7 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
         set({ selectedTariffs: [] });
         return;
       }
-
-      // API response'dan Tariff[] formatiga transform qilish
-      const transformedTariffs: Tariff[] = cartData.items.map((item: any) => {
-        const tariff = item.tariff;
-        const region = item.region;
-
-        // region_group yaratish
-        // Avval tariff.regions'dan birinchi regionni olish (to'liq ma'lumot bo'lishi mumkin)
-        const firstRegion =
-          tariff.regions && tariff.regions.length > 0
-            ? tariff.regions[0]
-            : null;
-
-        const regionGroup = {
-          id: firstRegion?.id || region?.id || 0,
-          name: firstRegion?.name || region?.name || "",
-          image: firstRegion?.image || region?.image || "",
-          min_price: tariff.price_sell || 0,
-          created_at: "",
-          regions: tariff.regions || [],
-        };
-
-        return {
-          id: tariff.id,
-          name: tariff.name || String(item.name || ""),
-          title: tariff.name || String(item.name || ""),
-          status: "ACTIVE" as const,
-          is_popular: false,
-          is_4g: tariff.is_4g || false,
-          is_5g: tariff.is_5g || false,
-          quantity_sms: tariff.quantity_sms || 0,
-          quantity_minute: tariff.quantity_minute || 0,
-          quantity_internet: tariff.quantity_internet || 0,
-          validity_period: tariff.validity_period || 0,
-          price_sell: tariff.price_sell || item.price || 0,
-          type: {
-            id: 0,
-            name: "",
-          },
-          regions: tariff.regions || [],
-          created_at: "",
-          region_group: regionGroup,
-          count: item.quantity || 1,
-          itemId: item.id, // Cart item ID ni saqlash
-        };
-      });
-
-      set({ selectedTariffs: transformedTariffs });
+      set({ selectedTariffs: cartData.items });
     } catch (error) {
       console.error("Error fetching cart from API:", error);
       // Xatolik bo'lsa, bo'sh array qo'yish
@@ -154,7 +107,7 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
       }
     } else {
       // localStorage'ga saqlash
-      const newQuantity = (tariff.count || 1) + 1;
+      const newQuantity = (tariff.quantity || 1) + 1;
       const updated = selectedTariffs.map((t) =>
         t.id === tariffId ? { ...t, count: newQuantity } : t
       );
@@ -171,23 +124,43 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
     const tariff = selectedTariffs.find((t) => t.id === tariffId);
     if (!tariff) return;
 
-    const currentCount = tariff.count || 1;
+    const currentCount = tariff.quantity || 1;
 
     if (isAuthenticated) {
       // API'ga jo'natish
       try {
-        // Agar count 1 bo'lsa, item'ni to'liq o'chirish
-        if (currentCount <= 1 && tariff.itemId) {
-          await cartAPI.removeItemFromBasket({
-            item_id: String(tariff.itemId),
-          });
+        // Agar count 1 bo'lsa, item'ni to'liq o'chirish uchun removeItemFromBasket ishlatamiz
+        if (currentCount <= 1) {
+          let itemIdToRemove = tariff.itemId;
+
+          // itemId bo'lmasa, avval cart'ni yangilab itemId ni olish
+          if (!itemIdToRemove) {
+            await get().fetchCartFromAPI();
+            const updatedTariffs = get().selectedTariffs;
+            const updatedTariff = updatedTariffs.find((t) => t.id === tariffId);
+            itemIdToRemove = updatedTariff?.itemId;
+          }
+
+          // itemId topilsa, removeItemFromBasket chaqiramiz
+          if (itemIdToRemove) {
+            await cartAPI.removeItemFromBasket({
+              item_id: String(itemIdToRemove),
+            });
+          } else {
+            // itemId topilmasa, decreaseItemFromBasket chaqirib, keyin fetchCartFromAPI
+            await cartAPI.decreaseItemFromBasket({
+              tariff_id: tariffId,
+              quantity: 1,
+            });
+          }
         } else {
+          // Count > 1 bo'lsa, decreaseItemFromBasket chaqiramiz
           await cartAPI.decreaseItemFromBasket({
             tariff_id: tariffId,
             quantity: 1,
           });
         }
-        // API'dan yangi cart ma'lumotlarini olish
+        // API'dan yangi cart ma'lumotlarini olish (bu item'ni o'chirilganini ko'rsatadi)
         await get().fetchCartFromAPI();
       } catch (error) {
         console.error("Error decreasing quantity:", error);

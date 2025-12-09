@@ -27,10 +27,10 @@ const ESIMCounter = () => {
       // Local state'ni yangilash
       const updated = selectedTariffs.find((t) => t.id === selectedTariff.id);
       if (updated) {
-        if (updated.count > 1) {
+        if (updated.quantity > 1) {
           setSelectedTariff({
             ...selectedTariff,
-            count: updated.count,
+            quantity: updated.quantity,
           });
         } else {
           setSelectedTariff(null);
@@ -53,7 +53,7 @@ const ESIMCounter = () => {
       if (updated) {
         setSelectedTariff({
           ...selectedTariff,
-          count: updated.count,
+          quantity: updated.quantity,
         });
       }
     } else {
@@ -72,7 +72,7 @@ const ESIMCounter = () => {
           const updatedTariffs = useTariffStore.getState().selectedTariffs;
           const added = updatedTariffs.find((t) => t.id === selectedTariff.id);
           if (added) {
-            setSelectedTariff({ ...selectedTariff, count: added.count });
+            setSelectedTariff({ ...selectedTariff, quantity: added.quantity });
           }
         } catch (error) {
           console.error("Error adding to cart:", error);
@@ -81,9 +81,9 @@ const ESIMCounter = () => {
         // localStorage'ga saqlash
         setSelectedTariffs([
           ...selectedTariffs,
-          { ...selectedTariff, count: 1 },
+          { ...selectedTariff, quantity: 1 },
         ]);
-        setSelectedTariff({ ...selectedTariff, count: 1 });
+        setSelectedTariff({ ...selectedTariff, quantity: 1 });
       }
     }
   };
@@ -103,7 +103,7 @@ const ESIMCounter = () => {
         </button>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <span className="w-[40px] text-center leading-none text-[18px]">
-          {selectedTariffData?.count || 0}
+          {selectedTariffData?.quantity || 0}
         </span>
         <div className="w-[1px] bg-[#B4BDC8] self-stretch"></div>
         <button

@@ -43,7 +43,7 @@ const CartDisplay: React.FC = () => {
               </button>
 
               <span className="flex items-center justify-center w-8 h-6 text-sm font-medium text-white">
-                {item.count}
+                {item.quantity}
               </span>
 
               <button

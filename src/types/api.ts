@@ -87,14 +87,15 @@ export interface Tariff {
     id: number;
     name: string;
   };
+  image: string;
   regions: Region[];
   created_at: string;
   day_left?: number;
   usage?: number;
   qrcode?: string;
   region_group: RegionGroup;
-  count: number;
-  itemId?: number; // Cart item ID (API'dan kelgan item.id)
+  quantity: number;
+  itemId?: number;
 }
 
 export interface TariffResponse {

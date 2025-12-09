@@ -35,13 +35,13 @@ const CartItem: React.FC<CartItemProps> = ({
     <>
       <div className="border border-[#0000004D] text-[14px] p-5 flex flex-col gap-2 rounded-[10px] relative">
         <TariffHeader
-          image={tariff.region_group.image}
-          name={tariff.region_group.name}
+          image={tariff.image}
+          name={tariff.name}
           title={tariff.name}
         />
         <TariffInfo tariff={tariff} />
         <QuantityControl
-          count={tariff.count || 1}
+          count={tariff.quantity || 1}
           onIncrease={onIncrease}
           onDecrease={onDecrease}
           onOpenRegions={handleOpenModal}

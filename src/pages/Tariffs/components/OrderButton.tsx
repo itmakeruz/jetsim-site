@@ -18,7 +18,7 @@ const OrderButton = ({ disabled }: OrderButtonProps) => {
   );
 
   const handleOrderClick = async () => {
-    if (!selectedTariffData || selectedTariffData.count === 0) return;
+    if (!selectedTariffData || selectedTariffData.quantity === 0) return;
 
     try {
       // Payment page'ga o'tish

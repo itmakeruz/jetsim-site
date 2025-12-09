@@ -19,7 +19,7 @@ const PaymentPage = () => {
   const [agreeTerms, setAgreeTerms] = useState(false);
 
   const total = selectedTariffs.reduce(
-    (sum, tariff) => sum + (tariff.price_sell || 0) * (tariff.count || 1),
+    (sum, tariff) => sum + (tariff.price_sell || 0) * (tariff.quantity || 1),
     0
   );
 
@@ -207,7 +207,7 @@ const PaymentPage = () => {
                           <span className="text-lg">-</span>
                         </button>
                         <span className="w-8 text-center font-medium">
-                          {tariff.count || 1}
+                          {tariff.quantity || 1}
                         </span>
                         <button
                           onClick={() => handleIncrease(tariff.id)}

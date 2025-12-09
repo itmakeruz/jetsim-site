@@ -19,7 +19,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
   const { selectedTariffs } = useTariffStore();
 
   const cartCount = selectedTariffs.reduce(
-    (sum, item) => sum + (item.count || 1),
+    (sum, item) => sum + (item.quantity || 1),
     0
   );
 
