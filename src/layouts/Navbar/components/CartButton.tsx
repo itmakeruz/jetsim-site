@@ -6,8 +6,6 @@ import { Link } from "react-router-dom";
 
 const CartButton = () => {
   const { selectedTariffs } = useTariffStore();
-  console.log(selectedTariffs);
-
   const { t } = useTranslation();
   const cartCount = selectedTariffs.reduce(
     (acc, tariff) => acc + tariff.quantity,

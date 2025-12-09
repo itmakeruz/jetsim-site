@@ -28,7 +28,7 @@ export default function TariffCard({ tariff }: TariffCardProps) {
   };
 
   const handleCardClick = () => {
-    setSelectedTariff(tariff);
+    if (tariff.id !== selectedTariff?.id) setSelectedTariff(tariff);
   };
 
   return (

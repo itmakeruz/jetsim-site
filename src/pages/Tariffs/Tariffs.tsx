@@ -7,18 +7,23 @@ import TariffBottomBar from "./components/TariffBottomBar";
 import { tariffsQuery } from "../../hooks/queries";
 import { useTranslation } from "react-i18next";
 import { useTariffStore } from "@/store/tariffStore";
+import { useEffect } from "react";
 
 function Tariffs() {
   const { i18n } = useTranslation();
   const { id } = useParams<{ id: string }>();
+  const { selectedTariff, setSelectedTariff } = useTariffStore();
   const { data, isLoading } = useQuery({
     queryKey: ["tariffs", id, i18n.language],
     queryFn: () => tariffsQuery(id!),
     enabled: !!id,
   });
 
-  const { selectedTariff } = useTariffStore();
-
+  useEffect(() => {
+    if (selectedTariff) {
+      setSelectedTariff(null);
+    }
+  }, []);
   if (isLoading || !data?.success) {
     return (
       <div className="container py-8">
