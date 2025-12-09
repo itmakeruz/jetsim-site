@@ -14,7 +14,8 @@ import { useTariffStore } from "./store/tariffStore";
 function App() {
   const { i18n } = useTranslation();
   const { setSelectedTariffs } = useTariffStore();
-  const { getProfile, logout, isAuthenticated, isLoading } = useAuthStore();
+  const { getProfile, logout, isAuthenticated, isLoading, setIsLoading } =
+    useAuthStore();
   const { data, isLoading: isLoadingCart } = useQuery({
     queryKey: ["cartItems", i18n.language],
     queryFn: () => cartItemsQuery(),
@@ -30,6 +31,8 @@ function App() {
         .catch(() => {
           logout();
         });
+    } else {
+      setIsLoading(false);
     }
   }, []);
   useEffect(() => {
@@ -37,6 +40,7 @@ function App() {
       setSelectedTariffs(data?.data.items || []);
     }
   }, [data]);
+
   if (isLoading || isLoadingCart) {
     return <Loader />;
   }

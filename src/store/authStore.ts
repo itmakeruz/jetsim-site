@@ -15,6 +15,7 @@ interface AuthStore {
   token: string | null;
   user: User | null;
   isLoading: boolean;
+  setIsLoading: (isLoading: boolean) => void;
   isInitialized: boolean;
   logout: () => void;
   getProfile: () => Promise<{
@@ -33,6 +34,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
   token: localStorage.getItem("token") || null,
   user: null,
   isLoading: true,
+  setIsLoading: (isLoading: boolean) => set({ isLoading }),
   isInitialized: false,
   isAuthenticated: !!localStorage.getItem("token"),
   logout: () => {
