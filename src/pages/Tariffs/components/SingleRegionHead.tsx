@@ -20,7 +20,7 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
       <div className="flex items-center justify-between mb-[26px]">
         <button
           onClick={() => {
-            navigate(-1);
+            navigate("/");
           }}
           className="flex items-center gap-[15px]"
         >
