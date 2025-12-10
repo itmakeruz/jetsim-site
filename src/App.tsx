@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import Loader from "./components/Loader";
 import { useTariffStore } from "./store/tariffStore";
+import { getLocalStorageCart } from "./lib/utils";
 
 function App() {
   const { i18n } = useTranslation();
@@ -38,6 +39,8 @@ function App() {
   useEffect(() => {
     if (data) {
       setSelectedTariffs(data?.data.items || []);
+    } else {
+      setSelectedTariffs(getLocalStorageCart());
     }
   }, [data]);
 

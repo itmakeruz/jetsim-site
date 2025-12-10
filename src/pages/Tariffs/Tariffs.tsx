@@ -15,7 +15,6 @@ function Tariffs() {
   const { id } = useParams<{ id: string }>();
   const { selectedTariff, setSelectedTariff } = useTariffStore();
 
-  // ids format: "ids=17-34" yoki oddiy id
   const isRegionIds = id?.startsWith("ids=");
   const regionIds = isRegionIds ? id?.replace("ids=", "") : null;
 

@@ -16,14 +16,14 @@ const ESIMCounter = () => {
 
   const handleIncrease = async () => {
     if (selectedTariff) {
-      await increaseQuantity(selectedTariff.id);
+      await increaseQuantity(selectedTariff);
       queryClient.invalidateQueries({ queryKey: ["cartItems"] });
     }
   };
 
   const handleDecrease = async () => {
     if (selectedTariff) {
-      await decreaseQuantity(selectedTariff.id);
+      await decreaseQuantity(selectedTariff);
       queryClient.invalidateQueries({ queryKey: ["cartItems"] });
     }
   };

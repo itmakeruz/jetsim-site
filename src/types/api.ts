@@ -102,7 +102,7 @@ export interface cartTariff {
   regions: Region[];
   created_at: string;
   quantity: number;
-  total_amount: number;
+  total_amount?: number;
 }
 
 export interface TariffResponse {

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import type { cartTariff, Tariff } from "@/types/api";
 import { cartAPI } from "@/services/api.service";
 import { useAuthStore } from "./authStore";
+import { getLocalStorageCart } from "@/lib/utils";
 
 interface TariffStore {
   selectedTariff: Tariff | null;
@@ -9,17 +10,9 @@ interface TariffStore {
   selectedTariffs: cartTariff[];
   setSelectedTariffs: (tariffs: cartTariff[]) => void;
   syncToAPI: () => Promise<void>;
-  increaseQuantity: (tariffId: number) => Promise<void>;
-  decreaseQuantity: (tariffId: number) => Promise<void>;
+  increaseQuantity: (tariff: cartTariff) => Promise<void>;
+  decreaseQuantity: (tariff: cartTariff) => Promise<void>;
 }
-
-const getLocalStorageCart = (): cartTariff[] => {
-  try {
-    return JSON.parse(localStorage.getItem("cartItems") || "[]");
-  } catch {
-    return [];
-  }
-};
 
 export const useTariffStore = create<TariffStore>((set, get) => ({
   selectedTariffs: getLocalStorageCart(),
@@ -64,49 +57,53 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
   },
 
   // Quantity oshirish (+)
-  increaseQuantity: async (tariffId: number) => {
+  increaseQuantity: async (tariff: cartTariff) => {
     const { isAuthenticated } = useAuthStore.getState();
-    const { selectedTariffs } = get();
+    const { selectedTariffs, selectedTariff, setSelectedTariffs } = get();
 
     if (isAuthenticated) {
       // API'ga jo'natish
       try {
         await cartAPI.addToBasket({
-          tariff_id: tariffId,
+          tariff_id: tariff.id,
           quantity: 1,
         });
       } catch (error) {
         console.error("Error increasing quantity:", error);
       }
     } else {
-      const tariff = selectedTariffs.find((t) => t.id === tariffId);
-      if (!tariff) return;
-      // localStorage'ga saqlash
-      const newQuantity = (tariff.quantity || 1) + 1;
-      const updated = selectedTariffs.map((t) =>
-        t.id === tariffId ? { ...t, quantity: newQuantity } : t
-      );
-      set({ selectedTariffs: updated });
-      localStorage.setItem("cartItems", JSON.stringify(updated));
+      const foundTariff = selectedTariffs.find((t) => t.id === tariff.id);
+      if (foundTariff) {
+        const newQuantity = (foundTariff.quantity || 0) + 1;
+        const updated = selectedTariffs.map((t) =>
+          t.id === tariff.id ? { ...t, quantity: newQuantity } : t
+        );
+        setSelectedTariffs(updated);
+      } else {
+        setSelectedTariffs([
+          ...selectedTariffs,
+          { ...(selectedTariff as cartTariff), quantity: 1 },
+        ]);
+      }
     }
   },
 
   // Quantity kamaytirish (-)
-  decreaseQuantity: async (tariffId: number) => {
+  decreaseQuantity: async (tariff: cartTariff) => {
     const { isAuthenticated } = useAuthStore.getState();
-    const { selectedTariffs } = get();
+    const { selectedTariffs, setSelectedTariffs } = get();
 
-    const tariff = selectedTariffs.find((t) => t.id === tariffId);
-    if (!tariff) return;
+    const foundTariff = selectedTariffs.find((t) => t.id === tariff.id);
+    if (!foundTariff) return;
 
-    const currentCount = tariff.quantity || 1;
+    const currentCount = foundTariff.quantity || 1;
 
     if (isAuthenticated) {
       // API'ga jo'natish
       try {
         // Agar count 1 bo'lsa, item'ni to'liq o'chirish uchun removeItemFromBasket ishlatamiz
         await cartAPI.decreaseItemFromBasket({
-          tariff_id: tariffId,
+          tariff_id: tariff.id,
           quantity: 1,
         });
       } catch (error) {
@@ -116,18 +113,16 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
       // localStorage'ga saqlash
       if (currentCount <= 1) {
         // Agar count 1 bo'lsa, tariffni o'chirish
-        const updated = selectedTariffs.filter((t) => t.id !== tariffId);
-        set({ selectedTariffs: updated });
-        localStorage.setItem("cartItems", JSON.stringify(updated));
+        const updated = selectedTariffs.filter((t) => t.id !== tariff.id);
+        setSelectedTariffs(updated);
         return;
       }
 
       const newQuantity = currentCount - 1;
       const updated = selectedTariffs.map((t) =>
-        t.id === tariffId ? { ...t, quantity: newQuantity } : t
+        t.id === tariff.id ? { ...t, quantity: newQuantity } : t
       );
-      set({ selectedTariffs: updated });
-      localStorage.setItem("cartItems", JSON.stringify(updated));
+      setSelectedTariffs(updated);
     }
   },
 }));

@@ -19,6 +19,7 @@ const CartPage = () => {
       [tariffId]: !prev[tariffId],
     }));
   };
+  console.log(selectedTariffs);
 
   // Click outside to close dropdown
   useEffect(() => {
