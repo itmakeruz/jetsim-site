@@ -4,8 +4,11 @@ import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
 import CartItem from "./components/CartItem";
+import Empty from "../Empty/Empty";
+import { useTranslation } from "react-i18next";
 
 const CartPage = () => {
+  const { t } = useTranslation();
   const { selectedTariffs } = useTariffStore();
   const navigate = useNavigate();
   const [openDropdowns, setOpenDropdowns] = useState<{
@@ -19,7 +22,6 @@ const CartPage = () => {
       [tariffId]: !prev[tariffId],
     }));
   };
-  console.log(selectedTariffs);
 
   // Click outside to close dropdown
   useEffect(() => {
@@ -47,9 +49,7 @@ const CartPage = () => {
   return (
     <div>
       {selectedTariffs.length === 0 ? (
-        <div className="text-center py-10">
-          <p className="text-gray-500 text-lg">Savat bo'sh</p>
-        </div>
+        <Empty text={t("profile.cart.empty")} />
       ) : (
         <div className="flex flex-col gap-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 2xl:gap-5 gap-4">
@@ -69,7 +69,11 @@ const CartPage = () => {
             onClick={() => navigate(APP_ROUTES.PAYMENT)}
             className="bg-[#112D6C] text-white px-4 py-2 rounded-md w-full text-[22px] font-semibold"
           >
-            Оплатить
+            {t("profile.cart.buy")}{" "}
+            {selectedTariffs
+              .reduce((acc, tariff) => acc + tariff.total_amount, 0)
+              .toLocaleString()}{" "}
+            ₽.
           </button>
         </div>
       )}

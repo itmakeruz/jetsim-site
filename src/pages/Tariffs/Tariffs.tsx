@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import Empty from "@/pages/Empty/Empty";
 
 function Tariffs() {
-  const { i18n } = useTranslation();
+  const { i18n, t } = useTranslation();
   const { id } = useParams<{ id: string }>();
   const { selectedTariff, setSelectedTariff } = useTariffStore();
 
@@ -45,7 +45,7 @@ function Tariffs() {
   const region = data?.data?.regions;
   const tariffs = data?.data?.tariffs;
   if (isError) {
-    return <Empty />;
+    return <Empty text={t("error.tariff_not_found")} />;
   }
   return (
     <div className={`container py-8 ${selectedTariff ? "pb-[150px]" : ""}`}>

@@ -28,12 +28,12 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
     setIsModalOpen(false);
   };
   const handleIncrease = async () => {
-    await increaseQuantity(tariff.id);
+    await increaseQuantity(tariff);
     queryClient.invalidateQueries({ queryKey: ["cartItems"] });
   };
 
   const handleDecrease = async () => {
-    await decreaseQuantity(tariff.id);
+    await decreaseQuantity(tariff);
     queryClient.invalidateQueries({ queryKey: ["cartItems"] });
   };
   return (

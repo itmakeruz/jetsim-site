@@ -30,7 +30,13 @@ const TariffInfo: React.FC<TariffInfoProps> = ({ tariff }) => {
       <p>
         {t("sims.price")}{" "}
         <span className="font-bold">
-          {tariff.price_sell.toLocaleString()} руб.
+          {tariff.price_sell.toLocaleString()} ₽.
+        </span>
+      </p>
+      <p>
+        {t("sims.total_price")}{" "}
+        <span className="font-bold">
+          {tariff.total_amount.toLocaleString()} ₽.
         </span>
       </p>
     </>

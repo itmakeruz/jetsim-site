@@ -4,6 +4,12 @@
     "loading": "Loading...",
     "no_results": "No such country"
   },
+  "error": {
+    "title": "Error",
+    "retry": "Try again",
+    "tariff_not_found": "This tariff was not found. Perhaps you can view the list of available tariffs.",
+    "back_to_list": "Back to list"
+  },
   "nav": {
     "all": "All destinations",
     "how": "How it works?",
@@ -43,7 +49,7 @@
     },
     "cart": {
       "buy": "Pay",
-      "empty": "Your cart is empty"
+      "empty": "Your cart is empty. Add tariffs to continue purchasing eSIM cards for your trip."
     },
     "history": {
       "view": "View",
@@ -105,7 +111,8 @@
     "no_data": "No data",
     "show_less": "Show less",
     "show_all": "View all",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "total_price": "Total:"
   },
   "how": {
     "title": "Choose your tariff plan today and activate it before your trip",

@@ -10,8 +10,8 @@ interface TariffStore {
   selectedTariffs: cartTariff[];
   setSelectedTariffs: (tariffs: cartTariff[]) => void;
   syncToAPI: () => Promise<void>;
-  increaseQuantity: (tariff: cartTariff) => Promise<void>;
-  decreaseQuantity: (tariff: cartTariff) => Promise<void>;
+  increaseQuantity: (tariff: Tariff) => Promise<void>;
+  decreaseQuantity: (tariff: Tariff) => Promise<void>;
 }
 
 export const useTariffStore = create<TariffStore>((set, get) => ({
@@ -34,9 +34,6 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
 
   // localStorage'dan API'ga sinxronlash
   syncToAPI: async () => {
-    const { isAuthenticated } = useAuthStore.getState();
-    if (!isAuthenticated) return;
-
     const localStorageCart = getLocalStorageCart();
     if (localStorageCart.length === 0) return;
 
@@ -57,9 +54,9 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
   },
 
   // Quantity oshirish (+)
-  increaseQuantity: async (tariff: cartTariff) => {
+  increaseQuantity: async (tariff: Tariff) => {
     const { isAuthenticated } = useAuthStore.getState();
-    const { selectedTariffs, selectedTariff, setSelectedTariffs } = get();
+    const { selectedTariffs, setSelectedTariffs } = get();
 
     if (isAuthenticated) {
       // API'ga jo'natish
@@ -73,23 +70,35 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
       }
     } else {
       const foundTariff = selectedTariffs.find((t) => t.id === tariff.id);
+
       if (foundTariff) {
         const newQuantity = (foundTariff.quantity || 0) + 1;
         const updated = selectedTariffs.map((t) =>
-          t.id === tariff.id ? { ...t, quantity: newQuantity } : t
+          t.id === tariff.id
+            ? {
+                ...t,
+                quantity: newQuantity,
+                total_amount: t.price_sell * newQuantity,
+              }
+            : t
         );
         setSelectedTariffs(updated);
       } else {
         setSelectedTariffs([
           ...selectedTariffs,
-          { ...(selectedTariff as cartTariff), quantity: 1 },
+          {
+            ...tariff,
+            quantity: 1,
+            image: tariff.region_group.image,
+            total_amount: tariff.price_sell,
+          },
         ]);
       }
     }
   },
 
   // Quantity kamaytirish (-)
-  decreaseQuantity: async (tariff: cartTariff) => {
+  decreaseQuantity: async (tariff: Tariff) => {
     const { isAuthenticated } = useAuthStore.getState();
     const { selectedTariffs, setSelectedTariffs } = get();
 
@@ -120,7 +129,13 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
 
       const newQuantity = currentCount - 1;
       const updated = selectedTariffs.map((t) =>
-        t.id === tariff.id ? { ...t, quantity: newQuantity } : t
+        t.id === tariff.id
+          ? {
+              ...t,
+              quantity: newQuantity,
+              total_amount: t.price_sell * newQuantity,
+            }
+          : t
       );
       setSelectedTariffs(updated);
     }

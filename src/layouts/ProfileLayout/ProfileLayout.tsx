@@ -36,10 +36,10 @@ const ProfileLayout = () => {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <Navbar />
       <div className="container">
-        <div className="py-[50px] md:py-[50px] sm:py-[25px]">
+        <div className="py-[25px] md:py-[30px] sm:py-[20px]">
           <ProfileHeader />
           <ProfileTabs activeCount={0} inactiveCount={0} />
           <div className="w-full">

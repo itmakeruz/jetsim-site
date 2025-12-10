@@ -1,7 +1,9 @@
 import { ANIMATIONS } from "@/assets/animations";
 import Lottie from "lottie-react";
+import { useTranslation } from "react-i18next";
 
-export default function Empty() {
+export default function Empty({ text }: { text: string }) {
+  const { t } = useTranslation();
   return (
     <div className="flex items-center justify-center grow">
       <div className="text-center w-full container">
@@ -13,16 +15,14 @@ export default function Empty() {
               style={{ width: 500, height: 300 }}
             />
           </div>
-          <h1 className="text-[24px] font-bold text-gray-800 mb-4">
-            Этот тариф не найден. Возможно, вы посмотрите список.
-          </h1>
+          <h1 className="text-[24px] font-bold text-gray-800 mb-4">{text}</h1>
 
           <div className="space-x-4">
             <button
               onClick={() => (window.location.href = "/")}
               className="bg-[#112D6C] w-full text-white px-6 py-3 rounded-sm"
             >
-              Вернуться к списку
+              {t("error.back_to_list")}
             </button>
           </div>
         </div>

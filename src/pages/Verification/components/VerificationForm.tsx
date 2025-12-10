@@ -9,6 +9,7 @@ import VerificationHeader from "./VerificationHeader";
 import OTPInputs from "./OTPInputs";
 import ResendCode from "./ResendCode";
 import VerificationSubmitButton from "./VerificationSubmitButton";
+import { useTariffStore } from "@/store/tariffStore";
 
 const VerificationForm = () => {
   const { t } = useTranslation();
@@ -16,7 +17,7 @@ const VerificationForm = () => {
   const navigate = useNavigate();
   const { setToken, getProfile } = useAuthStore();
   const email = searchParams.get("email") || "";
-
+  const { syncToAPI } = useTariffStore();
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [isLoading, setIsLoading] = useState(false);
   const [timer, setTimer] = useState(60);
@@ -121,6 +122,7 @@ const VerificationForm = () => {
         // If token is returned, save it and get profile
         if (response.data.data?.access_token) {
           setToken(response.data.data.access_token);
+          await syncToAPI();
           await getProfile();
         }
 
