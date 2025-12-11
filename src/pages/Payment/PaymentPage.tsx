@@ -1,21 +1,54 @@
+import { useState, useMemo } from "react";
 import { useTariffStore } from "@/store/tariffStore";
 import { useNavigate } from "react-router-dom";
-
+import { useAuthStore } from "@/store/authStore";
 import { ASSETS } from "@/assets";
 import CartItem from "../Profile/components/CartItem";
+import EmailInputForm from "./components/EmailInputForm";
+import OTPVerificationForm from "./components/OTPVerificationForm";
+import PaymentForm from "./components/PaymentForm";
+
+type PaymentStep = "email" | "otp" | "payment";
 
 const PaymentPage = () => {
   const { selectedTariffs } = useTariffStore();
+  const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+
+  // Email step state
+  const [email, setEmail] = useState("");
+  const [emailSubmitted, setEmailSubmitted] = useState(false);
+
+  // Determine current step
+  const currentStep: PaymentStep = useMemo(() => {
+    if (isAuthenticated) return "payment";
+    if (emailSubmitted) return "otp";
+    return "email";
+  }, [isAuthenticated, emailSubmitted]);
+
+  // Calculate total price
+  const totalPrice = useMemo(
+    () => selectedTariffs.reduce((acc, tariff) => acc + tariff.total_amount, 0),
+    [selectedTariffs]
+  );
+
+  const handleEmailSubmitted = (submittedEmail: string) => {
+    setEmail(submittedEmail);
+    setEmailSubmitted(true);
+  };
+
+  const handleTimerReset = () => {
+    // Timer will be reset in OTPVerificationForm component
+  };
 
   return (
     <div className="container">
-      <div className="py-6 grow flex flex-col">
+      <div className="py-4 flex flex-col">
         <button
           onClick={() => {
             navigate(-1);
           }}
-          className="flex items-center gap-[15px] mb-[26px]"
+          className="flex items-center gap-[15px] mb-[20px] w-max"
         >
           <div className="w-[50px] h-[50px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
             <img
@@ -36,26 +69,22 @@ const PaymentPage = () => {
             ))}
           </div>
           <div className="sticky top-4 h-max">
-            <div className="flex flex-col gap-[26px]">
-              <form className="flex items-center gap-2">
-                <div className="flex flex-col gap-2 relative w-full">
-                  <label
-                    className="absolute top-0 left-[16px] bg-white px-1 translate-y-[-50%] text-[12px] font-medium text-[#637381]"
-                    htmlFor=""
-                  >
-                    Email
-                  </label>
-                  <input
-                    className="border border-[#919EAB33] px-[14px] py-[18px] text-[14px] rounded-[8px] w-full"
-                    type="email"
-                    required
-                    placeholder="Email"
-                  />
-                </div>
-                <button className="bg-[#112D6C] h-[54px] px-[64px] rounded-[8px] text-[16px] font-medium text-white">
-                  Далее
-                </button>
-              </form>
+            <div className="flex flex-col gap-[20px]">
+              {/* Email Input Step */}
+              {(currentStep === "email" || currentStep === "otp") && (
+                <EmailInputForm
+                  onEmailSubmitted={handleEmailSubmitted}
+                  onTimerReset={handleTimerReset}
+                />
+              )}
+
+              {/* OTP Verification Step */}
+              {currentStep === "otp" && email && (
+                <OTPVerificationForm email={email} />
+              )}
+
+              {/* Payment Step */}
+              <PaymentForm totalPrice={totalPrice} />
             </div>
           </div>
         </div>
@@ -63,4 +92,5 @@ const PaymentPage = () => {
     </div>
   );
 };
+
 export default PaymentPage;

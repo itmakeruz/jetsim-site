@@ -63,6 +63,11 @@ export const cartAPI = {
   getStaticOrders: () => axios.get("/order/static"),
 };
 
+// Payment API'lar
+export const paymentAPI = {
+  preparePayment: (data?: any) => axios.post("/payment/prepare-payment", data),
+};
+
 // Boshqa API'larni qo'shishingiz mumkin
 export const userAPI = {
   // getProfile: () => axios.get("/user/profile"),
@@ -79,6 +84,7 @@ const api = {
   tariff: tariffAPI,
   cart: cartAPI,
   user: userAPI,
+  payment: paymentAPI,
 };
 
 export default api;

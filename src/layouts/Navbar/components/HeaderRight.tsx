@@ -8,14 +8,17 @@ import UserButton from "./UserButton";
 import LogoutButton from "./LogoutButton";
 import LoginButton from "./LoginButton";
 import LogoutModal from "./LogoutModal";
+import { useTariffStore } from "@/store/tariffStore";
 
 function HeaderRight() {
   const { isAuthenticated, logout } = useAuthStore();
   const navigate = useNavigate();
+  const { setSelectedTariffs } = useTariffStore();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
+    setSelectedTariffs([]);
     setIsLogoutModalOpen(false);
     navigate(APP_ROUTES.HOME);
   };
