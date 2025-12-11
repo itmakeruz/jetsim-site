@@ -9,7 +9,7 @@ const CartButton = () => {
   const { t } = useTranslation();
   const cartCount = selectedTariffs.reduce(
     (acc, tariff) => acc + tariff.quantity,
-    20
+    0
   );
   return (
     <Link
