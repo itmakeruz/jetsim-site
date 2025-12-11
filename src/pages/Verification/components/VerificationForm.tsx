@@ -20,7 +20,7 @@ const VerificationForm = () => {
   const { syncToAPI } = useTariffStore();
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const [isLoading, setIsLoading] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(120);
   const [canResend, setCanResend] = useState(false);
   const [hasError, setHasError] = useState(false);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
@@ -129,14 +129,35 @@ const VerificationForm = () => {
         // Navigate to home or profile after successful verification
         navigate(APP_ROUTES.HOME);
       } else {
-        // Check if it's an invalid OTP error (401)
-        if (response.data.statusCode === 401) {
+        // Check if it's an expired OTP error (400)
+        if (response.data.statusCode === 400) {
+          toast.error(response.data.message || t("verification.code_expired"));
           setHasError(true);
+          setOtp(Array(6).fill(""));
+          setCanResend(true);
+          inputRefs.current[0]?.focus();
+        }
+        // Check if it's an invalid OTP error (401)
+        else if (response.data.statusCode === 401) {
+          setHasError(true);
+          toast.error(
+            response.data.message || t("verification.error_occurred")
+          );
         }
       }
     } catch (error: any) {
+      // Check if it's an expired OTP error (400)
+      if (error.response?.data?.statusCode === 400) {
+        toast.error(
+          error.response?.data?.message || t("verification.code_expired")
+        );
+        setHasError(true);
+        setOtp(Array(6).fill(""));
+        setCanResend(true);
+        inputRefs.current[0]?.focus();
+      }
       // Check if it's an invalid OTP error (401)
-      if (error.response?.data?.statusCode === 401) {
+      else if (error.response?.data?.statusCode === 401) {
         setHasError(true);
       }
     } finally {

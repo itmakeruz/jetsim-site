@@ -9,11 +9,19 @@ function HeaderLeft() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="flex items-center xl:gap-[50px] gap-[30px]">
-      <Link to={APP_ROUTES.HOME}>
+      <button
+        className="block md:hidden text-2xl bg-none border-none cursor-pointer p-[5px]"
+        onClick={() => {
+          setIsMenuOpen(!isMenuOpen);
+        }}
+      >
+        ☰
+      </button>
+      <Link to={APP_ROUTES.HOME} className="hidden md:block">
         <img
           src={ASSETS.logo}
           alt="logo"
-          className="w-[150px] md:w-[150px] sm:w-[110px] object-contain"
+          className="w-[150px] md:w-[150px] sm:w-[110px] object-contain shrink-0"
         />
       </Link>
       <div className="hidden lg:flex xl:gap-[30px] gap-[20px]">
@@ -36,14 +44,6 @@ function HeaderLeft() {
           {t("nav.about")}
         </Link>
       </div>
-      <button
-        className="block lg:hidden text-2xl bg-none border-none cursor-pointer p-[5px]"
-        onClick={() => {
-          setIsMenuOpen(!isMenuOpen);
-        }}
-      >
-        ☰
-      </button>
     </div>
   );
 }

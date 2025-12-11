@@ -15,7 +15,7 @@ const VerificationSubmitButton = ({
     <button
       type="submit"
       disabled={isDisabled}
-      className="bg-[#112D6C] lg:text-base text-[14px] font-medium lg:py-5 py-3 lg:rounded-[16px] rounded-lg text-white lg:mt-[30px] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
+      className="bg-[#112D6C] lg:text-base text-[14px] font-medium lg:py-5 py-3 md:rounded-[16px] rounded text-white lg:mt-[30px] mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {isLoading ? t("verification.loading") : t("verification.continue")}
     </button>

@@ -10,7 +10,7 @@ const LoginButton = ({ onClick }: LoginButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="bg-[#112D6C] text-white px-7 py-2 text-[16px] font-medium rounded-[6px]"
+      className="bg-[#112D6C] text-white md:px-7 px-5 leading-none py-3 text-[16px] font-medium rounded-[6px]"
     >
       {t("nav.login")}
     </button>

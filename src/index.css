@@ -63,7 +63,7 @@ body {
   }
 }
 
-@media (max-width: 500px) {
+@media (max-width: 768px) {
   .container {
     padding-left: 15px;
     padding-right: 15px;

@@ -20,7 +20,7 @@ const OTPInputs = ({
   onPaste,
 }: OTPInputsProps) => {
   return (
-    <div className="flex gap-2 lg:gap-3 justify-center mb-4">
+    <div className="flex gap-2 lg:gap-3 justify-center md:mb-4 mb-2">
       {otp.map((digit, index) => (
         <input
           key={index}

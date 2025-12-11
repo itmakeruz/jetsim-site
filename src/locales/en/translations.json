@@ -263,6 +263,7 @@
     "email_not_found": "Email not found",
     "email_verified": "Email verified!",
     "error_occurred": "An error occurred. Please try again.",
-    "code_sent": "Verification code sent to your email!"
+    "code_sent": "Verification code sent to your email!",
+    "code_expired": "Confirmation code expired! Please request a new code."
   }
 }

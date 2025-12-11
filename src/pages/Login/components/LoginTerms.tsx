@@ -6,7 +6,7 @@ const LoginTerms = () => {
   const { t } = useTranslation();
 
   return (
-    <p className="lg:text-[14px] text-[12px] max-lg:justify-center font-medium text-[#8A9099] leading-[1.4] mt-auto flex flex-wrap gap-1">
+    <p className="lg:text-[14px] text-[12px] max-lg:justify-center font-medium text-[#8A9099] md:leading-[1.4] leading-none mt-auto flex flex-wrap gap-1">
       {t("login.terms_text")}{" "}
       <Link
         className="underline font-bold text-[#696B70]"

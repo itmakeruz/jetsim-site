@@ -6,19 +6,19 @@ const LoginAnimation = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="border-[#CBD2D9] pb-[50px] max-lg:hidden px-4 flex flex-col justify-center 2xl:gap-[50px] gap-[30px] border-2 rounded-[16px]">
-      <div className=":h-[450px] h-[300px]">
+    <div className="border-[#CBD2D9] md:pb-[50px] px-4 flex flex-col justify-center 2xl:gap-[50px] gap-[30px] border-2 rounded-[16px] max-md:order-[-1]">
+      <div className="xl:h-[350px] md:h-[300px] h-[180px]">
         <Lottie
           animationData={flightAnimation}
           loop={true}
           style={{ width: "100%", height: "100%" }}
         />
       </div>
-      <div className="flex flex-col gap-[10px] max-w-[550px] mx-auto">
-        <h2 className="text-[26px] font-bold text-center text-black leading-none">
+      <div className="md:flex hidden flex-col gap-[10px] max-w-[550px] mx-auto">
+        <h2 className="md:text-[26px] text-[20px] font-bold text-center text-black leading-none">
           {t("login.animation_title")}
         </h2>
-        <p className="text-[18px] font-medium text-center text-[#4F7096] leading-[1.4]">
+        <p className="md:text-[18px] text-[16px] font-medium text-center text-[#4F7096] leading-[1.4]">
           {t("login.animation_description")}
         </p>
       </div>

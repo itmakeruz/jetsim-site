@@ -22,7 +22,9 @@ function HeaderRight() {
 
   return (
     <div className="flex items-center gap-5">
-      <LanguageSwitcher />
+      <div className="hidden md:block">
+        <LanguageSwitcher />
+      </div>
       <>
         {isAuthenticated ? (
           <div className="flex items-center gap-5">
@@ -33,14 +35,14 @@ function HeaderRight() {
           <LoginButton onClick={() => navigate(APP_ROUTES.LOGIN)} />
         )}
       </>
-      <div className="bg-[#D9D9D9] w-[1px] min-h-full shrink-0 self-stretch"></div>
-      <>
+      <div className="bg-[#D9D9D9] w-[1px] min-h-full shrink-0 self-stretch hidden md:block"></div>
+      <div className="hidden md:block">
         {isAuthenticated ? (
           <LogoutButton onClick={() => setIsLogoutModalOpen(true)} />
         ) : (
           <CartButton />
         )}
-      </>
+      </div>
       <LogoutModal
         isOpen={isLogoutModalOpen}
         onClose={() => setIsLogoutModalOpen(false)}
