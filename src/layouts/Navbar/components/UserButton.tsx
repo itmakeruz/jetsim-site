@@ -9,12 +9,18 @@ const UserButton = () => {
   return (
     <Link
       to={APP_ROUTES.PROFILE}
-      className="flex flex-col gap-1 items-center text-black text-sm font-medium"
+      className="flex flex-col gap-1 items-center text-black md:text-sm text-[12px] font-medium"
     >
-      <div className="relative">
-        <img src={ASSETS.user} alt="user" width="26" height="26" />
+      <div>
+        <img
+          src={ASSETS.user}
+          alt="user"
+          className="md:w-[26px] md:h-[26px] w-[28px] h-[28px]"
+        />
       </div>
-      <span className="relative leading-none">{t("nav.cabinet")}</span>
+      <span className="relative leading-none hidden md:block">
+        {t("nav.cabinet")}
+      </span>
     </Link>
   );
 };

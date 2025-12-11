@@ -27,7 +27,7 @@ function HeaderRight() {
       </div>
       <>
         {isAuthenticated ? (
-          <div className="flex items-center gap-5">
+          <div className="flex items-center md:gap-5 gap-4">
             <CartButton />
             <UserButton />
           </div>
