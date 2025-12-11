@@ -12,3 +12,6 @@ export const getLocalStorageCart = (): cartTariff[] => {
     return [];
   }
 };
+export function formatNumber(num: number) {
+   return num.toLocaleString("ru-RU");
+}

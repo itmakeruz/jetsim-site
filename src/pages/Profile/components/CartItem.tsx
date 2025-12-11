@@ -10,9 +10,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 interface CartItemProps {
   tariff: cartTariff;
-  isDropdownOpen: boolean;
-  onToggleDropdown: () => void;
-  dropdownRef: (el: HTMLDivElement | null) => void;
 }
 
 const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
@@ -40,7 +37,7 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
   };
   return (
     <>
-      <div className="bg-[#E1E5E85E] text-[14px] p-5 flex flex-col gap-4 rounded-[10px] relative">
+      <div className="bg-[#E1E5E85E] p-5 flex flex-col gap-4 rounded-[20px] relative">
         <TariffHeader
           image={tariff.image}
           name={tariff.name}
@@ -51,12 +48,12 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
           count={tariff.quantity || 1}
           onIncrease={handleIncrease}
           onDecrease={handleDecrease}
+          totalAmount={tariff.total_amount}
         />
         <hr />
         <CartItemFooter
           onOpenModal={handleOpenModal}
           hasRegions={!!tariff.regions && tariff.regions.length > 0}
-          totalAmount={tariff.total_amount}
         />
       </div>
 

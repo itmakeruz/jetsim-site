@@ -1,22 +1,21 @@
 import React from "react";
 import AvailableCountriesButton from "./AvailableCountriesButton";
-import TotalAmount from "./TotalAmount";
 
 interface CartItemFooterProps {
   onOpenModal: () => void;
   hasRegions: boolean;
-  totalAmount: number;
+  onActivate?: () => void;
 }
 
 const CartItemFooter: React.FC<CartItemFooterProps> = ({
   onOpenModal,
   hasRegions,
-  totalAmount,
+  onActivate,
 }) => {
   return (
-    <div className="flex items-center justify-between gap-[28px]">
+    <div className="flex flex-col gap-[10px]">
       <AvailableCountriesButton onClick={onOpenModal} disabled={!hasRegions} />
-      <TotalAmount amount={totalAmount} />
+      {onActivate &&<button onClick={onActivate} className="bg-[#112D6C] rounded-[9px] h-[50px] text-white text-base font-medium">Активировать</button>}
     </div>
   );
 };

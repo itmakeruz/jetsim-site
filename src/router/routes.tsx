@@ -110,6 +110,14 @@ export const appRoutes = [
           </Suspense>
         ),
       },
+      {
+        path: APP_ROUTES.PAYMENT,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PaymentPage />
+          </Suspense>
+        ),
+      },
     ],
   },
   {
@@ -179,14 +187,6 @@ export const appRoutes = [
         ),
       },
     ],
-  },
-  {
-    path: APP_ROUTES.PAYMENT,
-    element: (
-      <Suspense fallback={<Loader />}>
-        <PaymentPage />
-      </Suspense>
-    ),
   },
   {
     path: "*",

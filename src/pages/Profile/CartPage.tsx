@@ -6,45 +6,13 @@ import { APP_ROUTES } from "@/router/path";
 import CartItem from "./components/CartItem";
 import Empty from "../Empty/Empty";
 import { useTranslation } from "react-i18next";
+import { formatNumber } from "@/lib/utils";
 
 const CartPage = () => {
   const { t } = useTranslation();
   const { selectedTariffs } = useTariffStore();
   const navigate = useNavigate();
-  const [openDropdowns, setOpenDropdowns] = useState<{
-    [key: string]: boolean;
-  }>({});
-  const dropdownRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
-  const toggleDropdown = (tariffId: number) => {
-    setOpenDropdowns((prev) => ({
-      ...prev,
-      [tariffId]: !prev[tariffId],
-    }));
-  };
-
-  // Click outside to close dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      Object.keys(openDropdowns).forEach((tariffId) => {
-        const ref = dropdownRefs.current[Number(tariffId)];
-        if (ref && !ref.contains(event.target as Node)) {
-          setOpenDropdowns((prev) => ({
-            ...prev,
-            [tariffId]: false,
-          }));
-        }
-      });
-    };
-
-    if (Object.values(openDropdowns).some((isOpen) => isOpen)) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [openDropdowns]);
 
   return (
     <div>
@@ -57,11 +25,7 @@ const CartPage = () => {
               <CartItem
                 key={tariff.id}
                 tariff={tariff}
-                isDropdownOpen={!!openDropdowns[tariff.id]}
-                onToggleDropdown={() => toggleDropdown(tariff.id)}
-                dropdownRef={(el) => {
-                  dropdownRefs.current[tariff.id] = el;
-                }}
+               
               />
             ))}
           </div>
@@ -70,10 +34,7 @@ const CartPage = () => {
             className="bg-[#112D6C] text-white px-4 py-2 rounded-md w-full text-[22px] font-semibold"
           >
             {t("profile.cart.buy")}{" "}
-            {selectedTariffs
-              .reduce((acc, tariff) => acc + tariff.total_amount, 0)
-              .toLocaleString()}
-            ₽
+            {formatNumber(selectedTariffs.reduce((acc, tariff) => acc + tariff.total_amount, 0))} ₽
           </button>
         </div>
       )}
