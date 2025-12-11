@@ -29,7 +29,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
     }`;
 
   return (
-    <div className="flex gap-[50px] md:gap-[50px] sm:gap-[15px] mb-[23px] flex-wrap justify-center items-center">
+    <div className="flex gap-[50px] md:gap-[50px] sm:gap-[15px] mb-[23px] flex-wrap justify-start items-center">
       <NavLink
         to={APP_ROUTES.CART}
         className={({ isActive }) => getTabClassName(isActive)}

@@ -249,7 +249,7 @@ const ProfilePage = () => {
 
         <button
           type="button"
-          className="bg-[#007bff] mt-auto text-white border-none py-5 px-6 rounded-[10px] text-base md:text-base sm:text-sm xs:text-xs cursor-pointer self-end w-full disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#112D6C] mt-auto text-white border-none py-5 px-6 rounded-[10px] text-base md:text-base sm:text-sm xs:text-xs cursor-pointer self-end w-full disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handleSave}
           disabled={isLoading}
         >

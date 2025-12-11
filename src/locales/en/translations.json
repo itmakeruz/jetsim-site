@@ -31,6 +31,8 @@
     "tabs": {
       "profile": "Profile",
       "cart": "Cart",
+      "active": "Active",
+      "inactive": "Inactive",
       "esim": "My eSIM",
       "history": "Purchase history"
     },
