@@ -18,7 +18,7 @@ function RegionDropdownItem({
       type="button"
       onClick={() => onSelect(region)}
       disabled={disabled}
-      className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-[#F0F0FB] transition-colors ${
+      className={`w-full flex items-center gap-3 px-4 md:py-3 py-2 hover:bg-[#F0F0FB] transition-colors ${
         disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
       }`}
     >
@@ -28,7 +28,7 @@ function RegionDropdownItem({
         width={40}
         height={40}
       />
-      <span className="flex-1 text-left text-[#4F7096] font-medium">
+      <span className="flex-1 text-left md:text-[16px] text-[14px] text-[#4F7096] font-medium">
         {region.name}
       </span>
       <ChevronRight className="w-5 h-5 text-[#4F7096]" />

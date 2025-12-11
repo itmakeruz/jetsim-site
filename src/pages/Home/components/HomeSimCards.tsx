@@ -23,7 +23,7 @@ function HomeSimCards({ activeCategory }: HomeSimCardsProps) {
   const regionGroups = regionGroupResponse?.data;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-5 gap-3">
       {!isLoading
         ? regionGroups?.map((regionGroup: RegionGroup) => (
             <SimCard key={regionGroup.id} regionGroup={regionGroup as any} />

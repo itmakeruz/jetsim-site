@@ -32,7 +32,7 @@ function HomeCategories({
   setActiveCategory,
 }: HomeCategoriesProps) {
   return (
-    <div className="flex gap-[20px] justify-center items-center mt-[28px] mb-[50px]">
+    <div className="flex md:gap-[20px] gap-[10px] md:justify-center items-center md:mt-[28px] mt-[20px] md:mb-[50px] mb-[30px] overflow-x-auto no-scroll snap-x">
       {categories.map((category: any) => (
         <CategoryButton
           key={category.id}

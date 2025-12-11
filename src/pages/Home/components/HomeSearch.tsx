@@ -8,7 +8,7 @@ import SelectedRegionChip from "./HomeSearch/SelectedRegionChip";
 import SearchInput from "./HomeSearch/SearchInput";
 import RegionDropdown from "./HomeSearch/RegionDropdown";
 
-const MAX_SELECTIONS = 4;
+const MAX_SELECTIONS = 3;
 
 function HomeSearch() {
   const [inputValue, setInputValue] = useState("");
@@ -93,9 +93,9 @@ function HomeSearch() {
       <div ref={searchRef} className="relative">
         <form
           onSubmit={handleSearchSubmit}
-          className="border border-[#8A8AC7] bg-[#F0F0FB] rounded-[10px] relative"
+          className="border border-[#8A8AC7] bg-[#F0F0FB] md:rounded-[10px] rounded-[6px] relative"
         >
-          <div className="flex items-center flex-wrap gap-2 p-2 pr-14 min-h-[60px]">
+          <div className="flex items-center flex-wrap md:gap-2 gap-1 md:p-2 p-1 md:pr-14 pr-2 md:min-h-[60px] min-h-[50px]">
             {/* Tanlangan regionlar */}
             {selectedRegions.map((region) => (
               <SelectedRegionChip

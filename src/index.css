@@ -36,6 +36,9 @@ body {
   padding-right: 20px;
   margin: 0 auto;
 }
+.no-scroll::-webkit-scrollbar {
+  display: none;
+}
 .loader {
   width: 48px;
   height: 48px;

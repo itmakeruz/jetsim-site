@@ -11,20 +11,19 @@ const SimCard = ({ regionGroup }: SimCardProps) => {
   return (
     <Link
       to={`/tariffs/${regionGroup.id}`}
-      className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] rounded-[12px] px-[18px] py-[27px]"
+      className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] md:rounded-[12px] rounded-[8px] md:px-[18px] px-[10px] md:py-[27px] py-[18px]"
     >
-      <div className="flex items-center gap-[18px]">
+      <div className="flex items-center md:gap-[18px] gap-[10px]">
         <ImagePreview
           src={regionGroup.image}
           alt={regionGroup.name}
-          width={66}
-          height={66}
+          className="md:w-[66px] md:h-[66px] w-[50px] h-[50px]"
         />
         <div className="flex flex-col">
-          <h2 className="text-[18px] font-semibold text-black">
+          <h2 className="md:text-[18px] text-[14px] font-semibold text-black">
             {regionGroup.name}
           </h2>
-          <span className="text-[16px] text-[#4F7096] font-medium">
+          <span className="md:text-[16px] text-[14px] text-[#4F7096] font-medium">
             От {regionGroup?.min_price?.toLocaleString() || 0} ₽
           </span>
         </div>

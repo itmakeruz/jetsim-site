@@ -13,8 +13,8 @@ const MainLayout = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      {/* <Outlet />
-      <Bottom /> */}
+      <Outlet />
+      <Bottom />
     </div>
   );
 };

@@ -30,13 +30,13 @@ function SearchInput({
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onFocus={onFocus}
-        className="flex-1 min-w-[120px] p-2 text-base text-[#4F7096] outline-none bg-transparent"
+        className="flex-1 min-w-[120px] p-2 md:text-base text-[14px] text-[#4F7096] outline-none bg-transparent"
       />
       <button
         type="submit"
-        className="absolute right-1 bg-[#8A8AC7] rounded-[10px] w-[50px] h-[50px] flex items-center justify-center"
+        className="absolute right-1 bg-[#8A8AC7] md:rounded-[10px] rounded-[6px] md:w-[50px] md:h-[50px] w-[40px] h-[40px] flex items-center justify-center"
       >
-        <Search className="w-6 h-6 text-[#FFFFFF]" />
+        <Search className="md:w-6 md:h-6 w-5 h-5 text-[#FFFFFF]" />
       </button>
     </>
   );

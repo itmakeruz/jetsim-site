@@ -9,7 +9,7 @@ interface SelectedRegionChipProps {
 
 function SelectedRegionChip({ region, onRemove }: SelectedRegionChipProps) {
   return (
-    <div className="flex items-center gap-2 bg-white border border-[#E8EDF2] rounded-[8px] px-2 py-1 shadow-sm">
+    <div className="flex items-center gap-2 bg-white border border-[#E8EDF2] md:rounded-[8px] rounded md:px-2 px-1 md:py-1 py-0.5 shadow-sm">
       <ImagePreview
         src={region.image}
         alt={region.name}
