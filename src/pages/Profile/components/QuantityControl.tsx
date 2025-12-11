@@ -2,25 +2,21 @@ import { Minus, Plus } from "lucide-react";
 
 interface QuantityControlProps {
   count: number;
-  onOpenRegions?: () => void;
   onIncrease?: () => void;
   onDecrease?: () => void;
 }
 
 const QuantityControl: React.FC<QuantityControlProps> = ({
   count,
-  onOpenRegions,
   onIncrease,
   onDecrease,
 }) => {
   return (
     <div className="flex w-full border-[2px] items-center border-[#112D6C] bg-[#112D6C] rounded-[10px] overflow-hidden">
-      <button
-        onClick={onOpenRegions}
-        className="bg-white rounded-l-[8px] w-full py-1 px-2 text-[20px] font-medium hover:bg-gray-50 transition-colors"
-      >
-        Доступные страны
-      </button>
+      <div className="bg-white rounded-l-[8px] w-full py-1 px-2 text-[20px] font-medium hover:bg-gray-50 transition-colors">
+        Количество
+      </div>
+
       <div className="flex items-center gap-2 bg-[#112D6C] rounded-lg px-4 py-2">
         <button
           onClick={onDecrease}

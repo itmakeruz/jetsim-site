@@ -17,7 +17,7 @@ const TariffHeader: React.FC<TariffHeaderProps> = ({ image, name, title }) => {
           height={40}
           rounded={false}
         />
-        <h3 className="font-normal text-lg md:text-xl lg:text-2xl leading-[22.42px] tracking-[0px]">
+        <h3 className="font-normal text-lg md:text-xl lg:text-2xl leading-[1] tracking-[0px]">
           {title}
         </h3>
       </div>

@@ -3,6 +3,7 @@ import type { cartTariff } from "@/types/api";
 import TariffHeader from "./TariffHeader";
 import TariffInfo from "./TariffInfo";
 import QuantityControl from "./QuantityControl";
+import CartItemFooter from "./CartItemFooter";
 import RegionsModal from "../../Tariffs/components/RegionsModal";
 import { useTariffStore } from "@/store/tariffStore";
 import { useQueryClient } from "@tanstack/react-query";
@@ -18,6 +19,7 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { increaseQuantity, decreaseQuantity } = useTariffStore();
+
   const handleOpenModal = () => {
     if (tariff.regions && tariff.regions.length > 0) {
       setIsModalOpen(true);
@@ -38,7 +40,7 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
   };
   return (
     <>
-      <div className="border border-[#0000004D] text-[14px] p-5 flex flex-col gap-2 rounded-[10px] relative">
+      <div className="bg-[#E1E5E85E] text-[14px] p-5 flex flex-col gap-4 rounded-[10px] relative">
         <TariffHeader
           image={tariff.image}
           name={tariff.name}
@@ -47,9 +49,14 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
         <TariffInfo tariff={tariff} />
         <QuantityControl
           count={tariff.quantity || 1}
-          onOpenRegions={handleOpenModal}
           onIncrease={handleIncrease}
           onDecrease={handleDecrease}
+        />
+        <hr />
+        <CartItemFooter
+          onOpenModal={handleOpenModal}
+          hasRegions={!!tariff.regions && tariff.regions.length > 0}
+          totalAmount={tariff.total_amount}
         />
       </div>
 

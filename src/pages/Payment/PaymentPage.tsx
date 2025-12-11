@@ -23,12 +23,12 @@ const PaymentPage = () => {
     0
   );
 
-  const handleIncrease = async (tariffId: number) => {
-    await increaseQuantity(tariffId);
+  const handleIncrease = async (tariff: cartTariff) => {
+    await increaseQuantity(tariff);
   };
 
-  const handleDecrease = async (tariffId: number) => {
-    await decreaseQuantity(tariffId);
+  const handleDecrease = async (tariff: cartTariff) => {
+    await decreaseQuantity(tariff);
   };
 
   return (
@@ -201,7 +201,7 @@ const PaymentPage = () => {
                       </div>
                       <div className="flex items-center gap-2 bg-gray-800 text-white rounded-lg px-3 py-2">
                         <button
-                          onClick={() => handleDecrease(tariff.id)}
+                          onClick={() => handleDecrease(tariff)}
                           className="w-6 h-6 flex items-center justify-center hover:bg-gray-700 rounded transition-colors"
                         >
                           <span className="text-lg">-</span>
@@ -210,7 +210,7 @@ const PaymentPage = () => {
                           {tariff.quantity || 1}
                         </span>
                         <button
-                          onClick={() => handleIncrease(tariff.id)}
+                          onClick={() => handleIncrease(tariff)}
                           className="w-6 h-6 flex items-center justify-center hover:bg-gray-700 rounded transition-colors"
                         >
                           <span className="text-lg">+</span>

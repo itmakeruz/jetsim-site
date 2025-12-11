@@ -69,11 +69,11 @@ const CartPage = () => {
             onClick={() => navigate(APP_ROUTES.PAYMENT)}
             className="bg-[#112D6C] text-white px-4 py-2 rounded-md w-full text-[22px] font-semibold"
           >
-            {t("profile.cart.buy")}{" "}
+            {t("profile.cart.buy")}
             {selectedTariffs
               .reduce((acc, tariff) => acc + tariff.total_amount, 0)
-              .toLocaleString()}{" "}
-            ₽.
+              .toLocaleString()}
+            ₽
           </button>
         </div>
       )}
