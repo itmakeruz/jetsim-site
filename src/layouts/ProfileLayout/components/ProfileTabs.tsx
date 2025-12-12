@@ -4,19 +4,13 @@ import { NavLink } from "react-router-dom";
 import { useAuthStore } from "../../../store/authStore";
 import { useTariffStore } from "../../../store/tariffStore";
 import { APP_ROUTES } from "@/router/path";
+import { useSimcardStore } from "@/store/simcardStore";
 
-interface ProfileTabsProps {
-  activeCount: number;
-  inactiveCount: number;
-}
-
-const ProfileTabs: React.FC<ProfileTabsProps> = ({
-  activeCount,
-  inactiveCount,
-}) => {
+const ProfileTabs: React.FC = () => {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuthStore();
   const { selectedTariffs } = useTariffStore();
+  const { activeSims, inactiveSims } = useSimcardStore();
 
   const cartCount = selectedTariffs.reduce(
     (sum, item) => sum + (item.quantity || 1),
@@ -59,7 +53,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
             <div className="flex items-center gap-2 md:gap-2">
               {t("profile.tabs.active") || "Активные"}{" "}
               <span className="w-[35px] md:w-[35px] sm:w-[25px] h-[22px] md:h-[22px] sm:h-[20px] rounded-[10px] bg-[#212b36] text-white flex items-center justify-center text-[15px] md:text-[15px] sm:text-[13px] font-semibold">
-                {activeCount}
+                {activeSims.length}
               </span>
             </div>
           </NavLink>
@@ -70,7 +64,7 @@ const ProfileTabs: React.FC<ProfileTabsProps> = ({
             <div className="flex items-center gap-2 md:gap-2">
               {t("profile.tabs.inactive") || "Не активные"}{" "}
               <span className="w-[35px] md:w-[35px] sm:w-[25px] h-[22px] md:h-[22px] sm:h-[20px] rounded-[10px] bg-[#212b36] text-white flex items-center justify-center text-[15px] md:text-[15px] sm:text-[13px] font-semibold">
-                {inactiveCount}
+                {inactiveSims.length}
               </span>
             </div>
           </NavLink>

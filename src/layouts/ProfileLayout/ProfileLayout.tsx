@@ -41,7 +41,7 @@ const ProfileLayout = () => {
       <div className="container">
         <div className="py-[25px] md:py-[30px] sm:py-[20px]">
           <ProfileHeader />
-          <ProfileTabs activeCount={0} inactiveCount={0} />
+          <ProfileTabs />
           <div className="w-full">
             <Outlet />
           </div>

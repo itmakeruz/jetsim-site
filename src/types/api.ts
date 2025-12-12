@@ -180,3 +180,28 @@ export interface TariffDetail {
   key: string;
   icon: string;
 }
+
+// Active SIM Card Types
+export interface ActiveSim {
+  id: number;
+  order_id: number;
+  tariff_id: number;
+  tariff_name: string;
+  usage: number;
+  day_left: number;
+  is_4g: boolean;
+  is_5g: boolean;
+  qr_code: string;
+  region_group: {
+    id: number;
+    name: string;
+    image: string;
+  };
+  regions: Region[];
+}
+
+export interface ActiveSimsResponse {
+  success: boolean;
+  message: string;
+  data: ActiveSim[];
+}

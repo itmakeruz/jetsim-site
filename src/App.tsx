@@ -5,21 +5,37 @@ import { AutoScrollToTop } from "./components/scrollToTop";
 import { ToastContainer } from "react-toastify";
 import { useAuthStore } from "./store/authStore";
 import "react-toastify/dist/ReactToastify.css";
-import { cartItemsQuery } from "./hooks/queries";
+import {
+  activeSimsQuery,
+  cartItemsQuery,
+  inactiveSimsQuery,
+} from "./hooks/queries";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import Loader from "./components/Loader";
 import { useTariffStore } from "./store/tariffStore";
 import { getLocalStorageCart } from "./lib/utils";
+import { useSimcardStore } from "./store/simcardStore";
 
 function App() {
   const { i18n } = useTranslation();
   const { setSelectedTariffs } = useTariffStore();
+  const { setInactiveSims, setActiveSims } = useSimcardStore();
   const { getProfile, logout, isAuthenticated, isLoading, setIsLoading } =
     useAuthStore();
   const { data, isLoading: isLoadingCart } = useQuery({
     queryKey: ["cartItems", i18n.language],
     queryFn: () => cartItemsQuery(),
+    enabled: isAuthenticated && !isLoading,
+  });
+  const { data: inactiveSims, isLoading: isLoadingInactiveSims } = useQuery({
+    queryKey: ["inactiveSims", i18n.language],
+    queryFn: () => inactiveSimsQuery(),
+    enabled: isAuthenticated && !isLoading,
+  });
+  const { data: activeSims, isLoading: isLoadingActiveSims } = useQuery({
+    queryKey: ["activeSims", i18n.language],
+    queryFn: () => activeSimsQuery(),
     enabled: isAuthenticated && !isLoading,
   });
 
@@ -44,7 +60,22 @@ function App() {
     }
   }, [data]);
 
-  if (isLoading || isLoadingCart) {
+  useEffect(() => {
+    if (inactiveSims) {
+      setInactiveSims(inactiveSims?.data || []);
+    }
+  }, [inactiveSims]);
+  useEffect(() => {
+    if (activeSims) {
+      setActiveSims(activeSims?.data || []);
+    }
+  }, [activeSims]);
+  if (
+    isLoading ||
+    isLoadingCart ||
+    isLoadingInactiveSims ||
+    isLoadingActiveSims
+  ) {
     return <Loader />;
   }
 

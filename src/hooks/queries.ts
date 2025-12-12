@@ -7,6 +7,7 @@ import type {
   RegionGroupResponse,
   TariffResponse,
   CartResponse,
+  ActiveSimsResponse,
 } from "../types/api";
 
 export const regionGroupsQuery = async (
@@ -64,6 +65,15 @@ export const useSearchRegionsQuery = (
 export const cartItemsQuery = async (): Promise<CartResponse> => {
   const response = await cartAPI.getCart();
   return response.data as CartResponse;
+};
+
+export const inactiveSimsQuery = async (): Promise<ActiveSimsResponse> => {
+  const response = await cartAPI.getInactiveSims();
+  return response.data as ActiveSimsResponse;
+};
+export const activeSimsQuery = async (): Promise<ActiveSimsResponse> => {
+  const response = await cartAPI.getActiveSims();
+  return response.data as ActiveSimsResponse;
 };
 
 export const tariffsByRegionIdsQuery = async (
