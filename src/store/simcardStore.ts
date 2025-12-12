@@ -8,7 +8,7 @@ interface SimcardStore {
   setInactiveSims: (inactiveSims: ActiveSim[]) => void;
 }
 
-export const useSimcardStore = create<SimcardStore>((set, get) => ({
+export const useSimcardStore = create<SimcardStore>((set) => ({
   activeSims: [],
   inactiveSims: [],
   setActiveSims: (activeSims) => set({ activeSims }),
