@@ -31,8 +31,7 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
         const paymentUrl = response.data.data?.payment_url;
         if (paymentUrl) {
           // Open payment URL in new tab
-          window.open(paymentUrl, "_blank");
-          toast.success("Redirecting to payment page...");
+          window.open(paymentUrl, "_self");
         } else {
           toast.error("Payment URL not found");
         }
