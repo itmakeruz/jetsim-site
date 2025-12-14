@@ -81,6 +81,13 @@ input:-webkit-autofill:active {
     padding-right: 15px;
   }
 }
+.bg-linear {
+  background: linear-gradient(
+    158.86deg,
+    rgba(255, 255, 255, 0.2) 34.21%,
+    rgba(28, 122, 229, 0.06) 95.4%
+  );
+}
 .upload-label::before {
   content: "";
   position: absolute;

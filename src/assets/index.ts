@@ -49,6 +49,8 @@ import sms from "./sms.svg";
 import calls from "./call.svg";
 import internetSpeed from "./internet_speed.svg";
 import emailAddress from "./email-address.svg";
+import apple from "./appleIcon.svg";
+import android from "./androidIcon.svg";
 export const ASSETS = {
   en,
   ru,
@@ -101,4 +103,6 @@ export const ASSETS = {
   calls,
   internetSpeed,
   emailAddress,
+  apple,
+  android,
 };

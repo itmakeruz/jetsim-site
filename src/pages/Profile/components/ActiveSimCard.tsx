@@ -8,9 +8,14 @@ import RegionsModal from "../../Tariffs/components/RegionsModal";
 interface ActiveSimCardProps {
   sim: ActiveSim;
   onActivate?: () => void;
+  isInactive?: boolean;
 }
 
-const ActiveSimCard: React.FC<ActiveSimCardProps> = ({ sim, onActivate }) => {
+const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
+  sim,
+  onActivate,
+  isInactive,
+}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleOpenModal = () => {
@@ -25,7 +30,11 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({ sim, onActivate }) => {
 
   return (
     <>
-      <div className="bg-[#E1E5E85E] p-5 flex flex-col gap-4 rounded-[20px] relative">
+      <div
+        className={`bg-[#E1E5E85E] border p-5 flex flex-col gap-4 rounded-[20px] relative ${
+          isInactive ? "border-[#112D6C]" : "border-transparent"
+        }`}
+      >
         <TariffHeader
           image={sim.region_group.image}
           name={sim.region_group.name}
