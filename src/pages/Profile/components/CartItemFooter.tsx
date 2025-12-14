@@ -5,17 +5,36 @@ interface CartItemFooterProps {
   onOpenModal: () => void;
   hasRegions: boolean;
   onActivate?: () => void;
+  disabled?: boolean;
 }
 
 const CartItemFooter: React.FC<CartItemFooterProps> = ({
   onOpenModal,
   hasRegions,
   onActivate,
+  disabled = false,
 }) => {
+  const isDisabled = disabled;
+
   return (
     <div className="flex flex-col gap-[10px]">
-      <AvailableCountriesButton onClick={onOpenModal} disabled={!hasRegions} />
-      {onActivate &&<button onClick={onActivate} className="bg-[#112D6C] rounded-[9px] h-[50px] text-white text-base font-medium">Активировать</button>}
+      <AvailableCountriesButton
+        onClick={onOpenModal}
+        disabled={!hasRegions || isDisabled}
+      />
+      {onActivate && (
+        <button
+          onClick={onActivate}
+          disabled={isDisabled}
+          className={`rounded-[9px] h-[50px] text-white text-base font-medium transition-opacity ${
+            isDisabled
+              ? "bg-gray-400 cursor-not-allowed opacity-60"
+              : "bg-[#112D6C] hover:opacity-90"
+          }`}
+        >
+          Активировать
+        </button>
+      )}
     </div>
   );
 };
