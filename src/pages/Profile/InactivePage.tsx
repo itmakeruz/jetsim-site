@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import ActiveSimCard from "./components/ActiveSimCard";
 import Empty from "../Empty/Empty";
 import { useSimcardStore } from "@/store/simcardStore";
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { ActiveSim } from "@/types/api";
 import ActivationPanel from "./components/ActivationPanel";
 
@@ -10,6 +10,19 @@ const InactivePage = () => {
   const { t } = useTranslation();
   const { inactiveSims } = useSimcardStore();
   const [activeSim, setActiveSim] = useState<ActiveSim | null>(null);
+  const activationPanelRef = useRef<HTMLDivElement>(null);
+
+  // Scroll to ActivationPanel when activeSim changes
+  useEffect(() => {
+    if (activeSim && activationPanelRef.current) {
+      setTimeout(() => {
+        activationPanelRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
+  }, [activeSim]);
 
   if (inactiveSims.length === 0) {
     return <Empty text={t("my.no_orders") || "Нет активных SIM-карт"} />;
@@ -27,7 +40,11 @@ const InactivePage = () => {
           />
         ))}
       </div>
-      {activeSim && <ActivationPanel sim={activeSim} />}
+      {activeSim && (
+        <div ref={activationPanelRef}>
+          <ActivationPanel sim={activeSim} />
+        </div>
+      )}
     </div>
   );
 };
