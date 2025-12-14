@@ -184,6 +184,10 @@ export interface TariffDetail {
 // Active SIM Card Types
 export interface ActiveSim {
   id: number;
+  iccid: string;
+  uid: string;
+  pin_1: string;
+  puk_1: string;
   order_id: number;
   tariff_id: number;
   tariff_name: string;
