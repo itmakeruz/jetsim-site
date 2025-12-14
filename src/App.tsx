@@ -23,20 +23,38 @@ function App() {
   const { setInactiveSims, setActiveSims } = useSimcardStore();
   const { getProfile, logout, isAuthenticated, isLoading, setIsLoading } =
     useAuthStore();
-  const { data, isLoading: isLoadingCart } = useQuery({
+  const {
+    data,
+    isLoading: isLoadingCart,
+    refetch: refetchCart,
+  } = useQuery({
     queryKey: ["cartItems", i18n.language],
     queryFn: () => cartItemsQuery(),
     enabled: isAuthenticated && !isLoading,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
   });
-  const { data: inactiveSims, isLoading: isLoadingInactiveSims } = useQuery({
+  const {
+    data: inactiveSims,
+    isLoading: isLoadingInactiveSims,
+    refetch: refetchInactiveSims,
+  } = useQuery({
     queryKey: ["inactiveSims", i18n.language],
     queryFn: () => inactiveSimsQuery(),
     enabled: isAuthenticated && !isLoading,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
   });
-  const { data: activeSims, isLoading: isLoadingActiveSims } = useQuery({
+  const {
+    data: activeSims,
+    isLoading: isLoadingActiveSims,
+    refetch: refetchActiveSims,
+  } = useQuery({
     queryKey: ["activeSims", i18n.language],
     queryFn: () => activeSimsQuery(),
     enabled: isAuthenticated && !isLoading,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
   });
 
   useEffect(() => {
@@ -70,6 +88,34 @@ function App() {
       setActiveSims(activeSims?.data || []);
     }
   }, [activeSims]);
+
+  // Refetch when tab becomes visible (user comes back to the tab)
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (
+        document.visibilityState === "visible" &&
+        isAuthenticated &&
+        !isLoading
+      ) {
+        refetchCart();
+        refetchInactiveSims();
+        refetchActiveSims();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [
+    isAuthenticated,
+    isLoading,
+    refetchCart,
+    refetchInactiveSims,
+    refetchActiveSims,
+  ]);
+
   if (
     isLoading ||
     isLoadingCart ||
