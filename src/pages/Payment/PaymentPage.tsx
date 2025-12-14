@@ -1,8 +1,9 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { useTariffStore } from "@/store/tariffStore";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { ASSETS } from "@/assets";
+import { APP_ROUTES } from "@/router/path";
 import CartItem from "../Profile/components/CartItem";
 import EmailInputForm from "./components/EmailInputForm";
 import OTPVerificationForm from "./components/OTPVerificationForm";
@@ -14,6 +15,13 @@ const PaymentPage = () => {
   const { selectedTariffs } = useTariffStore();
   const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
+
+  // Redirect to cart if cart is empty
+  useEffect(() => {
+    if (selectedTariffs.length === 0) {
+      navigate(APP_ROUTES.CART);
+    }
+  }, [selectedTariffs.length, navigate]);
 
   // Email step state
   const [email, setEmail] = useState("");
@@ -40,6 +48,11 @@ const PaymentPage = () => {
   const handleTimerReset = () => {
     // Timer will be reset in OTPVerificationForm component
   };
+
+  // Don't render if cart is empty (will redirect)
+  if (selectedTariffs.length === 0) {
+    return null;
+  }
 
   return (
     <div className="container">
