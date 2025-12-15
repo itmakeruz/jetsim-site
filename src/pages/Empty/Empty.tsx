@@ -15,7 +15,9 @@ export default function Empty({ text }: { text: string }) {
               style={{ width: 500, height: 300 }}
             />
           </div>
-          <h1 className="text-[24px] font-bold text-gray-800 mb-4">{text}</h1>
+          <h1 className="md:text-[24px] text-[16px] font-bold leading-[1.4] text-gray-800 mb-4">
+            {text}
+          </h1>
 
           <div className="space-x-4">
             <button

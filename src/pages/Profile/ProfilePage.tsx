@@ -133,12 +133,12 @@ const ProfilePage = () => {
   };
 
   return (
-    <div className="w-full grid grid-cols-[450px_1fr] gap-6">
-      <div className="flex flex-col items-center p-[80px] lg:p-[80px] md:p-[60px] sm:p-[40px] xs:p-[20px] border border-[#b2b2b2] rounded-lg">
-        <div className="flex flex-col items-center mb-[15px]">
+    <div className="w-full grid lg:grid-cols-[450px_1fr] grid-cols-1 gap-4 md:gap-6">
+      <div className="flex flex-col items-center p-5 md:p-[60px] lg:p-[80px] border border-[#b2b2b2] rounded-lg">
+        <div className="flex flex-col items-center mb-4 md:mb-[15px]">
           <label
             htmlFor="upload-input"
-            className="upload-label w-[128px] max-w-[128px] h-[128px] shrink-0 rounded-full text-white gap-2 bg-[rgba(0,0,0,48%)] flex flex-col items-center justify-center mb-2.5 relative cursor-pointer"
+            className="upload-label w-[100px] h-[100px] md:w-[128px] md:h-[128px] max-w-[128px] shrink-0 rounded-full text-white gap-2 bg-[rgba(0,0,0,48%)] flex flex-col items-center justify-center mb-2.5 relative cursor-pointer"
           >
             {selectedImage ? (
               <div className="w-full h-full rounded-full overflow-hidden">
@@ -158,8 +158,8 @@ const ProfilePage = () => {
               </div>
             ) : (
               <>
-                <ImageUp className="w-[24px] h-[24px]" />
-                <span className="text-[12px]">
+                <ImageUp className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]" />
+                <span className="text-[10px] md:text-[12px]">
                   {t("profile.profile.download")}
                 </span>
               </>
@@ -174,16 +174,16 @@ const ProfilePage = () => {
             style={{ display: "none" }}
           />
         </div>
-        <p className="text-[#919eab] font-normal text-[15px] md:text-[15px] sm:text-[13px] xs:text-[11px] leading-[18px] tracking-[0px] text-center">
+        <p className="text-[#919eab] font-normal text-[13px] md:text-[15px] leading-[18px] tracking-[0px] text-center">
           {t("profile.profile.permission")}
         </p>
-        <p className="text-[#919eab] font-normal text-[15px] md:text-[15px] sm:text-[13px] xs:text-[11px] leading-[18px] tracking-[0px] text-center mb-[25px]">
+        <p className="text-[#919eab] font-normal text-[13px] md:text-[15px] leading-[18px] tracking-[0px] text-center mb-4 md:mb-[25px]">
           {t("profile.profile.permission2")}
         </p>
 
         {(user?.image || selectedImage) && (
           <button
-            className="bg-[#ff563014] text-[#b71d18] border-none py-[10px] md:py-[10px] sm:py-[8px] xs:py-[6px] px-5 md:px-5 sm:px-4 xs:px-3 rounded cursor-pointer text-sm md:text-sm sm:text-xs xs:text-[10px] transition-colors"
+            className="bg-[#ff563014] text-[#b71d18] border-none py-2 md:py-[10px] px-4 md:px-5 rounded cursor-pointer text-xs md:text-sm transition-colors w-full md:w-auto"
             onClick={() => {
               if (selectedImage) {
                 handleClearSelectedImage();
@@ -198,8 +198,8 @@ const ProfilePage = () => {
         )}
       </div>
 
-      <form className="flex-1 flex flex-col items-center p-6 lg:p-6 md:p-4 sm:p-3 xs:p-2 border border-[#b2b2b2] rounded-lg">
-        <div className="grid grid-cols-2 gap-4 w-full">
+      <form className="flex-1 flex flex-col items-center p-4 md:p-6 border border-[#b2b2b2] rounded-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
           <FormField label={t("profile.profile.fio")}>
             <UniversalInput
               type="text"
@@ -237,7 +237,10 @@ const ProfilePage = () => {
               onChange={handleInputChange}
             />
           </FormField>
-          <FormField className="col-span-2" label={t("profile.profile.about")}>
+          <FormField
+            className="md:col-span-2 col-span-1"
+            label={t("profile.profile.about")}
+          >
             <UniversalTextarea
               name="about"
               placeholder="О себе"
@@ -249,7 +252,7 @@ const ProfilePage = () => {
 
         <button
           type="button"
-          className="bg-[#112D6C] mt-auto text-white border-none py-5 px-6 rounded-[10px] text-base md:text-base sm:text-sm xs:text-xs cursor-pointer self-end w-full disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-[#112D6C] mt-6 md:mt-auto text-white border-none py-4 md:py-5 px-6 rounded-[10px] text-sm md:text-base cursor-pointer w-full disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={handleSave}
           disabled={isLoading}
         >

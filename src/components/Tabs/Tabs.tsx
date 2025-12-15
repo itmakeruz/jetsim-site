@@ -1,5 +1,6 @@
 import React from "react";
-import TabItem, { TabItemConfig } from "./TabItem";
+import TabItem from "./TabItem";
+import type { TabItemConfig } from "@/components/Tabs";
 
 export interface TabsProps {
   tabs: TabItemConfig[];

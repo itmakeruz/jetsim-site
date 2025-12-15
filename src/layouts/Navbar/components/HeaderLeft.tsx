@@ -1,19 +1,19 @@
 import { ASSETS } from "@/assets";
 import { APP_ROUTES } from "@/router/path";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 
-function HeaderLeft() {
+interface HeaderLeftProps {
+  onMenuClick: () => void;
+}
+
+function HeaderLeft({ onMenuClick }: HeaderLeftProps) {
   const { t } = useTranslation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   return (
     <div className="flex items-center xl:gap-[50px] gap-[30px]">
       <button
         className="block md:hidden text-2xl bg-none border-none cursor-pointer p-[5px]"
-        onClick={() => {
-          setIsMenuOpen(!isMenuOpen);
-        }}
+        onClick={onMenuClick}
       >
         ☰
       </button>

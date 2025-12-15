@@ -15,7 +15,7 @@ const TabBadge: React.FC<TabBadgeProps> = ({
 
   return (
     <span
-      className={`w-[35px] md:w-[35px] sm:w-[25px] h-[22px] md:h-[22px] sm:h-[20px] rounded-[10px] ${bgColor} text-white flex items-center justify-center text-[15px] md:text-[15px] sm:text-[13px] font-semibold ${className}`}
+      className={`rounded-[10px] w-[25px] h-[16px] md:w-[35px] md:h-[22px] ${bgColor} text-white flex items-center justify-center text-[14px] md:text-[15px] font-semibold ${className}`}
     >
       {count}
     </span>

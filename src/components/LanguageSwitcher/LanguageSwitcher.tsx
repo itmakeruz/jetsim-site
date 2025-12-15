@@ -30,10 +30,10 @@ function LanguageSwitcher() {
 
   return (
     <Select value={language} onValueChange={handleChange}>
-      <SelectTrigger className="lg:w-[120px] border-none shadow-none! focus:ring-0! focus:ring-offset-0! focus:shadow-none! focus:outline-none! lg:text-[16px] text-[14px] font-semibold [&_svg]:hidden">
+      <SelectTrigger className="lg:w-[120px] max-md:max-w-full md:border-none shadow-none! focus:ring-0! focus:ring-offset-0! focus:shadow-none! focus:outline-none! lg:text-[16px] text-[14px] font-semibold [&_svg]:hidden">
         <SelectValue placeholder="Language" />
       </SelectTrigger>
-      <SelectContent className="border-none shadow w-max">
+      <SelectContent className="border-none shadow w-max z-[130]">
         {languages.map((lang) => (
           <SelectItem
             key={lang.code}
