@@ -272,5 +272,11 @@
     "subtitle": "Write to us",
     "placeholder": "Type your message...",
     "response": "Thank you! We will respond to you shortly."
+  },
+  "categories": {
+    "popular": "Popular",
+    "local": "Local",
+    "regional": "Regional",
+    "global": "Global"
   }
 }
