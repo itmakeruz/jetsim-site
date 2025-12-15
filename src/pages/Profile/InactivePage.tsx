@@ -17,7 +17,9 @@ const InactivePage = () => {
 
   // Polling for sims with can_activate: false
   useEffect(() => {
-    const simsNeedingPolling = inactiveSims.filter((sim) => !sim.can_activate);
+    const simsNeedingPolling = inactiveSims.filter(
+      (sim) => !sim.can_activate && sim.status == "COMPLETED"
+    );
 
     if (simsNeedingPolling.length === 0) {
       return;
