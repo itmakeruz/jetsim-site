@@ -14,25 +14,65 @@ const InactivePage = () => {
   const [activeSim, setActiveSim] = useState<ActiveSim | null>(null);
   const activationPanelRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
+  const pollingCountRef = useRef<Map<number, number>>(new Map());
 
-  // Polling for sims with can_activate: false
+  // Polling for sims with can_activate: false (max 3 times)
   useEffect(() => {
-    const simsNeedingPolling = inactiveSims.filter(
-      (sim) => !sim.can_activate && sim.status == "COMPLETED"
+    const { inactiveSims: currentInactiveSims } = useSimcardStore.getState();
+
+    // Clean up counters for sims that are no longer in the list or can_activate is true
+    currentInactiveSims.forEach((sim) => {
+      if (sim.can_activate || sim.status !== "CREATED") {
+        pollingCountRef.current.delete(sim.id);
+      }
+    });
+
+    const simsNeedingPolling = currentInactiveSims.filter(
+      (sim) => !sim.can_activate && sim.status === "CREATED"
     );
 
     if (simsNeedingPolling.length === 0) {
       return;
     }
 
+    // Initialize counters for new sims
+    simsNeedingPolling.forEach((sim) => {
+      if (!pollingCountRef.current.has(sim.id)) {
+        pollingCountRef.current.set(sim.id, 0);
+      }
+    });
+
     const intervalId = setInterval(async () => {
       try {
+        // Get current sims from store to check fresh status
+        const { inactiveSims: latestInactiveSims } = useSimcardStore.getState();
+        const currentSims = latestInactiveSims.filter(
+          (sim) => !sim.can_activate && sim.status === "CREATED"
+        );
+
+        // Check if any sim still needs polling (hasn't reached 3 attempts)
+        const activeSimsForPolling = currentSims.filter((sim) => {
+          const count = pollingCountRef.current.get(sim.id) || 0;
+          return count < 3;
+        });
+
+        if (activeSimsForPolling.length === 0) {
+          clearInterval(intervalId);
+          return;
+        }
+
         // Fetch fresh data
         const result = await inactiveSimsQuery();
 
         // Update store with fresh data
         if (result?.data) {
           setInactiveSims(result.data);
+
+          // Increment polling count for each sim that was polled
+          activeSimsForPolling.forEach((sim) => {
+            const currentCount = pollingCountRef.current.get(sim.id) || 0;
+            pollingCountRef.current.set(sim.id, currentCount + 1);
+          });
 
           // Invalidate query cache to keep it in sync
           queryClient.invalidateQueries({
@@ -75,7 +115,7 @@ const InactivePage = () => {
               isInactive={activeSim?.id === sim.id}
               onActivate={() => setActiveSim(sim)}
             />
-            {!sim.can_activate && sim.status == "COMPLETED" && (
+            {!sim.can_activate && sim.status === "COMPLETED" && (
               <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-[20px] z-20 flex items-center justify-center">
                 <div className="flex flex-col items-center gap-3">
                   <div className="loader"></div>
