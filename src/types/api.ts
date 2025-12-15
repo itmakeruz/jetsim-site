@@ -203,6 +203,7 @@ export interface ActiveSim {
   };
   regions: Region[];
   status: string;
+  can_activate: boolean;
 }
 
 export interface ActiveSimsResponse {
