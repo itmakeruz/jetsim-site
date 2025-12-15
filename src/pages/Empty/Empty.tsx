@@ -12,7 +12,7 @@ export default function Empty({ text }: { text: string }) {
             <Lottie
               animationData={ANIMATIONS.empty}
               loop={true}
-              style={{ width: 500, height: 300 }}
+              className="lg:w-[500px] lg:h-[300px] w-[300px] h-[200px]"
             />
           </div>
           <h1 className="md:text-[24px] text-[16px] font-bold leading-[1.4] text-gray-800 mb-4">
