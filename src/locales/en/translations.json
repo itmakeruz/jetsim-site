@@ -265,5 +265,12 @@
     "error_occurred": "An error occurred. Please try again.",
     "code_sent": "Verification code sent to your email!",
     "code_expired": "Confirmation code expired! Please request a new code."
+  },
+  "chatbot": {
+    "welcome": "Hello! How can I help you?",
+    "title": "Support",
+    "subtitle": "Write to us",
+    "placeholder": "Type your message...",
+    "response": "Thank you! We will respond to you shortly."
   }
 }

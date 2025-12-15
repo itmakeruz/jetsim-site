@@ -16,6 +16,7 @@ import Loader from "./components/Loader";
 import { useTariffStore } from "./store/tariffStore";
 import { getLocalStorageCart } from "./lib/utils";
 import { useSimcardStore } from "./store/simcardStore";
+import Chatbot from "./components/Chatbot/Chatbot";
 
 function App() {
   const { i18n } = useTranslation();
@@ -144,6 +145,7 @@ function App() {
           </Route>
         ))}
       </Routes>
+      <Chatbot />
     </BrowserRouter>
   );
 }

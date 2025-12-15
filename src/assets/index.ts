@@ -51,6 +51,7 @@ import internetSpeed from "./internet_speed.svg";
 import emailAddress from "./email-address.svg";
 import apple from "./appleIcon.svg";
 import android from "./androidIcon.svg";
+import support from "./support.svg";
 export const ASSETS = {
   en,
   ru,
@@ -105,4 +106,5 @@ export const ASSETS = {
   emailAddress,
   apple,
   android,
+  support,
 };
