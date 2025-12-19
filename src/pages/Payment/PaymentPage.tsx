@@ -8,6 +8,7 @@ import CartItem from "../Profile/components/CartItem";
 import EmailInputForm from "./components/EmailInputForm";
 import OTPVerificationForm from "./components/OTPVerificationForm";
 import PaymentForm from "./components/PaymentForm";
+import BackButtonWithTitle from "@/components/BackButtonWithTitle";
 
 type PaymentStep = "email" | "otp" | "payment";
 
@@ -57,24 +58,7 @@ const PaymentPage = () => {
   return (
     <div className="container">
       <div className="py-4 flex flex-col">
-        <button
-          onClick={() => {
-            navigate(-1);
-          }}
-          className="flex items-center gap-[15px] mb-[20px] w-max"
-        >
-          <div className="w-[50px] h-[50px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
-            <img
-              src={ASSETS.backArrow}
-              alt="back"
-              className="translate-x-[-1px]"
-              width="13"
-              height="22"
-            />
-          </div>
-          <h1 className="text-[30px] font-bold text-[#0D141C]">Оплата</h1>
-        </button>
-
+        <BackButtonWithTitle className="mb-[20px]" title="Оплата" />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-[40px]">
           <div className="flex flex-col gap-3">
             {selectedTariffs.map((tariff) => (

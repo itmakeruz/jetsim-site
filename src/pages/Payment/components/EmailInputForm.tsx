@@ -52,7 +52,10 @@ const EmailInputForm = ({
   };
 
   return (
-    <form onSubmit={handleEmailSubmit} className="flex items-center gap-2">
+    <form
+      onSubmit={handleEmailSubmit}
+      className="flex items-center md:flex-row flex-col gap-2"
+    >
       <div className="flex flex-col gap-2 relative w-full">
         <label
           className="absolute top-0 left-[16px] bg-white px-1 translate-y-[-50%] text-[12px] font-medium text-[#637381]"
@@ -74,7 +77,7 @@ const EmailInputForm = ({
       <button
         type="submit"
         disabled={!isValidEmail || emailLoading}
-        className="bg-[#112D6C] disabled:cursor-not-allowed!  disabled:bg-[#919EAB] disabled:opacity-50 h-[54px] px-[64px] rounded-[8px] text-[16px] font-medium text-white transition-colors"
+        className="bg-[#112D6C] max-md:w-full  disabled:cursor-not-allowed!  disabled:bg-[#919EAB] disabled:opacity-50 h-[54px] px-[64px] rounded-[8px] text-[16px] font-medium text-white transition-colors"
       >
         {emailLoading ? "..." : "Далее"}
       </button>

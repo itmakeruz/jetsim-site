@@ -13,7 +13,7 @@ export default function TariffSection({ title, tariffs }: TariffSectionProps) {
 
   return (
     <div className="flex flex-col gap-[15px]">
-      <h2 className="text-[#4F7096] text-[30px] font-bold leading-none">
+      <h2 className="text-[#4F7096] md:text-[30px] text-[24px] font-bold leading-none">
         {title}
       </h2>
       <div className="w-full h-[1px] bg-[#4F7096]"></div>

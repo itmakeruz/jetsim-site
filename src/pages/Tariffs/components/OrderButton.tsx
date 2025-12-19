@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
 import { ArrowRight } from "lucide-react";
 
-
 const OrderButton = () => {
   const { selectedTariff, selectedTariffs } = useTariffStore();
   const navigate = useNavigate();
@@ -21,15 +20,15 @@ const OrderButton = () => {
       console.error("Error navigating to payment:", error);
     }
   };
-  const disabled =  selectedTariffs.length === 0;
-  
+  const disabled = selectedTariffs.length === 0;
+
   return (
     <button
       onClick={handleOrderClick}
       disabled={disabled}
-      className="flex items-center justify-center rounded gap-2 px-10 bg-[#112D6C] text-white font-bold text-[28px] disabled:opacity-50 disabled:cursor-not-allowed! duration-300"
+      className="flex items-center justify-center rounded gap-2 md:px-10 px-5 bg-[#112D6C] text-white font-bold md:text-[28px] text-base disabled:opacity-50 disabled:cursor-not-allowed! duration-300"
     >
-      Оформить заказ <ArrowRight className="w-7 h-7" />
+      Оформить заказ <ArrowRight className="md:w-7 md:h-7 w-5 h-5" />
     </button>
   );
 };

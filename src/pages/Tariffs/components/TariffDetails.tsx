@@ -11,7 +11,7 @@ const keyToFlag: Record<string, string> = {
 const TariffDetails = () => {
   const { selectedTariff } = useTariffStore();
   return (
-    <div className="grid grid-cols-2 gap-[10px]">
+    <div className="md:grid grid-cols-2 gap-[10px] hidden">
       {tariffDetails.map((detail: TariffDetail) => {
         const flagKey = keyToFlag[detail.key];
         const result = selectedTariff?.[flagKey as keyof Tariff];
