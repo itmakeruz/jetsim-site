@@ -87,6 +87,7 @@ export interface Tariff {
   qrcode?: string;
   region_group: RegionGroup;
   quantity: number;
+  description: string;
 }
 export interface cartTariff {
   id: number;
@@ -104,6 +105,7 @@ export interface cartTariff {
   quantity: number;
   region_group: RegionGroup;
   total_amount: number;
+  description: string;
 }
 
 export interface TariffResponse {

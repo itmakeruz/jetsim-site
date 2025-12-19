@@ -4,7 +4,9 @@ import { getImageUrl } from "@/config/imageUtils";
 import { ASSETS } from "@/assets";
 import type { Tariff } from "@/types/api";
 import RegionsModal from "./RegionsModal";
+import DescriptionModal from "./DescriptionModal";
 import { useTariffStore } from "@/store/tariffStore";
+import { Info } from "lucide-react";
 
 interface TariffCardProps {
   tariff: Tariff;
@@ -12,6 +14,7 @@ interface TariffCardProps {
 
 export default function TariffCard({ tariff }: TariffCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
   const { selectedTariffs, setSelectedTariff, selectedTariff } =
     useTariffStore();
   const selectedTariffData = selectedTariffs.find((t) => t.id === tariff.id);
@@ -31,6 +34,17 @@ export default function TariffCard({ tariff }: TariffCardProps) {
     if (tariff.id !== selectedTariff?.id) setSelectedTariff(tariff);
   };
 
+  const handleDescriptionModalOpen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (tariff.description) {
+      setIsDescriptionModalOpen(true);
+    }
+  };
+
+  const handleDescriptionModalClose = () => {
+    setIsDescriptionModalOpen(false);
+  };
+
   return (
     <>
       <div
@@ -48,9 +62,18 @@ export default function TariffCard({ tariff }: TariffCardProps) {
             width={66}
             height={66}
           />
-          <h2 className="text-[20px] font-semibold text-black">
+          <h2 className="text-[20px] font-semibold text-black flex-1">
             {tariff.name}
           </h2>
+          {tariff.description && (
+            <button
+              onClick={handleDescriptionModalOpen}
+              className="absolute top-2 right-2 flex items-center justify-center w-8 h-8 rounded-full hover:bg-[#1978E51A] transition-colors group z-10"
+              title="Подробнее о тарифе"
+            >
+              <Info className="w-5 h-5 text-[#1978E5] group-hover:text-[#1565C0] transition-colors" />
+            </button>
+          )}
         </div>
         <div className="flex items-center justify-between text-[16px] font-medium">
           <span className="text-[#4F7096]">
@@ -90,6 +113,13 @@ export default function TariffCard({ tariff }: TariffCardProps) {
         onClose={handleCloseModal}
         regions={tariff.regions || []}
         title={`Доступные страны: ${tariff.name}`}
+      />
+
+      <DescriptionModal
+        isOpen={isDescriptionModalOpen}
+        onClose={handleDescriptionModalClose}
+        title={tariff.name}
+        description={tariff.description || ""}
       />
     </>
   );
