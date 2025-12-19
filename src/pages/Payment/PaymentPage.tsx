@@ -2,7 +2,6 @@ import { useState, useMemo, useEffect } from "react";
 import { useTariffStore } from "@/store/tariffStore";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
-import { ASSETS } from "@/assets";
 import { APP_ROUTES } from "@/router/path";
 import CartItem from "../Profile/components/CartItem";
 import EmailInputForm from "./components/EmailInputForm";

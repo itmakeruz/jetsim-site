@@ -52,6 +52,7 @@ import emailAddress from "./email-address.svg";
 import apple from "./appleIcon.svg";
 import android from "./androidIcon.svg";
 import support from "./support.svg";
+import empty from "./empty.png";
 export const ASSETS = {
   en,
   ru,
@@ -107,4 +108,5 @@ export const ASSETS = {
   apple,
   android,
   support,
+  empty,
 };

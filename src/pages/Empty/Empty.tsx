@@ -1,18 +1,16 @@
-import { ANIMATIONS } from "@/assets/animations";
-import Lottie from "lottie-react";
 import { useTranslation } from "react-i18next";
-
+import { ASSETS } from "@/assets";
 export default function Empty({ text }: { text: string }) {
   const { t } = useTranslation();
   return (
     <div className="flex items-center justify-center grow">
       <div className="text-center w-full container">
         <div className="max-w-[900px] mx-auto">
-          <div className="mb-6 flex flex-col items-center justify-center">
-            <Lottie
-              animationData={ANIMATIONS.empty}
-              loop={true}
-              className="lg:w-[500px] lg:h-[300px] w-[300px] h-[200px]"
+          <div className="mb-6 md:w-[300px] w-[200px]  mx-auto flex flex-col items-center justify-center">
+            <img
+              src={ASSETS.empty}
+              alt=""
+              className="w-full h-full object-contain"
             />
           </div>
           <h1 className="md:text-[24px] text-[16px] font-bold leading-[1.4] text-gray-800 mb-4">
