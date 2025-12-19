@@ -54,7 +54,7 @@ export default function TariffCard({ tariff }: TariffCardProps) {
         </div>
         <div className="flex items-center justify-between text-[16px] font-medium">
           <span className="text-[#4F7096]">
-            {(tariff.quantity_internet / 1024).toFixed(0)}GB/
+            {tariff.quantity_internet}GB/
             {tariff.validity_period} дней
           </span>
           <span className="text-[#1978E5]">
