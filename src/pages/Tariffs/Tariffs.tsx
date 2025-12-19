@@ -30,10 +30,10 @@ function Tariffs() {
   });
 
   useEffect(() => {
-    if (selectedTariff) {
+    return () => {
       setSelectedTariff(null);
-    }
-  }, []);
+    };
+  }, [setSelectedTariff]);
   if (isLoading) {
     return (
       <div className="container py-8">

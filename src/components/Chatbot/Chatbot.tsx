@@ -1,4 +1,5 @@
 import { ASSETS } from "@/assets";
+import { useTariffStore } from "@/store/tariffStore";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -87,13 +88,15 @@ const Chatbot = () => {
       handleSendMessage();
     }
   };
-
+  const { selectedTariff } = useTariffStore();
   return (
     <>
       {/* Floating Chat Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed bottom-6 right-4 sm:right-6 w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] bg-[#112D6C] text-white rounded-full hover:bg-[#0f2659] transition-all duration-300 flex items-center justify-center z-50 group shadow-[0px_0px_10px_0px_#4F7096]"
+        className={`fixed ${
+          selectedTariff ? "md:bottom-36 bottom-20" : "bottom-6"
+        }  right-4 sm:right-6 w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] bg-[#112D6C] text-white rounded-full hover:bg-[#0f2659] transition-all duration-300 flex items-center justify-center z-50 group shadow-[0px_0px_10px_0px_#4F7096]`}
         aria-label="Open chat"
       >
         {isOpen ? (
