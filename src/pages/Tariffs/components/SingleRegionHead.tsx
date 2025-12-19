@@ -87,7 +87,7 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
 
               <button
                 onClick={handleCloseModal}
-                className="w-full bg-[#1978E533] hover:bg-[#1565c0] text-[#1978E5] py-3 px-6 rounded-[8px] transition-colors duration-200 text-[20px] font-semibold hover:text-white"
+                className="w-full bg-main-blue hover:bg-[#1565c0] text-white py-3 px-6 rounded-[8px] transition-colors duration-200 text-[20px] font-semibold hover:text-white"
               >
                 Закрыть
               </button>
