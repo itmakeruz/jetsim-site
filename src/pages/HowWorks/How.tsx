@@ -6,7 +6,9 @@ const How = () => {
   const { t } = useTranslation();
   return (
     <div className="container how-container">
-      <h1 className="how-heading">{t("how.title")}</h1>
+      <h1 className="how-heading md:text-[40px] !text-[22px]">
+        {t("how.title")}
+      </h1>
 
       <div className="how-wrapper">
         <div className="how-item">

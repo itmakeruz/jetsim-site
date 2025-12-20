@@ -75,29 +75,27 @@ const Card = () => {
         </div>
       </div>
 
-     <div className="container">
-     <div className="card-sm">
-            <p>
-                {t("card.us")}
-            </p>
+      <div className="container">
+        <div className="card-sm">
+          <p>{t("card.us")}</p>
 
-            <div>
-                <img src={ASSETS.facebook} className="card-sm-img" alt="" />
-                <img src={ASSETS.x} className="card-sm-img" alt="" />
-                <img src={ASSETS.inst} className="card-sm-img" alt="" />
-                <img src={ASSETS.linkendin} className="card-sm-img" alt="" />
-                <img src={ASSETS.yt} className="card-sm-img" alt="" />
-                <img src={ASSETS.snpachat} className="card-sm-img" alt="" />
-                <img src={ASSETS.theards} className="card-sm-img" alt="" />
-                <img src={ASSETS.whatsapp} className="card-sm-img" alt="" />
-                <img src={ASSETS.game} className="card-sm-img" alt="" />
-                <img src={ASSETS.tt} className="card-sm-img" alt="" />
-                <img src={ASSETS.t} className="card-sm-img" alt="" />
-                <img src={ASSETS.telegram} className="card-sm-img" alt="" />
-                <img src={ASSETS.vk} className="card-sm-img" alt="" />
-            </div>
+          <div>
+            <img src={ASSETS.facebook} className="card-sm-img" alt="" />
+            <img src={ASSETS.x} className="card-sm-img" alt="" />
+            <img src={ASSETS.inst} className="card-sm-img" alt="" />
+            <img src={ASSETS.linkendin} className="card-sm-img" alt="" />
+            <img src={ASSETS.yt} className="card-sm-img" alt="" />
+            <img src={ASSETS.snpachat} className="card-sm-img" alt="" />
+            <img src={ASSETS.theards} className="card-sm-img" alt="" />
+            <img src={ASSETS.whatsapp} className="card-sm-img" alt="" />
+            <img src={ASSETS.game} className="card-sm-img" alt="" />
+            <img src={ASSETS.tt} className="card-sm-img" alt="" />
+            <img src={ASSETS.t} className="card-sm-img" alt="" />
+            <img src={ASSETS.telegram} className="card-sm-img" alt="" />
+            <img src={ASSETS.vk} className="card-sm-img" alt="" />
+          </div>
+        </div>
       </div>
-     </div>
     </div>
   );
 };

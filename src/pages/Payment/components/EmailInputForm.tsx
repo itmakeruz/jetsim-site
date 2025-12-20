@@ -57,12 +57,12 @@ const EmailInputForm = ({
       className="flex items-center md:flex-row flex-col gap-2"
     >
       <div className="flex flex-col gap-2 relative w-full">
-        <label
+        {/* <label
           className="absolute top-0 left-[16px] bg-white px-1 translate-y-[-50%] text-[12px] font-medium text-[#637381]"
           htmlFor="email-input"
         >
           Email
-        </label>
+        </label> */}
         <input
           id="email-input"
           className="border border-[#919EAB33] px-[14px] py-[18px] text-[14px] rounded-[8px] w-full"

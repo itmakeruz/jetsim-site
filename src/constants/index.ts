@@ -1,4 +1,9 @@
-import { ASSETS } from "@/assets";
+import {
+  InternetIcon,
+  SmsIcon,
+  CallsIcon,
+  InternetSpeedIcon,
+} from "@/components/icons/TariffIcons";
 
 export const categories = [
   {
@@ -22,29 +27,30 @@ export const categories = [
     key: "global",
   },
 ];
+
 export const tariffDetails = [
   {
     id: 1,
     name: "Интернет",
     key: "internet",
-    icon: ASSETS.internet,
+    icon: InternetIcon,
   },
   {
     id: 2,
     name: "SMS",
     key: "sms",
-    icon: ASSETS.sms,
+    icon: SmsIcon,
   },
   {
     id: 3,
     name: "Звонки",
     key: "calls",
-    icon: ASSETS.calls,
+    icon: CallsIcon,
   },
   {
     id: 4,
     name: "5G",
     key: "internetSpeed",
-    icon: ASSETS.internetSpeed,
+    icon: InternetSpeedIcon,
   },
 ];

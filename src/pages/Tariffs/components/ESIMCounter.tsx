@@ -34,7 +34,7 @@ const ESIMCounter = () => {
         Количество eSIM
       </span>
 
-      <div className="flex gap-2 h-[40px] py-2 px-2 items-center font-semibold justify-between bg-[#E8EBEE] md:rounded-[8px] rounded-[4px]">
+      <div className="flex gap-2 md:h-[40px] h-[45px] py-2 px-2 items-center font-semibold justify-between bg-[#E8EBEE] md:rounded-[8px] rounded-[4px]">
         <button
           disabled={selectedTariffData?.quantity ? false : true}
           onClick={handleDecrease}

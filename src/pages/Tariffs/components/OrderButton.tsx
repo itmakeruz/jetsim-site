@@ -21,6 +21,7 @@ const OrderButton = () => {
     }
   };
   const disabled = selectedTariffs.length === 0;
+  console.log(selectedTariffs);
 
   return (
     <button
@@ -28,7 +29,7 @@ const OrderButton = () => {
       disabled={disabled}
       className="flex items-center justify-center rounded gap-2 md:px-10 px-5 bg-[#112D6C] text-white font-bold md:text-[28px] text-base disabled:opacity-50 disabled:cursor-not-allowed! duration-300"
     >
-      Оформить заказ <ArrowRight className="md:w-7 md:h-7 w-5 h-5" />
+      Оформить заказ <ArrowRight className="w-7 h-7 hidden md:block" />
     </button>
   );
 };

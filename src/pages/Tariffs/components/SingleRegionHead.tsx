@@ -28,14 +28,14 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
           onClick={handleOpenModal}
           className="flex flex-col items-center md:gap-[6px] gap-[4px] max-w-[150px]"
         >
-          <div className="md:w-[40px] md:h-[40px] w-[30px] h-[30px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
+          <div className="md:w-[40px] md:h-[40px] w-[35px] h-[35px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
             <img
               src={ASSETS.questionMark}
               alt="question"
-              className="md:w-[25px] w-[20px] md:h-[25px] h-[20px]"
+              className="md:w-[25px] w-[22px] md:h-[25px] h-[22px]"
             />
           </div>
-          <span className="md:text-sm text-[12px] font-medium text-[#4F7096] leading-[1.1]">
+          <span className="md:text-sm text-[12px] font-medium text-[#4F7096] leading-[1.1] md:block hidden">
             Как работают пакеты JetSim eSIM
           </span>
         </button>

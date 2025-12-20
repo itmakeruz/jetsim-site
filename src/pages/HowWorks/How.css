@@ -1,7 +1,6 @@
 .how-heading {
   max-width: 930px;
   font-weight: 800;
-  font-size: 44px;
   line-height: 100%;
   letter-spacing: 0px;
   text-align: center;
@@ -67,8 +66,8 @@
   }
 
   .how-wrapper img {
-    transform: rotate(90deg); 
-    transition: transform 0.3s ease; 
+    transform: rotate(90deg);
+    transition: transform 0.3s ease;
   }
 }
 

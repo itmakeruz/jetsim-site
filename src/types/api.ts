@@ -176,11 +176,18 @@ export interface StaticOrdersResponse {
   data: StaticOrderItem[];
 }
 
+import type { ComponentType } from "react";
+
+interface IconProps {
+  className?: string;
+  color?: string;
+}
+
 export interface TariffDetail {
   id: number;
   name: string;
   key: string;
-  icon: string;
+  icon: ComponentType<IconProps>;
 }
 
 // Active SIM Card Types

@@ -6,7 +6,7 @@ const LoginAnimation = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="border-[#CBD2D9] md:pb-[50px] px-4 flex flex-col justify-center 2xl:gap-[50px] gap-[30px] border-2 rounded-[16px] max-md:order-[-1]">
+    <div className="border-[#CBD2D9] md:pb-[50px] px-4 flex flex-col justify-center 2xl:gap-[50px] gap-[30px] border-0 rounded-[16px] max-md:order-[-1]">
       <div className="xl:h-[350px] md:h-[300px] h-[180px]">
         <Lottie
           animationData={flightAnimation}

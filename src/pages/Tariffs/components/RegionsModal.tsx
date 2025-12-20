@@ -48,11 +48,13 @@ export default function RegionsModal({
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative bg-white rounded-[16px] p-6 max-w-3xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col shadow-xl"
+            className="relative bg-white md:rounded-[16px] rounded-[8px] md:p-6 p-4 max-w-3xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col shadow-xl"
           >
             {/* Header */}
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-[#4F7096] text-[28px] font-bold">{title}</h2>
+              <h2 className="text-[#4F7096] md:text-[28px] text-[20px] font-bold">
+                {title}
+              </h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-gray-100 rounded-full transition-colors"
@@ -65,14 +67,14 @@ export default function RegionsModal({
             {/* Regions List */}
             <div className="flex-1 overflow-y-auto pr-2">
               {regions && regions.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 md:gap-3 gap-2">
                   {regions.map((region) => (
                     <div
                       key={region.id}
                       className="flex items-center gap-2 p-3 bg-[#EFF6FF] rounded-[12px] hover:bg-[#1978E51A] transition-colors"
                     >
                       <img
-                        className="h-8 w-10 object-cover rounded-sm shrink-0"
+                        className="h-8 w-8 object-cover rounded-sm shrink-0"
                         src={getImageUrl(region.image)}
                         alt={region.name}
                       />
