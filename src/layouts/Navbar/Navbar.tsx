@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isAuthenticated, logout } = useAuthStore();
-  const { setSelectedTariffs } = useTariffStore();
+  const { setSelectedTariffs, selectedTariffs } = useTariffStore();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
@@ -100,6 +100,25 @@ const Navbar: React.FC = () => {
                   {link.label}
                 </Link>
               ))}
+              <Link
+                to={APP_ROUTES.CART}
+                className="flex items-center gap-3 text-base font-medium text-[#212b36]"
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                <img src={ASSETS.cart} alt="cart" className="w-6 h-6" />
+                <span>{t("nav.korzina")}</span>
+                {selectedTariffs.reduce(
+                  (acc, tariff) => acc + tariff.quantity,
+                  0
+                ) > 0 && (
+                  <span className="ml-auto bg-[#FECA00] text-black font-semibold rounded-full min-w-6 leading-none aspect-square flex items-center justify-center text-sm">
+                    {selectedTariffs.reduce(
+                      (acc, tariff) => acc + tariff.quantity,
+                      0
+                    )}
+                  </span>
+                )}
+              </Link>
             </nav>
 
             <div className="mt-auto px-5 pb-5 flex flex-col gap-3">
