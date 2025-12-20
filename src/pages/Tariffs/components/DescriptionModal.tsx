@@ -46,7 +46,7 @@ export default function DescriptionModal({
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative bg-white rounded-[16px] p-6 max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col shadow-xl"
+            className="relative bg-white md:rounded-[16px] rounded-[8px] md:p-6 p-4 max-w-2xl w-full mx-4 max-h-[80vh] overflow-hidden flex flex-col shadow-xl"
           >
             {/* Header */}
             <div className="flex items-center gap-3 mb-6">
@@ -69,7 +69,7 @@ export default function DescriptionModal({
 
             {/* Description Content */}
             <div className="flex-1 overflow-y-auto pr-2">
-              <div className="bg-[#F5F9FF] rounded-[12px] p-5">
+              <div className="bg-[#F5F9FF] md:rounded-[12px] rounded-[8px] md:p-5 p-3">
                 <p className="text-[16px] text-[#4F7096] leading-relaxed whitespace-pre-line">
                   {description}
                 </p>
