@@ -105,7 +105,6 @@ const Navbar: React.FC = () => {
                 className="flex items-center gap-3 text-base font-medium text-[#212b36]"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <img src={ASSETS.cart} alt="cart" className="w-6 h-6" />
                 <span>{t("nav.korzina")}</span>
                 {selectedTariffs.reduce(
                   (acc, tariff) => acc + tariff.quantity,
