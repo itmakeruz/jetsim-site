@@ -8,7 +8,6 @@ const About = () => {
   return (
     <div className="container">
       <h1 className="about-heading">{t("about.title")}</h1>
-      <p className="about-text">{t("about.text")}</p>
       <br />
       <p className="about-text">{t("about.bigtext")}</p>
 
