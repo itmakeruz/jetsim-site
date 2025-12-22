@@ -2,7 +2,8 @@
   "common": {
     "search_placeholder": "Select one or more countries",
     "loading": "Loading...",
-    "no_results": "No such country"
+    "no_results": "No such country",
+    "load_more": "Load More"
   },
   "error": {
     "title": "Error",
@@ -223,13 +224,12 @@
     "br4": "Legal address: 111674, Russia, г.",
     "br5": " Moscow, Vn.ter.g.municipal district Neksarova, ул 1-я Vol'skaya,d. 26.",
     "br6": "Email: info@jetsim.ru",
-    "br7": "Phone: +79339000003",
     "clients": "Clients",
     "tarifs": "Tariffs",
     "app": "Mobile application",
     "confidential": "Privacy Policy",
     "oferta": "Public Offer",
-    "usloviya": "eSIM Terms",
+    "usloviya": "Returns Policy",
     "rules": "Return Policy",
     "about": "About us",
     "contacts": "Contacts",

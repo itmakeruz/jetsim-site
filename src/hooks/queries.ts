@@ -11,9 +11,11 @@ import type {
 } from "../types/api";
 
 export const regionGroupsQuery = async (
-  type: string | null = null
+  type: string | null = null,
+  size: number = 20,
+  page: number = 1
 ): Promise<RegionGroupResponse> => {
-  const response = await regionAPI.getRegionGroups(type);
+  const response = await regionAPI.getRegionGroups(type, size, page);
   return response.data as RegionGroupResponse;
 };
 

@@ -20,7 +20,6 @@ const Footer = () => {
               <p className="footer-text">{t("footer.br4")}</p>
               <p className="footer-text">{t("footer.br5")}</p>
               <p className="footer-text">{t("footer.br6")}</p>
-              <p className="footer-text">{t("footer.br7")}</p>
             </div>
           </div>
 
@@ -76,12 +75,6 @@ const Footer = () => {
 
         <div className="container footer-bottom">
           <p className="footer-b-text">{t("footer.rights")}</p>
-
-          <div>
-            <p className="footer-b-text">koVdis Design</p>
-
-            <img className="footer-t-img" src={ASSETS.telegram} alt="" />
-          </div>
         </div>
       </div>
     </footer>

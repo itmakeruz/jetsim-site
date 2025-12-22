@@ -10,14 +10,22 @@ export const authAPI = {
 
 // Region/Tariff API'lar
 export const regionAPI = {
-  getRegionGroups: (type: string | null = null) => {
+  getRegionGroups: (
+    type: string | null = null,
+    size: number = 12,
+    page: number = 1
+  ) => {
     const params: {
       type?: string | null;
+      size?: number;
+      page?: number;
     } = {};
 
     if (type) params.type = type;
+    params.size = size;
+    params.page = page;
 
-    return axios.get("/region-group?size=12", { params });
+    return axios.get("/region-group", { params });
   },
   getById: (id: string | number) => axios.get(`/region-group/plans/${id}`),
   getRegionById: (id: string | number) => axios.get(`/region/plans/${id}`),
