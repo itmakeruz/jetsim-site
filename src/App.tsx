@@ -5,11 +5,7 @@ import { AutoScrollToTop } from "./components/scrollToTop";
 import { ToastContainer } from "react-toastify";
 import { useAuthStore } from "./store/authStore";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  activeSimsQuery,
-  cartItemsQuery,
-  inactiveSimsQuery,
-} from "./hooks/queries";
+import { cartItemsQuery, myesimsQuery } from "./hooks/queries";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
 import Loader from "./components/Loader";
@@ -21,7 +17,7 @@ import Chatbot from "./components/Chatbot/Chatbot";
 function App() {
   const { i18n } = useTranslation();
   const { setSelectedTariffs } = useTariffStore();
-  const { setInactiveSims, setActiveSims } = useSimcardStore();
+  const { setMyesims } = useSimcardStore();
   const { getProfile, logout, isAuthenticated, isLoading, setIsLoading } =
     useAuthStore();
   const {
@@ -36,23 +32,12 @@ function App() {
     refetchOnReconnect: true,
   });
   const {
-    data: inactiveSims,
-    isLoading: isLoadingInactiveSims,
-    refetch: refetchInactiveSims,
+    data: myesims,
+    isLoading: isLoadingMyesims,
+    refetch: refetchMyesims,
   } = useQuery({
-    queryKey: ["inactiveSims", i18n.language],
-    queryFn: () => inactiveSimsQuery(),
-    enabled: isAuthenticated && !isLoading,
-    refetchOnWindowFocus: true,
-    refetchOnReconnect: true,
-  });
-  const {
-    data: activeSims,
-    isLoading: isLoadingActiveSims,
-    refetch: refetchActiveSims,
-  } = useQuery({
-    queryKey: ["activeSims", i18n.language],
-    queryFn: () => activeSimsQuery(),
+    queryKey: ["myesims", i18n.language],
+    queryFn: () => myesimsQuery(),
     enabled: isAuthenticated && !isLoading,
     refetchOnWindowFocus: true,
     refetchOnReconnect: true,
@@ -80,15 +65,10 @@ function App() {
   }, [data]);
 
   useEffect(() => {
-    if (inactiveSims) {
-      setInactiveSims(inactiveSims?.data || []);
+    if (myesims) {
+      setMyesims(myesims?.data || []);
     }
-  }, [inactiveSims]);
-  useEffect(() => {
-    if (activeSims) {
-      setActiveSims(activeSims?.data || []);
-    }
-  }, [activeSims]);
+  }, [myesims]);
 
   // Refetch when tab becomes visible (user comes back to the tab)
   useEffect(() => {
@@ -99,8 +79,7 @@ function App() {
         !isLoading
       ) {
         refetchCart();
-        refetchInactiveSims();
-        refetchActiveSims();
+        refetchMyesims();
       }
     };
 
@@ -109,20 +88,9 @@ function App() {
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [
-    isAuthenticated,
-    isLoading,
-    refetchCart,
-    refetchInactiveSims,
-    refetchActiveSims,
-  ]);
+  }, [isAuthenticated, isLoading, refetchCart, refetchMyesims]);
 
-  if (
-    isLoading ||
-    isLoadingCart ||
-    isLoadingInactiveSims ||
-    isLoadingActiveSims
-  ) {
+  if (isLoading || isLoadingCart || isLoadingMyesims) {
     return <Loader />;
   }
 

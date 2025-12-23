@@ -13,8 +13,6 @@ export const APP_ROUTES = {
   PAYMENT: "/payment",
   PROFILE: "/profile",
   CART: "/cart",
-  ACTIVE: "/active",
-  INACTIVE: "/inactive",
-  HISTORY: "/history",
+  MYESIM: "/myEsim",
   TARIFFS: "/tariffs/:id",
 };

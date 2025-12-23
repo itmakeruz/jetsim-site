@@ -23,12 +23,7 @@ const ProfileLayout = () => {
   }
 
   const currentPath = location.pathname;
-  const protectedRoutes = [
-    APP_ROUTES.PROFILE,
-    APP_ROUTES.ACTIVE,
-    APP_ROUTES.INACTIVE,
-    APP_ROUTES.HISTORY,
-  ];
+  const protectedRoutes = [APP_ROUTES.PROFILE, APP_ROUTES.MYESIM];
 
   // Login qilgan bo'lsa va protected route ga kirsa, 404 ko'rsat
   if (!isAuthenticated && protectedRoutes.includes(currentPath)) {

@@ -3,22 +3,22 @@ import ActiveSimCard from "./components/ActiveSimCard";
 import Empty from "../Empty/Empty";
 import { useSimcardStore } from "@/store/simcardStore";
 import { useState, useRef, useEffect } from "react";
-import type { ActiveSim } from "@/types/api";
+import type { Myesim } from "@/types/api";
 import ActivationPanel from "./components/ActivationPanel";
 import { useQueryClient } from "@tanstack/react-query";
-import { inactiveSimsQuery } from "@/hooks/queries";
+import { myesimsQuery } from "@/hooks/queries";
 
 const InactivePage = () => {
   const { t, i18n } = useTranslation();
-  const { inactiveSims, setInactiveSims } = useSimcardStore();
-  const [activeSim, setActiveSim] = useState<ActiveSim | null>(null);
+  const { myesims, setMyesims } = useSimcardStore();
+  const [activeSim, setActiveSim] = useState<Myesim | null>(null);
   const activationPanelRef = useRef<HTMLDivElement>(null);
   const queryClient = useQueryClient();
   const pollingCountRef = useRef<Map<number, number>>(new Map());
 
   // Polling for sims with can_activate: false (max 3 times)
   useEffect(() => {
-    const { inactiveSims: currentInactiveSims } = useSimcardStore.getState();
+    const { myesims: currentInactiveSims } = useSimcardStore.getState();
 
     // Clean up counters for sims that are no longer in the list or can_activate is true
     currentInactiveSims.forEach((sim) => {
@@ -45,7 +45,7 @@ const InactivePage = () => {
     const intervalId = setInterval(async () => {
       try {
         // Get current sims from store to check fresh status
-        const { inactiveSims: latestInactiveSims } = useSimcardStore.getState();
+        const { myesims: latestInactiveSims } = useSimcardStore.getState();
         const currentSims = latestInactiveSims.filter(
           (sim) => !sim.can_activate && sim.status === "CREATED"
         );
@@ -62,11 +62,11 @@ const InactivePage = () => {
         }
 
         // Fetch fresh data
-        const result = await inactiveSimsQuery();
+        const result = await myesimsQuery();
 
         // Update store with fresh data
         if (result?.data) {
-          setInactiveSims(result.data);
+          setMyesims(result.data);
 
           // Increment polling count for each sim that was polled
           activeSimsForPolling.forEach((sim) => {
@@ -87,7 +87,7 @@ const InactivePage = () => {
     return () => {
       clearInterval(intervalId);
     };
-  }, [inactiveSims, queryClient, i18n.language, setInactiveSims]);
+  }, [myesims, queryClient, i18n.language, setMyesims]);
 
   // Scroll to ActivationPanel when activeSim changes
   useEffect(() => {
@@ -101,7 +101,7 @@ const InactivePage = () => {
     }
   }, [activeSim]);
 
-  if (inactiveSims.length === 0) {
+  if (myesims.length === 0) {
     return <Empty text={t("my.no_orders") || "Нет активных SIM-карт"} />;
   }
 
@@ -110,7 +110,7 @@ const InactivePage = () => {
       className={`flex flex-col gap-5 ${activeSim ? "md:pb-6 pb-16" : "pb-6"}`}
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 2xl:gap-5 gap-4">
-        {inactiveSims.map((sim) => (
+        {myesims.map((sim) => (
           <div key={sim.id} className="relative">
             <ActiveSimCard
               sim={sim}

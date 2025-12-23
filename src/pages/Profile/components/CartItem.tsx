@@ -38,11 +38,7 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
   return (
     <>
       <div className="bg-[#E1E5E85E] p-5 flex flex-col gap-4 rounded-[20px] relative">
-        <TariffHeader
-          image={tariff.image}
-          name={tariff.name}
-          title={tariff.name}
-        />
+        <TariffHeader image={tariff.image} title={tariff.name} />
         <TariffInfo tariff={tariff} />
         <QuantityControl
           count={tariff.quantity || 1}

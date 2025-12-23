@@ -19,9 +19,7 @@ const ProfileLayout = lazy(
 const ProfilePage = lazy(() => import("../pages/Profile/ProfilePage"));
 const CartPage = lazy(() => import("../pages/Profile/CartPage"));
 const PaymentPage = lazy(() => import("../pages/Payment/PaymentPage"));
-const ActivePage = lazy(() => import("../pages/Profile/ActivePage"));
-const InactivePage = lazy(() => import("../pages/Profile/InactivePage"));
-const HistoryPage = lazy(() => import("../pages/Profile/HistoryPage"));
+const MyEsimPage = lazy(() => import("../pages/Profile/InactivePage"));
 const Tariffs = lazy(() => import("../pages/Tariffs/Tariffs"));
 const Login = lazy(() => import("../pages/Login/Login"));
 const Verification = lazy(() => import("../pages/Verification/Verification"));
@@ -141,26 +139,10 @@ export const appRoutes = [
         ),
       },
       {
-        path: APP_ROUTES.ACTIVE,
+        path: APP_ROUTES.MYESIM,
         element: (
           <Suspense fallback={<Loader />}>
-            <ActivePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: APP_ROUTES.INACTIVE,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <InactivePage />
-          </Suspense>
-        ),
-      },
-      {
-        path: APP_ROUTES.HISTORY,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <HistoryPage />
+            <MyEsimPage />
           </Suspense>
         ),
       },

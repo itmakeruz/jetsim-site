@@ -191,8 +191,9 @@ export interface TariffDetail {
 }
 
 // Active SIM Card Types
-export interface ActiveSim {
+export interface Myesim {
   id: number;
+  image: string;
   iccid: string;
   uid: string;
   pin_1: string;
@@ -215,8 +216,8 @@ export interface ActiveSim {
   can_activate: boolean;
 }
 
-export interface ActiveSimsResponse {
+export interface MyesimsResponse {
   success: boolean;
   message: string;
-  data: ActiveSim[];
+  data: Myesim[];
 }

@@ -11,7 +11,7 @@ const ProfileTabs: React.FC = () => {
   const { t } = useTranslation();
   const { isAuthenticated } = useAuthStore();
   const { selectedTariffs } = useTariffStore();
-  const { activeSims, inactiveSims } = useSimcardStore();
+  const { myesims } = useSimcardStore();
 
   const cartCount = selectedTariffs.reduce(
     (sum, item) => sum + (item.quantity || 1),
@@ -37,26 +37,16 @@ const ProfileTabs: React.FC = () => {
           order: -1,
         },
         {
-          to: APP_ROUTES.ACTIVE,
-          translationKey: t("profile.tabs.active"),
-          count: activeSims.length,
+          to: APP_ROUTES.MYESIM,
+          translationKey: t("profile.tabs.myesim"),
+          count: myesims.length,
           badgeVariant: "secondary",
-        },
-        {
-          to: APP_ROUTES.INACTIVE,
-          translationKey: t("profile.tabs.inactive"),
-          count: inactiveSims.length,
-          badgeVariant: "secondary",
-        },
-        {
-          to: APP_ROUTES.HISTORY,
-          translationKey: t("profile.tabs.history"),
         }
       );
     }
 
     return baseTabs;
-  }, [isAuthenticated, cartCount, activeSims.length, inactiveSims.length, t]);
+  }, [isAuthenticated, cartCount, myesims.length, t]);
 
   return <Tabs tabs={tabs} />;
 };

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import type { ActiveSim } from "@/types/api";
+import type { Myesim } from "@/types/api";
 import TariffHeader from "./TariffHeader";
 import ActiveSimInfo from "./ActiveSimInfo";
 import CartItemFooter from "./CartItemFooter";
 import RegionsModal from "../../Tariffs/components/RegionsModal";
 
 interface ActiveSimCardProps {
-  sim: ActiveSim;
+  sim: Myesim;
   onActivate?: () => void;
   isInactive?: boolean;
 }
@@ -34,6 +34,7 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
       onActivate();
     }
   };
+  console.log(sim);
 
   return (
     <>
@@ -60,7 +61,6 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
         >
           <TariffHeader
             image={sim.region_group.image}
-            name={sim.region_group.name}
             title={sim.tariff_name}
           />
           <ActiveSimInfo sim={sim} />

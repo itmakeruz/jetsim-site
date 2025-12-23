@@ -69,8 +69,7 @@ export const cartAPI = {
 
   postESIM: () => axios.post("/order/esim"),
   getStaticOrders: () => axios.get("/order/static"),
-  getInactiveSims: () => axios.get("/sims/active"),
-  getActiveSims: () => axios.get("/sims/activated"),
+  getMyesims: () => axios.get("/sims/static"),
 };
 
 // Payment API'lar

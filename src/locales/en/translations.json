@@ -32,10 +32,7 @@
     "tabs": {
       "profile": "Profile",
       "cart": "Cart",
-      "active": "Active",
-      "inactive": "Inactive",
-      "esim": "My eSIM",
-      "history": "Purchase history"
+      "myesim": "My eSIM"
     },
     "profile": {
       "download": "Upload photo",

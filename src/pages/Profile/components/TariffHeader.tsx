@@ -2,15 +2,14 @@ import { ImagePreview } from "@/components/ImgCards";
 
 interface TariffHeaderProps {
   image: string;
-  name: string;
   title: string;
 }
 
-const TariffHeader: React.FC<TariffHeaderProps> = ({ image, name, title }) => {
+const TariffHeader: React.FC<TariffHeaderProps> = ({ image, title }) => {
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center gap-2.5">
-        <ImagePreview src={image} alt={name} width={40} height={40} />
+        <ImagePreview src={image} alt={title} width={40} height={40} />
         <h3 className="font-normal text-lg md:text-xl lg:text-2xl leading-[1] tracking-[0px]">
           {title}
         </h3>

@@ -1,16 +1,12 @@
 import { create } from "zustand";
-import type { ActiveSim } from "@/types/api";
+import type { Myesim } from "@/types/api";
 
 interface SimcardStore {
-  activeSims: ActiveSim[];
-  inactiveSims: ActiveSim[];
-  setActiveSims: (activeSims: ActiveSim[]) => void;
-  setInactiveSims: (inactiveSims: ActiveSim[]) => void;
+  myesims: Myesim[];
+  setMyesims: (myesims: Myesim[]) => void;
 }
 
 export const useSimcardStore = create<SimcardStore>((set) => ({
-  activeSims: [],
-  inactiveSims: [],
-  setActiveSims: (activeSims) => set({ activeSims }),
-  setInactiveSims: (inactiveSims) => set({ inactiveSims }),
+  myesims: [],
+  setMyesims: (myesims) => set({ myesims }),
 }));

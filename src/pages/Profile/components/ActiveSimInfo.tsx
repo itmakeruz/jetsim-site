@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-import type { ActiveSim } from "@/types/api";
+import type { Myesim } from "@/types/api";
 import { formatNumber } from "@/lib/utils";
 
 interface ActiveSimInfoProps {
-  sim: ActiveSim;
+  sim: Myesim;
 }
 
 const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
