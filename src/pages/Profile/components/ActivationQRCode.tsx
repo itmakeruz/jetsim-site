@@ -7,7 +7,7 @@ interface ActivationQRCodeProps {
 
 const ActivationQRCode: React.FC<ActivationQRCodeProps> = ({ qrCode }) => {
   return (
-    <div className="border border-[#0000004D] rounded-[12px] overflow-hidden aspect-square">
+    <div className="border border-[#0000004D] md:rounded-[12px] rounded-lg md:w-full w-[95%] mx-auto overflow-hidden aspect-square">
       <img
         className="w-full h-full object-contain"
         src={getImageUrl(qrCode)}

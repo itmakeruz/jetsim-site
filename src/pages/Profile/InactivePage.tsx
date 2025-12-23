@@ -106,7 +106,9 @@ const InactivePage = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5 pb-6">
+    <div
+      className={`flex flex-col gap-5 ${activeSim ? "md:pb-6 pb-16" : "pb-6"}`}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 2xl:gap-5 gap-4">
         {inactiveSims.map((sim) => (
           <div key={sim.id} className="relative">

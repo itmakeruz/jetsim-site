@@ -12,11 +12,18 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({ icon }) => {
   ];
 
   return (
-    <div className="flex items-center gap-[10px] py-[25px] pr-4 bg-linear border-b border-[#0000004D] h-full">
-      <img className="w-[45px] h-[45px] object-contain" src={icon} alt="" />
+    <div className="flex items-center gap-[10px] md:py-[25px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
+      <img
+        className="md:w-[45px] w-[30px] md:h-[45px] h-[30px] shrink-0 object-contain"
+        src={icon}
+        alt=""
+      />
       <div className="flex flex-col gap-[2px] font-medium">
         {instructions.map((instruction, index) => (
-          <h6 key={index} className="flex items-center gap-[5px]">
+          <h6
+            key={index}
+            className="flex md:text-[16px] text-[14px] items-center gap-[5px]"
+          >
             <svg
               width="9"
               height="9"

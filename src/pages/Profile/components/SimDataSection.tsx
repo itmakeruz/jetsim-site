@@ -14,7 +14,7 @@ const SimDataSection: React.FC<SimDataSectionProps> = ({ sim }) => {
   ];
 
   return (
-    <div className="flex flex-col gap-2 bg-linear border-b pb-1 border-[#0000004D] h-full pr-[30px]">
+    <div className="flex flex-col md:gap-2 gap-1 bg-linear border-b md:pb-1 pb-2 border-[#0000004D] h-full md:pr-[30px] pr-4">
       <h2 className="text-base font-medium text-[#2f2d2d]">Данные SIM:</h2>
       <div className="flex flex-col gap-1 text-[14px] text-[#2f2d2d] font-normal">
         {dataFields.map((field, index) => (
