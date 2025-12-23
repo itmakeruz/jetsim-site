@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { cartTariff } from "@/types/api";
 import { formatNumber } from "@/lib/utils";
+import { useAuthStore } from "@/store/authStore";
 
 interface TariffInfoProps {
   tariff: cartTariff;
@@ -8,16 +9,25 @@ interface TariffInfoProps {
 
 const TariffInfo: React.FC<TariffInfoProps> = ({ tariff }) => {
   const { t } = useTranslation();
+  const { isAuthenticated } = useAuthStore();
+
+  // Login qilmagan bo'lsa MB ga aylantirish, login qilgan bo'lsa kelgan data
+  const displayInternet = isAuthenticated
+    ? `${formatNumber(tariff.quantity_internet)} мб`
+    : `${formatNumber(tariff.quantity_internet * 1024)} мб`;
 
   return (
     <div className="space-y-2">
       <div className=" font-medium">
-        {t("sims.price")} <span className="text-[#112D6C] font-bold">{formatNumber(tariff.price_sell)} ₽</span>
+        {t("sims.price")}{" "}
+        <span className="text-[#112D6C] font-bold">
+          {formatNumber(tariff.price_sell)} ₽
+        </span>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex gap-1">
           {t("sims.trafic")}
-          <span className="text-[#112D6C] font-bold">{formatNumber(tariff.quantity_internet)} мб</span>
+          <span className="text-[#112D6C] font-bold">{displayInternet}</span>
         </div>
         <div className="relative bg-[#D2E7FF] w-full h-[16px] rounded-[12px] overflow-hidden">
           <div
@@ -27,14 +37,15 @@ const TariffInfo: React.FC<TariffInfoProps> = ({ tariff }) => {
                 (tariff.quantity_internet / tariff.quantity_internet) * 100
               }%`,
             }}
-          >
-          </div>
+          ></div>
         </div>
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex gap-1">
           {t("sims.srok")}
-          <span className="text-[#112D6C] font-bold">{tariff.validity_period} дней</span>
+          <span className="text-[#112D6C] font-bold">
+            {tariff.validity_period} дней
+          </span>
         </div>
         <div className="relative bg-[#D2E7FF] w-full h-[16px] rounded-[12px] overflow-hidden">
           <div
@@ -44,8 +55,7 @@ const TariffInfo: React.FC<TariffInfoProps> = ({ tariff }) => {
                 (tariff.validity_period / tariff.validity_period) * 100
               }%`,
             }}
-          >
-          </div>
+          ></div>
         </div>
       </div>
       <div className="flex items-center gap-3">
