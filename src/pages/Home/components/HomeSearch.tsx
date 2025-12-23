@@ -89,7 +89,7 @@ function HomeSearch() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-[730px]">
+    <div className="mx-auto w-full md:mt-4 mt-2 max-w-[730px]">
       <div ref={searchRef} className="relative">
         <form
           onSubmit={handleSearchSubmit}
