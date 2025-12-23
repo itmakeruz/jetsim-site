@@ -1,5 +1,5 @@
 import React from "react";
-import type { ActiveSim } from "@/types/api";
+import type { Myesim } from "@/types/api";
 import { ASSETS } from "@/assets";
 import DeviceInstructions from "./DeviceInstructions";
 import ActivationQRCode from "./ActivationQRCode";
@@ -7,7 +7,7 @@ import SimDataSection from "./SimDataSection";
 import SupportSection from "./SupportSection";
 
 interface ActivationPanelProps {
-  sim: ActiveSim;
+  sim: Myesim;
 }
 
 const ActivationPanel: React.FC<ActivationPanelProps> = ({ sim }) => {

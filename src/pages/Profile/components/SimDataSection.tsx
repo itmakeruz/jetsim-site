@@ -1,8 +1,8 @@
 import React from "react";
-import type { ActiveSim } from "@/types/api";
+import type { Myesim } from "@/types/api";
 
 interface SimDataSectionProps {
-  sim: ActiveSim;
+  sim: Myesim;
 }
 
 const SimDataSection: React.FC<SimDataSectionProps> = ({ sim }) => {
