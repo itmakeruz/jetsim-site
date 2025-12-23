@@ -193,6 +193,8 @@ export interface TariffDetail {
 // Active SIM Card Types
 export interface Myesim {
   id: number;
+  created_at: string;
+  expire_date: string;
   image: string;
   iccid: string;
   uid: string;

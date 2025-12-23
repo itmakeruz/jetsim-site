@@ -60,7 +60,6 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
           } flex flex-col gap-4`}
         >
           <TariffHeader
-            iccid={sim.iccid}
             image={sim.region_group.image}
             title={sim.tariff_name}
           />

@@ -125,7 +125,9 @@
     "show_less": "Показать меньше",
     "show_all": "Посмотреть все",
     "loading": "Загрузка...",
-    "total_price": "Итого:"
+    "total_price": "Итого:",
+    "created_at": "Создан:",
+    "expire_date": "Закончится:"
   },
 
   "how": {

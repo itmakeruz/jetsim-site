@@ -112,7 +112,9 @@
     "show_less": "Show less",
     "show_all": "View all",
     "loading": "Loading...",
-    "total_price": "Total:"
+    "total_price": "Total:",
+    "created_at": "Created:",
+    "expire_date": "Expires:"
   },
   "how": {
     "title": "Choose your tariff plan today and activate it before your trip",
