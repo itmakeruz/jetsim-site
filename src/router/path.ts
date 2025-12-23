@@ -13,6 +13,6 @@ export const APP_ROUTES = {
   PAYMENT: "/payment",
   PROFILE: "/profile",
   CART: "/cart",
-  MYESIM: "/myEsim",
+  MYESIM: "/myesim",
   TARIFFS: "/tariffs/:id",
 };
