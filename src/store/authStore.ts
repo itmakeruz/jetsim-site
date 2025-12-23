@@ -70,11 +70,23 @@ export const useAuthStore = create<AuthStore>((set) => ({
     } catch (error: any) {
       set({
         isLoading: false,
-        token: null,
-        user: null,
-        isAuthenticated: false,
       });
-      removeToken();
+
+      // Faqat 401 error bo'lganda token tozalash
+      if (error.response?.status === 401) {
+        set({
+          token: null,
+          user: null,
+          isAuthenticated: false,
+        });
+        removeToken();
+      } else {
+        // Boshqa error'lar uchun faqat user ma'lumotlarini tozalash, token saqlanadi
+        set({
+          user: null,
+        });
+      }
+
       return {
         success: false,
         message: error.response?.data?.message || "Failed to get profile",

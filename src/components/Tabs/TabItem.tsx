@@ -32,7 +32,8 @@ const TabItem: React.FC<TabItemProps> = ({ config, getTabClassName }) => {
     <>
       {count !== undefined ? (
         <div className="flex items-center gap-2 md:gap-2">
-          {translationKey} <TabBadge count={count} variant={badgeVariant} />
+          {translationKey}{" "}
+          {count > 0 && <TabBadge count={count} variant={badgeVariant} />}
         </div>
       ) : (
         translationKey

@@ -32,7 +32,7 @@ const CartItemFooter: React.FC<CartItemFooterProps> = ({
               : "bg-[#112D6C] hover:opacity-90"
           }`}
         >
-          Активировать
+          Подробнее
         </button>
       )}
     </div>
