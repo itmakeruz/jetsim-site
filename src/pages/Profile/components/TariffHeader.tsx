@@ -2,7 +2,7 @@ import { ImagePreview } from "@/components/ImgCards";
 import { toast } from "react-toastify";
 
 interface TariffHeaderProps {
-  id: number;
+  id?: number;
   image: string;
   title: string;
 }
@@ -19,12 +19,14 @@ const TariffHeader: React.FC<TariffHeaderProps> = ({ id, image, title }) => {
         <h3 className="font-normal w-full text-lg md:text-xl lg:text-2xl leading-[1] tracking-[0px]">
           {title}
         </h3>
-        <span
-          onClick={() => handleCopyId(id)}
-          className="text-sm text-black shrink-0 font-bold"
-        >
-          ID: {id}
-        </span>
+        {id && (
+          <span
+            onClick={() => handleCopyId(id)}
+            className="text-sm text-black shrink-0 font-bold"
+          >
+            ID: {id}
+          </span>
+        )}
       </div>
     </div>
   );

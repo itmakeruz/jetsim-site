@@ -49,7 +49,7 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
 
         {/* Failed Status Badge */}
         {isFailed && (
-          <div className="absolute top-4 right-4 z-20 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
+          <div className="absolute top-1 right-4 z-20 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
             Недоступно
           </div>
         )}
