@@ -1,11 +1,17 @@
 import { ImagePreview } from "@/components/ImgCards";
+import { toast } from "react-toastify";
 
 interface TariffHeaderProps {
+  id: number;
   image: string;
   title: string;
 }
 
-const TariffHeader: React.FC<TariffHeaderProps> = ({ image, title }) => {
+const TariffHeader: React.FC<TariffHeaderProps> = ({ id, image, title }) => {
+  const handleCopyId = (id: number) => {
+    navigator.clipboard.writeText(id.toString());
+    toast.success(id);
+  };
   return (
     <div className="flex items-center justify-between">
       <div className="flex items-center w-full gap-2.5">
@@ -13,6 +19,12 @@ const TariffHeader: React.FC<TariffHeaderProps> = ({ image, title }) => {
         <h3 className="font-normal w-full text-lg md:text-xl lg:text-2xl leading-[1] tracking-[0px]">
           {title}
         </h3>
+        <span
+          onClick={() => handleCopyId(id)}
+          className="text-sm text-black shrink-0 font-bold"
+        >
+          ID: {id}
+        </span>
       </div>
     </div>
   );
