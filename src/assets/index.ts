@@ -53,6 +53,9 @@ import apple from "./appleIcon.svg";
 import android from "./androidIcon.svg";
 import support from "./support.svg";
 import empty from "./empty.png";
+import instagram from "./instagram.svg";
+import max from "./max.png";
+import send from "./send.png";
 export const ASSETS = {
   en,
   ru,
@@ -81,6 +84,8 @@ export const ASSETS = {
   snpachat,
   t,
   telegram,
+  instagram,
+  max,
   theards,
   tt,
   turkey,
@@ -109,4 +114,5 @@ export const ASSETS = {
   android,
   support,
   empty,
+  send,
 };
