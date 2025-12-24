@@ -15,7 +15,7 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
         <div className="flex gap-1 justify-between">
           {t("sims.trafic")}
           <span className="text-[#112D6C] font-bold">
-            {formatNumber(sim.usage)} мб
+            {formatNumber(sim?.usage || 0)} мб
           </span>
         </div>
         <div className="relative bg-[#D2E7FF] w-full h-[16px] rounded-[12px] overflow-hidden">

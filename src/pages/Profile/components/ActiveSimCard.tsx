@@ -34,7 +34,6 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
       onActivate();
     }
   };
-  console.log(sim);
 
   return (
     <>
