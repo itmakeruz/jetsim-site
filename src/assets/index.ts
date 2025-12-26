@@ -20,6 +20,7 @@ import linkendin from "./linkendin.svg";
 import loginlogo from "./loginlogo.svg";
 import logo from "./logo.svg";
 import phone from "./phone.png";
+import phone2 from "./phone2.png";
 import snpachat from "./snapchat.svg";
 import t from "./t.svg";
 import telegram from "./telegram.svg";
@@ -56,6 +57,7 @@ import empty from "./empty.png";
 import instagram from "./instagram.svg";
 import max from "./max.png";
 import send from "./send.png";
+import phoneVideo from "./video.mp4";
 export const ASSETS = {
   en,
   ru,
@@ -81,6 +83,8 @@ export const ASSETS = {
   loginlogo,
   logo,
   phone,
+  phone2,
+  phoneVideo,
   snpachat,
   t,
   telegram,

@@ -40,12 +40,20 @@ const Bottom = () => {
               </li>
             </ul>
           </div>
-
-          <img
-            className="max-w-[60%] md:max-w-[80%] lg:max-w-full h-auto mx-auto"
-            src={ASSETS.phone}
-            alt=""
-          />
+          <div className="flex justify-center px-[20px] py-[10px] items-center overflow-hidden h-[450px] rounded-t-[55px] shrink-0 w-[340px] relative">
+            <img
+              className="w-full h-full object-top object-cover absolute inset-0"
+              src={ASSETS.phone2}
+              alt=""
+            />
+            <video
+              className="w-full h-full rounded-[55px] mix-blend-multiply object-cover object-top"
+              src={ASSETS.phoneVideo}
+              autoPlay
+              muted
+              loop
+            ></video>
+          </div>
         </div>
       </div>
       <Card />
