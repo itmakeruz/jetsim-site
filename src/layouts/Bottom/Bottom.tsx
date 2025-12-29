@@ -2,9 +2,30 @@ import { useTranslation } from "react-i18next";
 import { ASSETS } from "../../assets";
 import Card from "../Cards/Cards";
 import Footer from "../Footer/Footer";
+import { useEffect, useRef } from "react";
 
 const Bottom = () => {
   const { t } = useTranslation();
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // iOS Safari uchun majburiy atributlar
+    video.setAttribute("playsinline", "true");
+    video.setAttribute("webkit-playsinline", "true");
+
+    video.muted = true;
+
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // iOS ba'zan birinchi autoplay'ni bloklaydi — e'tibor bermaymiz
+      });
+    }
+  }, []);
+
   return (
     <div className="mt-[25px]">
       <div
@@ -53,6 +74,7 @@ const Bottom = () => {
               muted
               loop
               playsInline
+              preload="auto"
             ></video>
           </div>
         </div>
