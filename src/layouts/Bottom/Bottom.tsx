@@ -68,6 +68,7 @@ const Bottom = () => {
               alt=""
             />
             <video
+              ref={videoRef}
               className="w-full h-full rounded-[55px] mix-blend-multiply object-cover object-top"
               src={ASSETS.phoneVideo}
               autoPlay
