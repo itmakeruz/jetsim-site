@@ -33,11 +33,11 @@ const Footer = () => {
 
               <a href={APP_ROUTES.FAQ}>F.A.Q</a>
 
-              <a href={APP_ROUTES.CONFIDENTIAL}>{t("footer.confidential")}</a>
+              <a href={APP_ROUTES.PRIVACY_POLICY}>{t("footer.confidential")}</a>
 
-              <a href={APP_ROUTES.OFERTA}>{t("footer.oferta")}</a>
+              <a href={APP_ROUTES.PUBLIC_OFFER}>{t("footer.oferta")}</a>
 
-              <a href={APP_ROUTES.USLOVIYA}>{t("footer.usloviya")}</a>
+              <a href={APP_ROUTES.REFUND_POLICY}>{t("footer.usloviya")}</a>
 
               <a href={APP_ROUTES.RULE}>{t("footer.rules")}</a>
 

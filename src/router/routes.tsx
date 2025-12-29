@@ -47,34 +47,10 @@ export const appRoutes = [
         ),
       },
       {
-        path: APP_ROUTES.CONFIDENTIAL,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Confidential />
-          </Suspense>
-        ),
-      },
-      {
-        path: APP_ROUTES.OFERTA,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Oferta />
-          </Suspense>
-        ),
-      },
-      {
         path: APP_ROUTES.RULE,
         element: (
           <Suspense fallback={<Loader />}>
             <Rules />
-          </Suspense>
-        ),
-      },
-      {
-        path: APP_ROUTES.USLOVIYA,
-        element: (
-          <Suspense fallback={<Loader />}>
-            <Usloviya />
           </Suspense>
         ),
       },
@@ -91,6 +67,30 @@ export const appRoutes = [
         element: (
           <Suspense fallback={<Loader />}>
             <How />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.PRIVACY_POLICY,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Confidential />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.PUBLIC_OFFER,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Oferta />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.REFUND_POLICY,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Usloviya />
           </Suspense>
         ),
       },

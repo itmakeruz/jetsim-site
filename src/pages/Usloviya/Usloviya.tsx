@@ -8,84 +8,203 @@ const Usloviya = () => {
     <div className="container">
       <h1 className="pages-heading">{t("pages.usloviya")}</h1>
 
-      <p className="pages-text">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
-      </p>
-      <br />
-      <p className="pages-text">
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-        voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum
-        quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam
-        eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-        voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam
-        corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur?
-        Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse
-        quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo
-        voluptas nulla pariatur?
-      </p>
-      <br />
-      <p className="pages-text">
-        At vero eos et accusamus et iusto odio dignissimos ducimus qui
-        blanditiis praesentium voluptatum deleniti atque corrupti quos dolores
-        et quas molestias excepturi sint occaecati cupiditate non provident,
-        similique sunt in culpa qui officia deserunt mollitia animi, id est
-        laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita
-        distinctio. Nam libero tempore, cum soluta nobis est eligendi optio
-        cumque nihil impedit quo minus id quod maxime placeat facere possimus,
-        omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem
-        quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet
-        ut et voluptates repudiandae sint et molestiae non recusandae. Itaque
-        earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
-        voluptatibus maiores alias consequatur aut perferendis doloribus
-        asperiores repellat.
-      </p>
+      <div className="pages-content">
+        <p className="pages-text">
+          <strong>ПОЛИТИКА ВОЗВРАТА</strong>
+        </p>
+        <p className="pages-text">Редакция от « 15 » декабря 2025 г.</p>
+        <p className="pages-text">
+          Настоящая Политика возврата (далее – «Политика») определяет условия и
+          порядок возврата денежных средств Пользователям за цифровые услуги,
+          предоставляемые Обществом с ограниченной ответственностью «ГЛОБАЛ СИМ»
+          (ОГРН 1257700534475, ИНН 9721260266 (далее – «Исполнитель») через
+          веб-сайт, мобильное приложение и иные цифровые интерфейсы под брендом
+          JETSIM.
+        </p>
+        <p className="pages-text">
+          Политика является неотъемлемой частью Публичной оферты JETSIM и
+          применяется ко всем Пользователям, совершившим акцепт оферты и оплату
+          Услуг.
+        </p>
 
-      <br />
-      <p className="pages-text">
-        But I must explain to you how all this mistaken idea of denouncing
-        pleasure and praising pain was born and I will give you a complete
-        account of the system, and expound the actual teachings of the great
-        explorer of the truth, the master-builder of human happiness. No one
-        rejects, dislikes, or avoids pleasure itself, because it is pleasure,
-        but because those who do not know how to pursue pleasure rationally
-        encounter consequences that are extremely painful. Nor again is there
-        anyone who loves or pursues or desires to obtain pain of itself, because
-        it is pain, but because occasionally circumstances occur in which toil
-        and pain can procure him some great pleasure. To take a trivial example,
-        which of us ever undertakes laborious physical exercise, except to
-        obtain some advantage from it? But who has any right to find fault with
-        a man who chooses to enjoy a pleasure that has no annoying consequences,
-        or one who avoids a pain that produces no resultant pleasure?
-      </p>
+        <h2 className="pages-subheading">1. Общие положения</h2>
+        <p className="pages-text">
+          1.1. JETSIM оказывает информационно-организационные и иные цифровые
+          услуги, не являющиеся услугами связи. Услуга считается оказанной
+          надлежащим образом с момента предоставления Пользователю доступа к
+          функционалу соответствующего сервиса (активации учетной записи,
+          отображения QR-кода eSIM, направления инструкций, открытия интерфейса
+          управления или иного эквивалентного действия).
+        </p>
 
-      <br />
-      <p className="pages-text">
-        On the other hand, we denounce with righteous indignation and dislike
-        men who are so beguiled and demoralized by the charms of pleasure of the
-        moment, so blinded by desire, that they cannot foresee the pain and
-        trouble that are bound to ensue; and equal blame belongs to those who
-        fail in their duty through weakness of will, which is the same as saying
-        through shrinking from toil and pain. These cases are perfectly simple
-        and easy to distinguish. In a free hour, when our power of choice is
-        untrammelled and when nothing prevents our being able to do what we like
-        best, every pleasure is to be welcomed and every pain avoided. But in
-        certain circumstances and owing to the claims of duty or the obligations
-        of business it will frequently occur that pleasures have to be
-        repudiated and annoyances accepted. The wise man therefore always holds
-        in these matters to this principle of selection: he rejects pleasures to
-        secure other greater pleasures, or else he endures pains to avoid worse
-        pains.
-      </p>
+        <h2 className="pages-subheading">2. Виды и основания возврата</h2>
+        <p className="pages-text">
+          Возврат денежных средств осуществляется в зависимости от основания и
+          срока обращения:
+        </p>
+        <p className="pages-text">
+          <strong>
+            2.1. Возврат в рамках гарантийного периода (технический возврат):
+          </strong>
+        </p>
+        <p className="pages-text">
+          Допускается, если обращение поступило в течение 30 календарных дней с
+          даты оплаты за доступ к профилю eSIM (гарантийный период) и имеются
+          документально подтвержденные технические причины, не зависящие от
+          Пользователя, в результате которых использование оплаченной Услуги
+          оказалось невозможным.
+        </p>
+        <p className="pages-text">К таким основаниям относятся:</p>
+        <ul className="pages-list">
+          <li>
+            технический сбой или ошибка сервиса JETSIM, произошедшая по вине
+            Исполнителя и приведшая к полной невозможности использования Услуги;
+          </li>
+          <li>некорректная работа eSIM при совместимом устройстве;</li>
+          <li>ошибки активации, не связанные с действиями Пользователя.</li>
+        </ul>
+        <p className="pages-text">
+          <strong>
+            2.2. Возврат в общем порядке (до активации и по иным основаниям):
+          </strong>
+        </p>
+        <p className="pages-text">Возврат возможен в следующих случаях:</p>
+        <ul className="pages-list">
+          <li>ошибочное или двойное списание денежных средств при оплате;</li>
+          <li>
+            отмена Исполнителем предоставления Услуги до её активации или
+            первого использования Пользователем;
+          </li>
+          <li>
+            отказ Пользователя от Услуги до активации профиля eSIM - с
+            удержанием фактически понесенных расходов Исполнителя (платежные
+            комиссии, затраты на обработку заказа и пр.);
+          </li>
+          <li>иные случаи, прямо предусмотренные законодательством РФ.</li>
+        </ul>
+        <p className="pages-text">
+          <strong>2.3. Возврат не осуществляется, если:</strong>
+        </p>
+        <ul className="pages-list">
+          <li>
+            доступ к функционалу был предоставлен и Пользователь начал
+            использовать Услугу (профиль eSIM активирован);
+          </li>
+          <li>
+            технические проблемы возникли по причинам, находящимся на стороне
+            Пользователя (в т.ч. несовместимое устройство, сбой сети, ошибки
+            настроек, блокировки, ограничение доступа в стране использования);
+          </li>
+          <li>
+            отказ от Услуги вызван личными причинами (утрата интереса, ожидания
+            иное качество, изменение планов и т.п.);
+          </li>
+          <li>
+            обращение подано по истечении гарантийного периода без наличия
+            оснований, предусмотренных законодательством РФ.
+          </li>
+        </ul>
+
+        <h2 className="pages-subheading">3. Порядок возврата</h2>
+        <p className="pages-text">
+          <strong>3.1. Срок обращения:</strong>
+        </p>
+        <p className="pages-text">Обращение о возврате подается:</p>
+        <ul className="pages-list">
+          <li>
+            в течение гарантийного периода (30 календарных дней с даты оплаты) -
+            для возвратов, связанных с техническими причинами по п. 2.1;
+          </li>
+          <li>
+            до активации профиля eSIM, но не более 30 календарных дней с даты
+            оплаты - для возвратов по основаниям, указанным в п. 2.2.
+          </li>
+        </ul>
+        <p className="pages-text">
+          <strong>3.2. Порядок подачи обращения:</strong>
+        </p>
+        <p className="pages-text">
+          Для инициирования возврата Пользователь направляет письменное
+          обращение через форму на сайте www.jetsim.ru или на e-mail
+          support@jetsim.ru
+        </p>
+        <p className="pages-text">К обращению прикладываются:</p>
+        <ul className="pages-list">
+          <li>
+            подтверждение оплаты (чек, выписка, идентификатор транзакции);
+          </li>
+          <li>описание обстоятельств (дата, вид нарушения, суть проблемы);</li>
+          <li>
+            при необходимости - сведения об устройстве и/или документ,
+            удостоверяющий личность, для подтверждения принадлежности платежа.
+          </li>
+        </ul>
+        <p className="pages-text">
+          <strong>3.3. Рассмотрение обращения.</strong>
+        </p>
+        <p className="pages-text">
+          Исполнитель рассматривает обращение в срок до 10 (десяти) рабочих дней
+          с даты получения полного комплекта сведений.
+        </p>
+        <p className="pages-text">
+          При необходимости могут быть затребованы дополнительные данные для
+          проверки технических причин или факта активации.
+        </p>
+        <p className="pages-text">
+          <strong>3.4. Принятие решения и возврат.</strong>
+        </p>
+        <p className="pages-text">
+          В случае удовлетворения требования возврат осуществляется тем же
+          способом, которым была произведена оплата, если иное не согласовано с
+          Пользователем.
+        </p>
+        <p className="pages-text">
+          При возврате сумма может быть уменьшена на фактические расходы
+          Исполнителя, связанные с проведением возвратной операции (банковские и
+          платежные комиссии), если их возложение на Пользователя не запрещено
+          законом.
+        </p>
+        <p className="pages-text">
+          <strong>3.5. Срок перечисления денежных средств.</strong>
+        </p>
+        <p className="pages-text">
+          Перечисление производится в течение 10 (десяти) банковских дней с даты
+          принятия решения о возврате, если иной срок не установлен законом или
+          правилами платежной системы.
+        </p>
+
+        <h2 className="pages-subheading">4. Заключительные положения</h2>
+        <p className="pages-text">
+          4.1. JETSIM вправе изменять настоящую Политику. Новая редакция
+          размещается на официальном сайте и вступает в силу с момента
+          публикации, если иной срок не указан.
+        </p>
+        <p className="pages-text">
+          4.2. Продолжение использования Услуг после публикации новой редакции
+          означает согласие Пользователя с изменениями.
+        </p>
+        <p className="pages-text">
+          4.3. Правовое регулирование вопросов, связанных с возвратом денежных
+          средств, осуществляется в соответствии с законодательством Российской
+          Федерации, включая Закон РФ «О защите прав потребителей» и Гражданский
+          кодекс РФ.
+        </p>
+
+        <h2 className="pages-subheading">5. Реквизиты Исполнителя</h2>
+        <p className="pages-text">
+          Общество с ограниченной ответственностью «ГЛОБАЛ СИМ»
+        </p>
+        <p className="pages-text">ОГРН: 1257700534475 ИНН: 9721260266</p>
+        <p className="pages-text">
+          Юридический адрес: 111674, Россия, г. Москва, Вн.тер.г.муниципальный
+          округ Некрасова, ул 1-я Вольская,д. 26.
+        </p>
+        <p className="pages-text">
+          Электронная почта: info@jetsim.ru, support@jetsim.ru
+        </p>
+        <p className="pages-text">Веб-сайт: www.jetsim.ru</p>
+        <p className="pages-text">Тел.: +79339000003</p>
+      </div>
 
       <LinkButton />
     </div>

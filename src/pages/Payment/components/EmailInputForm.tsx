@@ -25,7 +25,7 @@ const EmailInputForm = ({
     e.preventDefault();
 
     if (!isValidEmail) {
-      toast.error("To'g'ri email kiriting");
+      toast.error("Введите корректный email");
       return;
     }
 
@@ -35,16 +35,15 @@ const EmailInputForm = ({
       const response = await authAPI.sendOtp({ email });
 
       if (response.data.success) {
-        toast.success("Verification code sent to your email");
+        toast.success("Код подтверждения отправлен на вашу почту");
         onTimerReset();
         onEmailSubmitted(email);
       } else {
-        toast.error(response.data.message || "Xatolik yuz berdi");
+        toast.error(response.data.message || "Произошла ошибка");
       }
     } catch (error: any) {
       toast.error(
-        error.response?.data?.message ||
-          "Xatolik yuz berdi. Qayta urinib ko'ring."
+        error.response?.data?.message || "Произошла ошибка. Попробуйте еще раз."
       );
     } finally {
       setEmailLoading(false);

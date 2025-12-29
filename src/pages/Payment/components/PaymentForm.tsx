@@ -15,12 +15,12 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
 
   const handlePayment = async () => {
     if (!agreedToTerms) {
-      toast.error("Please agree to the terms and conditions");
+      toast.error("Пожалуйста, согласитесь с условиями обслуживания");
       return;
     }
 
     if (!isAuthenticated) {
-      toast.error("Please login first");
+      toast.error("Пожалуйста, сначала войдите в систему");
       return;
     }
 
@@ -33,13 +33,15 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
           // Open payment URL in new tab
           window.open(paymentUrl, "_self");
         } else {
-          toast.error("Payment URL not found");
+          toast.error("URL оплаты не найден");
         }
       } else {
-        toast.error(response.data.message || "Payment preparation failed");
+        toast.error(response.data.message || "Не удалось подготовить платеж");
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Error processing payment");
+      toast.error(
+        error.response?.data?.message || "Ошибка при обработке платежа"
+      );
     } finally {
       setIsProcessingPayment(false);
     }

@@ -52,6 +52,7 @@ const Bottom = () => {
               autoPlay
               muted
               loop
+              playsInline
             ></video>
           </div>
         </div>

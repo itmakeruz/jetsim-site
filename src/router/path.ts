@@ -15,4 +15,7 @@ export const APP_ROUTES = {
   CART: "/cart",
   MYESIM: "/myesim",
   TARIFFS: "/tariffs/:id",
+  PRIVACY_POLICY: "/privacy-policy",
+  PUBLIC_OFFER: "/public-offer",
+  REFUND_POLICY: "/refund-policy",
 };

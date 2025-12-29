@@ -80,6 +80,42 @@
   font-size: clamp(0.875rem, 2vw, 1rem);
   line-height: 140%;
   letter-spacing: 0;
+  margin-bottom: 1rem;
+}
+
+.pages-content {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.pages-subheading {
+  font-weight: 700;
+  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  line-height: 140%;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.pages-list {
+  list-style: none;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.pages-list li {
+  position: relative;
+  padding-left: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: clamp(0.875rem, 2vw, 1rem);
+  line-height: 140%;
+}
+
+.pages-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #000000;
+  font-size: 1.2em;
 }
 
 @media (max-width: 1024px) {

@@ -44,7 +44,7 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
       const code = otp.join("");
 
       if (!email) {
-        toast.error("Email not found");
+        toast.error("Email не найден");
         return;
       }
 
@@ -63,31 +63,31 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
             await syncToAPI();
             await getProfile();
           }
-          toast.success("Email verified successfully");
+          toast.success("Email успешно подтвержден");
         } else {
           if (response.data.statusCode === 400) {
-            toast.error(response.data.message || "Code expired");
+            toast.error(response.data.message || "Код истек");
             setHasError(true);
             setOtp(Array(6).fill(""));
             setCanResend(true);
             inputRefs.current[0]?.focus();
           } else if (response.data.statusCode === 401) {
             setHasError(true);
-            toast.error(response.data.message || "Invalid code");
+            toast.error(response.data.message || "Неверный код");
           }
         }
       } catch (error: any) {
         if (error.response?.data?.statusCode === 400) {
-          toast.error(error.response?.data?.message || "Code expired");
+          toast.error(error.response?.data?.message || "Код истек");
           setHasError(true);
           setOtp(Array(6).fill(""));
           setCanResend(true);
           inputRefs.current[0]?.focus();
         } else if (error.response?.data?.statusCode === 401) {
           setHasError(true);
-          toast.error("Invalid verification code");
+          toast.error("Неверный код подтверждения");
         } else {
-          toast.error("Xatolik yuz berdi");
+          toast.error("Произошла ошибка");
         }
       } finally {
         setOtpLoading(false);
@@ -103,7 +103,7 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
     try {
       const response = await authAPI.sendOtp({ email });
       if (response.data.success) {
-        toast.success("Verification code sent");
+        toast.success("Код подтверждения отправлен");
         setTimer(120);
         setCanResend(false);
         setOtp(Array(6).fill(""));
@@ -111,10 +111,10 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
         hasAutoResentRef.current = false; // Reset after successful resend
         inputRefs.current[0]?.focus();
       } else {
-        toast.error(response.data.message || "Error occurred");
+        toast.error(response.data.message || "Произошла ошибка");
       }
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Error occurred");
+      toast.error(error.response?.data?.message || "Произошла ошибка");
     } finally {
       setOtpLoading(false);
     }
