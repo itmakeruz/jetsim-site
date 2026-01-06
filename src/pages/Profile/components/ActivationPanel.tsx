@@ -11,12 +11,21 @@ interface ActivationPanelProps {
 }
 
 const ActivationPanel: React.FC<ActivationPanelProps> = ({ sim }) => {
+  console.log(sim, "sim");
+
   return (
     <div className="grid md:grid-cols-[1fr_280px_1fr] gap-4 mt-5">
       {/* Left: Device Instructions */}
       <div className="flex flex-col md:gap-[10px] gap-1 h-full">
-        <DeviceInstructions icon={ASSETS.apple} />
-        <DeviceInstructions icon={ASSETS.android} />
+        <DeviceInstructions
+          icon={ASSETS.apple}
+          link={sim?.qrcode_content?.for_ios || ""}
+        />
+        <DeviceInstructions
+          icon={ASSETS.android}
+          link={sim?.qrcode_content?.for_android || ""}
+          showRawLink
+        />
       </div>
 
       {/* Center: QR Code */}

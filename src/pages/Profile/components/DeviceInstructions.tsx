@@ -2,9 +2,15 @@ import React from "react";
 
 interface DeviceInstructionsProps {
   icon: string;
+  link: string;
+  showRawLink?: boolean;
 }
 
-const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({ icon }) => {
+const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
+  icon,
+  link,
+  showRawLink = false,
+}) => {
   const instructions = [
     "Настройки → Сотовая связь → Добавить тариф",
     "Отсканируйте QR-код выше",
@@ -43,6 +49,25 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({ icon }) => {
             {instruction}
           </h6>
         ))}
+        {showRawLink ? (
+          link ? (
+            <a
+              href={link}
+              target="_blank"
+              rel="noreferrer"
+              className="md:text-[16px] text-[14px] bg-[#112D6C] text-white w-full"
+            >
+              {link}
+            </a>
+          ) : null
+        ) : (
+          <button
+            className="bg-[#112D6C] text-white w-full"
+            onClick={() => window.open(link, "_blank")}
+          >
+            Перейти
+          </button>
+        )}
       </div>
     </div>
   );
