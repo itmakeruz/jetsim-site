@@ -20,6 +20,8 @@ i18n.use(initReactI18next).init({
 });
 
 i18n.on("languageChanged", (lng) => {
+  console.log(lng);
+
   localStorage.setItem("lang", lng);
   // Til o'zgarganda barcha querylarni invalidate qilish
   queryClient.invalidateQueries();
