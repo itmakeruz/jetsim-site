@@ -213,6 +213,10 @@ export interface Myesim {
     name: string;
     image: string;
   };
+  qrcode_content: {
+    for_ios: string;
+    for_android: string;
+  };
   regions: Region[];
   status: string;
   can_activate: boolean;
