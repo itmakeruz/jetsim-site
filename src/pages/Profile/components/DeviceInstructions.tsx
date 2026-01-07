@@ -1,3 +1,4 @@
+import { ArrowRight, Copy } from "lucide-react";
 import React from "react";
 
 interface DeviceInstructionsProps {
@@ -17,6 +18,17 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
     "Или используйте ссылку ниже",
   ];
 
+  const handleCopyLink = async () => {
+    if (link) {
+      try {
+        await navigator.clipboard.writeText(link);
+        // Optional: You can add a toast notification here if needed
+      } catch (err) {
+        console.error("Failed to copy link:", err);
+      }
+    }
+  };
+
   return (
     <div className="flex items-center gap-[10px] md:py-[25px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
       <img
@@ -24,7 +36,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
         src={icon}
         alt=""
       />
-      <div className="flex flex-col gap-[2px] font-medium">
+      <div className="flex flex-col gap-[2px] font-medium w-full">
         {instructions.map((instruction, index) => (
           <h6
             key={index}
@@ -51,21 +63,22 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
         ))}
         {showRawLink ? (
           link ? (
-            <a
-              href={link}
-              target="_blank"
-              rel="noreferrer"
-              className="md:text-[16px] text-[14px] bg-[#112D6C] text-white w-full"
+            <button
+              className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white rounded-md"
+              onClick={handleCopyLink}
             >
-              {link}
-            </a>
+              <span className="block min-w-0 overflow-hidden whitespace-nowrap">
+                {link}
+              </span>{" "}
+              <Copy size={18} />
+            </button>
           ) : null
         ) : (
           <button
-            className="bg-[#112D6C] text-white w-full"
+            className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white w-full rounded-md"
             onClick={() => window.open(link, "_blank")}
           >
-            Перейти
+            Перейти <ArrowRight />
           </button>
         )}
       </div>
