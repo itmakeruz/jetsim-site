@@ -30,7 +30,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-[10px] md:py-[25px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
+    <div className="flex items-center gap-[10px] md:py-[5px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
       <img
         className="md:w-[45px] w-[30px] md:h-[45px] h-[30px] shrink-0 object-contain"
         src={icon}
