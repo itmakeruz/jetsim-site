@@ -81,7 +81,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
           className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white w-full rounded-md"
           onClick={() => window.open(link, "_blank")}
         >
-          Перейти <ArrowRight />
+          Подключить ЕSIM на устройству <ArrowRight />
         </button>
       )}
     </div>
