@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import type { Myesim } from "@/types/api";
 import ActivationPanel from "./components/ActivationPanel";
 import { useQueryClient } from "@tanstack/react-query";
-import { myesimsQuery } from "@/hooks/queries";
+import { myesimsQuery, cartItemsQuery } from "@/hooks/queries";
 
 const InactivePage = () => {
   const { t, i18n } = useTranslation();
@@ -61,12 +61,15 @@ const InactivePage = () => {
           return;
         }
 
-        // Fetch fresh data
-        const result = await myesimsQuery();
+        // Fetch fresh data for myesims and cart
+        const [myesimsResult, cartResult] = await Promise.all([
+          myesimsQuery(),
+          cartItemsQuery(),
+        ]);
 
-        // Update store with fresh data
-        if (result?.data) {
-          setMyesims(result.data);
+        // Update store with fresh myesims data
+        if (myesimsResult?.data) {
+          setMyesims(myesimsResult.data);
 
           // Increment polling count for each sim that was polled
           activeSimsForPolling.forEach((sim) => {
@@ -77,6 +80,13 @@ const InactivePage = () => {
           // Invalidate query cache to keep it in sync
           queryClient.invalidateQueries({
             queryKey: ["inactiveSims", i18n.language],
+          });
+        }
+
+        // Invalidate cart query cache to keep it in sync
+        if (cartResult) {
+          queryClient.invalidateQueries({
+            queryKey: ["cartItems", i18n.language],
           });
         }
       } catch (error) {
