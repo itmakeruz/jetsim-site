@@ -221,6 +221,7 @@ export interface Myesim {
   status: string;
   can_activate: boolean;
   quantity_internet: number;
+  validity_period: number;
 }
 
 export interface MyesimsResponse {

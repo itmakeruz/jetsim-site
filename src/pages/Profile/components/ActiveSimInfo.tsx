@@ -9,6 +9,23 @@ interface ActiveSimInfoProps {
 const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
   const { t } = useTranslation();
 
+  // Calculate traffic remaining percentage
+  const trafficUsed = sim?.usage || 0;
+  const trafficTotal = sim?.quantity_internet || 0;
+  const trafficRemaining = trafficTotal - trafficUsed;
+  const trafficPercentage =
+    trafficTotal > 0
+      ? Math.min(100, Math.max(0, (trafficRemaining / trafficTotal) * 100))
+      : 0;
+
+  // Calculate days remaining percentage
+  const daysLeft = sim?.day_left || 0;
+  const totalDays = sim?.validity_period || 0;
+  const daysPercentage =
+    totalDays > 0
+      ? Math.min(100, Math.max(0, (daysLeft / totalDays) * 100))
+      : 0;
+
   return (
     <div className="space-y-2">
       <div className="flex flex-col gap-1">
@@ -22,7 +39,7 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
           <div
             className="absolute top-0 left-0 bg-[#112D6C] h-full rounded-[6px] flex items-center px-2"
             style={{
-              width: `100%`,
+              width: `${trafficPercentage}%`,
             }}
           ></div>
         </div>
@@ -36,7 +53,7 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
           <div
             className="absolute top-0 left-0 bg-[#112D6C] h-full rounded-[6px] flex items-center px-2"
             style={{
-              width: `100%`,
+              width: `${daysPercentage}%`,
             }}
           ></div>
         </div>
