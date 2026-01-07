@@ -117,14 +117,16 @@ const InactivePage = () => {
               isInactive={activeSim?.id === sim.id}
               onActivate={() => setActiveSim(sim)}
             />
-            {!sim.can_activate && sim.status !== "COMPLETED" && (
-              <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-[20px] z-20 flex items-center justify-center">
-                <div className="flex flex-col items-center gap-3">
-                  <div className="loader"></div>
-                  <p className="text-sm text-gray-600">Активация...</p>
+            {!sim.can_activate &&
+              sim.status !== "COMPLETED" &&
+              sim.status !== "FAILED" && (
+                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-[20px] z-20 flex items-center justify-center">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="loader"></div>
+                    <p className="text-sm text-gray-600">Активация...</p>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
           </div>
         ))}
       </div>
