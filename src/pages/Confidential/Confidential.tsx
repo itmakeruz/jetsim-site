@@ -9,402 +9,189 @@ const Confidential = () => {
       <h1 className="pages-heading">{t("pages.confidential")}</h1>
 
       <div className="pages-content">
-        <p className="pages-text">
-          Политика в отношении обработки персональных данных
-        </p>
-        <p className="pages-text">Редакция от « 15 » декабря 2025 г.</p>
-        <p className="pages-text">
-          Настоящая Политика в отношении обработки персональных данных (далее –
-          «Политика») описывает порядок и условия обработки персональных данных
-          пользователей цифрового сервиса JETSIM, в том числе в объеме,
-          предусмотренном законодательством Российской Федерации.
-        </p>
-        <p className="pages-text">Политика разработана в соответствии с:</p>
+        <p className="pages-text">{t("confidential.title")}</p>
+        <p className="pages-text">{t("confidential.revision_date")}</p>
+        <p className="pages-text">{t("confidential.intro1")}</p>
+        <p className="pages-text">{t("confidential.intro2")}</p>
         <ul className="pages-list">
-          <li>
-            Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных»;
-          </li>
-          <li>
-            Федеральным законом от 27.07.2006 № 149-ФЗ «Об информации,
-            информационных технологиях и о защите информации»;
-          </li>
-          <li>
-            Законом Российской Федерации от 07.02.1992 № 2300-1 «О защите прав
-            потребителей»;
-          </li>
-          <li>иными нормативными правовыми актами Российской Федерации,</li>
-          <li>
-            а также с учетом особенностей функционирования цифрового сервиса
-            JETSIM.
-          </li>
+          <li>{t("confidential.intro_list1")}</li>
+          <li>{t("confidential.intro_list2")}</li>
+          <li>{t("confidential.intro_list3")}</li>
+          <li>{t("confidential.intro_list4")}</li>
+          <li>{t("confidential.intro_list5")}</li>
         </ul>
         <p className="pages-text">
-          <strong>Важно:</strong> JETSIM не является оператором связи в смысле
-          статьи 2 Федерального закона от 07.07.2003 № 126-ФЗ «О связи» и не
-          оказывает услуги электросвязи на территории Российской Федерации.
-          Деятельность сервиса представляет собой оказание
-          информационно-организационных услуг по оформлению доступа
-          Пользователей к цифровым eSIM-профилям зарубежных операторов,
-          предоставляющих связь вне пределов Российской Федерации.
+          <strong>{t("confidential.important")}</strong>{" "}
+          {t("confidential.important_text")}
+        </p>
+        <p className="pages-text">{t("confidential.intro3")}</p>
+
+        <h2 className="pages-subheading">{t("confidential.section1_title")}</h2>
+        <p className="pages-text">{t("confidential.section1_operator")}</p>
+        <p className="pages-text">{t("confidential.section1_ogrn")}</p>
+        <p className="pages-text">{t("confidential.section1_inn")}</p>
+        <p className="pages-text">{t("confidential.section1_address")}</p>
+        <p className="pages-text">{t("confidential.section1_email")}</p>
+        <p className="pages-text">{t("confidential.section1_phone")}</p>
+        <p className="pages-text">{t("confidential.section1_contact")}</p>
+        <p className="pages-text">{t("confidential.section1_contact_email")}</p>
+        <p className="pages-text">{t("confidential.section1_text")}</p>
+
+        <h2 className="pages-subheading">{t("confidential.section2_title")}</h2>
+        <p className="pages-text">{t("confidential.section2_jetsim")}</p>
+        <p className="pages-text">{t("confidential.section2_software")}</p>
+        <p className="pages-text">{t("confidential.section2_services")}</p>
+        <p className="pages-text">{t("confidential.section2_website")}</p>
+        <p className="pages-text">{t("confidential.section2_user")}</p>
+        <p className="pages-text">{t("confidential.section2_pd")}</p>
+        <p className="pages-text">{t("confidential.section2_processing")}</p>
+        <p className="pages-text">{t("confidential.section2_partners")}</p>
+
+        <h2 className="pages-subheading">{t("confidential.section3_title")}</h2>
+        <p className="pages-text">{t("confidential.section3_text")}</p>
+        <p className="pages-text">
+          <strong>{t("confidential.section3_ident")}</strong>
+        </p>
+        <p className="pages-text">{t("confidential.section3_ident_text")}</p>
+        <p className="pages-text">
+          <strong>{t("confidential.section3_orders")}</strong>
+        </p>
+        <p className="pages-text">{t("confidential.section3_orders_text")}</p>
+        <p className="pages-text">{t("confidential.section3_orders_note")}</p>
+        <p className="pages-text">
+          <strong>{t("confidential.section3_technical")}</strong>
         </p>
         <p className="pages-text">
-          Настоящая Политика является неотъемлемой частью Публичной оферты
-          JETSIM и применяется при использовании Веб-сайта и Программного
-          обеспечения JETSIM на территории Российской Федерации.
+          {t("confidential.section3_technical_text")}
+        </p>
+        <p className="pages-text">
+          <strong>{t("confidential.section3_support")}</strong>
+        </p>
+        <p className="pages-text">{t("confidential.section3_support_text")}</p>
+        <p className="pages-text">
+          <strong>{t("confidential.section3_special")}</strong>
+        </p>
+        <p className="pages-text">{t("confidential.section3_special_text")}</p>
+
+        <h2 className="pages-subheading">{t("confidential.section4_title")}</h2>
+        <p className="pages-text">{t("confidential.section4_text")}</p>
+        <p className="pages-text">
+          <strong>{t("confidential.section4_contract")}</strong>{" "}
+          {t("confidential.section4_contract_text")}
+        </p>
+        <p className="pages-text">
+          <strong>{t("confidential.section4_law")}</strong>{" "}
+          {t("confidential.section4_law_text")}
+        </p>
+        <p className="pages-text">
+          <strong>{t("confidential.section4_security")}</strong>{" "}
+          {t("confidential.section4_security_text")}
+        </p>
+        <p className="pages-text">
+          <strong>{t("confidential.section4_marketing")}</strong>{" "}
+          {t("confidential.section4_marketing_text")}
+        </p>
+        <p className="pages-text">
+          <strong>{t("confidential.section4_analytics")}</strong>{" "}
+          {t("confidential.section4_analytics_text")}
         </p>
 
-        <h2 className="pages-subheading">1. Оператор и область действия</h2>
-        <p className="pages-text">
-          Оператор: Общество с ограниченной ответственностью «ГЛОБАЛ СИМ»,
-        </p>
-        <p className="pages-text">ОГРН: 1257700534475</p>
-        <p className="pages-text">ИНН: 9721260266</p>
-        <p className="pages-text">
-          Юр.адрес: 111674, Россия, г. Москва, Вн.тер.г.муниципальный округ
-          Некрасова, ул 1-я Вольская,д. 26.
-        </p>
-        <p className="pages-text">
-          E‑mail для обращений по ПДн: support@jetsim.ru
-        </p>
-        <p className="pages-text">Тел.: +79339000003</p>
-        <p className="pages-text">
-          Контакт для обращений по персональным данным (ответственное лицо):
-        </p>
-        <p className="pages-text">e‑mail: info@jetsim.ru, support@jetsim.ru</p>
-        <p className="pages-text">
-          Политика применяется ко всем операциям по обработке персональных
-          данных, осуществляемым Оператором в рамках веб‑сайта www.jetsim.ru
-          JETSIM в РФ и программного обеспечения JETSIM (мобильные и
-          веб‑интерфейсы), а также при взаимодействии через сервисные каналы
-          поддержки.
-        </p>
+        <h2 className="pages-subheading">{t("confidential.section5_title")}</h2>
+        <ul className="pages-list">
+          <li>{t("confidential.section5_list1")}</li>
+          <li>{t("confidential.section5_list2")}</li>
+          <li>{t("confidential.section5_list3")}</li>
+        </ul>
 
-        <h2 className="pages-subheading">2. Термины и роли</h2>
-        <p className="pages-text">
-          «JETSIM» – цифровая платформа, предоставляющая Пользователям
-          возможность оформления и активации цифровых профилей (eSIM) и доступа
-          к сопутствующим сервисам для использования за пределами Российской
-          Федерации.
-        </p>
-        <p className="pages-text">
-          «Программное обеспечение JETSIM» – любое программное обеспечение,
-          распространяемое под брендом JETSIM, включая, но не ограничиваясь,
-          мобильными приложениями, веб-интерфейсами и программными модулями,
-          предназначенными для активации и управления функционалом сервисов
-          JETSIM.
-        </p>
-        <p className="pages-text">
-          «Услуги» - деятельность Оператора по предоставлению Пользователю
-          полной и достоверной информации об условиях, Тарифах и совместимости
-          устройств с eSIM, а также по оформлению доступа Пользователя к
-          цифровым профилям JETSIM (eSIM) в соответствии с выбранным Тарифом.
-        </p>
-        <p className="pages-text">
-          «Веб-сайт JETSIM» – официальный интернет-ресурс, доступный по адресу
-          www.jetsim.ru
-        </p>
-        <p className="pages-text">
-          «Пользователь» – физическое лицо, обладающее полной дееспособностью,
-          достигшее 18 лет, прошедшее регистрацию на платформе JETSIM, создавшее
-          учетную запись и акцептовавшее Публичную Оферту.
-        </p>
-        <p className="pages-text">
-          «Персональные данные (ПД)» – любая информация, относящаяся к прямо или
-          косвенно определенному физическому лицу.
-        </p>
-        <p className="pages-text">
-          «Обработка персональных данных» – любое действие с ПД: сбор, запись,
-          систематизация, накопление, хранение, уточнение, использование,
-          передача, обезличивание, блокирование, удаление, уничтожение.
-        </p>
-        <p className="pages-text">
-          «Партнеры/обработчики» – лица, действующие по поручению Оператора по
-          договорам обработки ПД (платежные провайдеры РФ, провайдеры
-          хостинга/ИТ‑поддержки, сервисы аналитики с локальной обработкой и
-          др.).
-        </p>
+        <h2 className="pages-subheading">{t("confidential.section6_title")}</h2>
+        <p className="pages-text">{t("confidential.section6_text")}</p>
 
-        <h2 className="pages-subheading">3. Категории обрабатываемых данных</h2>
-        <p className="pages-text">
-          Мы обрабатываем следующие категории данных Пользователей:
-        </p>
-        <p className="pages-text">
-          <strong>Идентификационные и контактные данные</strong>
-        </p>
-        <p className="pages-text">
-          ФИО, номер телефона, e‑mail, страна предполагаемого использования
-          eSIM; данные учетной записи (ID, логин, история входов).
-        </p>
-        <p className="pages-text">
-          <strong>Данные о заказах и расчетах</strong>
-        </p>
-        <p className="pages-text">
-          выбранные тарифы/пакеты, история заказов и активаций; сведения об
-          оплате (статус, сумма, дата/время, маскированные реквизиты).
-        </p>
-        <p className="pages-text">
-          Полные реквизиты платежной карты мы не храним, обработка
-          осуществляется платежным провайдером в России.
-        </p>
-        <p className="pages-text">
-          <strong>Технические данные и события</strong>
-        </p>
-        <p className="pages-text">
-          IP‑адрес, параметры устройства и браузера, язык интерфейса,
-          cookie-файлы и иные идентификаторы; логи действий в интерфейсе
-          (дата/время, тип события).
-        </p>
-        <p className="pages-text">
-          <strong>Обращения в поддержку</strong>
-        </p>
-        <p className="pages-text">
-          содержание запроса, вложения (при наличии), канал обращения.
-        </p>
-        <p className="pages-text">
-          <strong>Специальные категории/биометрия</strong>
-        </p>
-        <p className="pages-text">
-          не запрашиваются и не обрабатываются. Просим не передавать такие
-          сведения через формы сервиса.
-        </p>
+        <h2 className="pages-subheading">{t("confidential.section7_title")}</h2>
+        <p className="pages-text">{t("confidential.section7_text")}</p>
+        <ul className="pages-list">
+          <li>{t("confidential.section7_list1")}</li>
+          <li>{t("confidential.section7_list2")}</li>
+          <li>{t("confidential.section7_list3")}</li>
+          <li>{t("confidential.section7_list4")}</li>
+        </ul>
+        <p className="pages-text">{t("confidential.section7_text2")}</p>
+
+        <h2 className="pages-subheading">{t("confidential.section8_title")}</h2>
+        <p className="pages-text">{t("confidential.section8_text")}</p>
+        <ul className="pages-list">
+          <li>{t("confidential.section8_list1")}</li>
+          <li>{t("confidential.section8_list2")}</li>
+          <li>{t("confidential.section8_list3")}</li>
+          <li>{t("confidential.section8_list4")}</li>
+          <li>{t("confidential.section8_list5")}</li>
+        </ul>
+        <p className="pages-text">{t("confidential.section8_text2")}</p>
+        <p className="pages-text">{t("confidential.section8_text3")}</p>
+
+        <h2 className="pages-subheading">{t("confidential.section9_title")}</h2>
+        <p className="pages-text">{t("confidential.section9_text")}</p>
+        <p className="pages-text">{t("confidential.section9_text2")}</p>
 
         <h2 className="pages-subheading">
-          4. Цели и правовые основания обработки
+          {t("confidential.section10_title")}
         </h2>
-        <p className="pages-text">
-          Мы обрабатываем ПД строго в объеме, необходимом для достижения
-          следующих целей:
-        </p>
-        <p className="pages-text">
-          <strong>Заключение и исполнение договора:</strong> регистрация учетной
-          записи, оформление заказа, предоставление доступа к eSIM‑профилям и
-          сопутствующим сервисам; выставление и проведение оплаты, формирование
-          чеков/закрывающих документов; информирование о статусе
-          заказа/активации, сервисные уведомления.
-        </p>
-        <p className="pages-text">
-          <strong>Соблюдение требований закона:</strong> бухгалтерский/налоговый
-          учет, ответ на законные запросы госорганов, выполнение обязанностей по
-          защите прав потребителей, ведение претензионной работы.
-        </p>
-        <p className="pages-text">
-          <strong>Поддержка и безопасность сервиса:</strong> мониторинг
-          инцидентов, предотвращение мошенничества и злоупотреблений, ведение
-          журналов событий и аудита.
-        </p>
-        <p className="pages-text">
-          <strong>
-            Маркетинговые коммуникации (только с согласия Пользователя):
-          </strong>{" "}
-          рассылки о продуктах и акциях по каналам, отмеченным Пользователем
-          (опция отказа — см. раздел 11).
-        </p>
-        <p className="pages-text">
-          <strong>Аналитика и улучшение продукта:</strong> агрегированная
-          статистика использования, A/B‑тесты, исследование интерфейсов. По
-          возможности данные обезличиваются; при использовании cookie см. раздел
-          9.
-        </p>
+        <p className="pages-text">{t("confidential.section10_text")}</p>
+        <ul className="pages-list">
+          <li>{t("confidential.section10_list1")}</li>
+          <li>{t("confidential.section10_list2")}</li>
+          <li>{t("confidential.section10_list3")}</li>
+          <li>{t("confidential.section10_list4")}</li>
+        </ul>
+        <p className="pages-text">{t("confidential.section10_text2")}</p>
 
         <h2 className="pages-subheading">
-          5. Источники данных и способы получения
+          {t("confidential.section11_title")}
         </h2>
+        <p className="pages-text">{t("confidential.section11_text")}</p>
         <ul className="pages-list">
-          <li>
-            данные предоставляет сам Пользователь при регистрации/оформлении
-            заказа/обращении в поддержку;
-          </li>
-          <li>
-            технические данные собираются автоматически при использовании
-            сайта/приложений посредством cookie и логирования;
-          </li>
-          <li>
-            платежные статусы от российских платежных провайдеров/банков по
-            защищенным каналам.
-          </li>
+          <li>{t("confidential.section11_list1")}</li>
+          <li>{t("confidential.section11_list2")}</li>
+          <li>{t("confidential.section11_list3")}</li>
+          <li>{t("confidential.section11_list4")}</li>
         </ul>
-
-        <h2 className="pages-subheading">6. Локализация и места хранения ПД</h2>
-        <p className="pages-text">
-          Первичная запись, систематизация, накопление и хранение ПД граждан РФ
-          осуществляются в базе данных на территории Российской Федерации. Для
-          отдельных задач (почтовые рассылки, аналитика, сервисные интеграции)
-          могут применяться обработчики, осуществляющие последующую обработку
-          вне РФ – при соблюдении условий раздела 7 (трансграничная передача).
-        </p>
-
-        <h2 className="pages-subheading">7. Трансграничная передача ПД</h2>
-        <p className="pages-text">
-          Передача ПД за пределы РФ возможна при соблюдении требований ст. 12
-          152‑ФЗ:
-        </p>
-        <ul className="pages-list">
-          <li>
-            в страны, обеспечивающие адекватную защиту прав субъектов ПД; либо
-          </li>
-          <li>
-            при наличии отдельного согласия Пользователя (Приложение №2); либо
-          </li>
-          <li>
-            если передача необходима для исполнения договора с Пользователем или
-            по его инициативе (оформление и активация eSIM за рубежом); либо
-          </li>
-          <li>в иных случаях, прямо предусмотренных законом.</li>
-        </ul>
-        <p className="pages-text">
-          Перед трансграничной передачей мы оцениваем уровень защиты в
-          принимающей юрисдикции и обеспечиваем договорные обязательства
-          обработчиков по конфиденциальности и безопасности.
-        </p>
-
-        <h2 className="pages-subheading">8. Передача третьим лицам</h2>
-        <p className="pages-text">
-          Мы привлекаем обработчиков только при наличии договора,
-          предусматривающего цели, объем и меры защиты ПД. К возможным
-          категориям обработчиков относятся:
-        </p>
-        <ul className="pages-list">
-          <li>платежные агрегаторы и банки РФ;</li>
-          <li>провайдеры хостинга/дата‑центров;</li>
-          <li>провайдеры почтовых/смс‑рассылок;</li>
-          <li>подрядчики техподдержки;</li>
-          <li>поставщики аналитических и антифрод‑решений.</li>
-        </ul>
-        <p className="pages-text">
-          Перечень ключевых обработчиков и их реквизиты могут быть опубликованы
-          на сайте в отдельном разделе.
-        </p>
-        <p className="pages-text">
-          Мы не продаем персональные данные третьим лицам.
-        </p>
-
-        <h2 className="pages-subheading">9. Cookie и аналогичные технологии</h2>
-        <p className="pages-text">
-          Мы используем необходимые cookie (для авторизации и работы
-          корзины/заказа) и, при согласии Пользователя,
-          функциональные/аналитические/маркетинговые cookie. Настройки файлов
-          cookie доступны в интерфейсе сайта/приложения и в настройках браузера.
-          Отказ от необязательных cookie не влияет на базовый функционал, но
-          может ограничить персонализацию.
-        </p>
-        <p className="pages-text">
-          Сведения о видах cookie, сроках и целях их использования опубликованы
-          в Приложении № 1, №2, №3 к настоящей политике.
-        </p>
-
-        <h2 className="pages-subheading">10. Сроки хранения</h2>
-        <p className="pages-text">
-          Мы храним ПД не дольше, чем это необходимо для целей обработки, если
-          более длительные сроки не предусмотрены законом или договором.
-          Типичные сроки:
-        </p>
-        <ul className="pages-list">
-          <li>
-            данные учетной записи – на период действия аккаунта и 1 год после
-            удаления (для урегулирования претензий и защиты прав);
-          </li>
-          <li>
-            данные о заказах и расчетах – в соответствии с требованиями
-            бухгалтерского/налогового учета (как правило, 5 лет);
-          </li>
-          <li>логи безопасности – до 1 года;</li>
-          <li>
-            маркетинговые контакты – до отзыва согласия или 2 года
-            безактивности.
-          </li>
-        </ul>
-        <p className="pages-text">
-          После истечения сроков данные удаляются или обезличиваются.
-        </p>
+        <p className="pages-text">{t("confidential.section11_text2")}</p>
+        <p className="pages-text">{t("confidential.section11_email")}</p>
+        <p className="pages-text">{t("confidential.section11_text3")}</p>
 
         <h2 className="pages-subheading">
-          11. Права Пользователя и способы их реализации
+          {t("confidential.section12_title")}
         </h2>
-        <p className="pages-text">Пользователь вправе:</p>
+        <p className="pages-text">{t("confidential.section12_text")}</p>
         <ul className="pages-list">
-          <li>получать информацию об обработке своих ПД;</li>
-          <li>
-            требовать уточнения, блокирования или уничтожения ПД, если они
-            являются неполными, устаревшими, неточными, незаконно полученными
-            или не нужны для заявленной цели;
-          </li>
-          <li>
-            отозвать согласие на обработку ПД (в том числе на маркетинговые
-            рассылки (Приложение №1) – через личный кабинет/ссылку
-            «Отписаться»/обращение к нам;
-          </li>
-          <li>
-            обжаловать действия/бездействие Оператора в Роскомнадзор или суд.
-          </li>
+          <li>{t("confidential.section12_list1")}</li>
+          <li>{t("confidential.section12_list2")}</li>
+          <li>{t("confidential.section12_list3")}</li>
+          <li>{t("confidential.section12_list4")}</li>
+          <li>{t("confidential.section12_list5")}</li>
         </ul>
-        <p className="pages-text">Каналы для обращений субъектов ПД:</p>
-        <p className="pages-text">e‑mail: info@jetsim.ru</p>
-        <p className="pages-text">
-          Срок ответа – до 10 дней с даты получения запроса.
-        </p>
+        <p className="pages-text">{t("confidential.section12_text2")}</p>
 
-        <h2 className="pages-subheading">12. Меры по защите ПД</h2>
-        <p className="pages-text">
-          Мы применяем правовые, организационные и технические меры,
-          предусмотренные ст. 19 152‑ФЗ и подзаконными актами, включая:
-        </p>
-        <ul className="pages-list">
-          <li>разграничение прав и управление доступом;</li>
-          <li>шифрование каналов связи и данных при передаче;</li>
-          <li>резервное копирование и аудит событий безопасности;</li>
-          <li>
-            оценку соответствия обработчиков требованиям конфиденциальности и
-            ИБ;
-          </li>
-          <li>обучение персонала и режим конфиденциальности.</li>
-        </ul>
-        <p className="pages-text">
-          Режим обеспечения безопасности и требования к ИСПД закреплены во
-          внутренних документах Оператора.
-        </p>
+        <h2 className="pages-subheading">
+          {t("confidential.section13_title")}
+        </h2>
+        <p className="pages-text">{t("confidential.section13_text")}</p>
 
-        <h2 className="pages-subheading">13. Особые условия</h2>
-        <p className="pages-text">
-          Сервис предназначен для лиц 18+. Мы не собираем осознанно ПД детей.
-          При выявлении такой обработки удалим данные по обращению законного
-          представителя. Просим не направлять через формы сервиса документы,
-          содержащие сведения о здоровье, биометрические данные и иные
-          специальные категории ПД.
-        </p>
+        <h2 className="pages-subheading">
+          {t("confidential.section14_title")}
+        </h2>
+        <p className="pages-text">{t("confidential.section14_text1")}</p>
+        <p className="pages-text">{t("confidential.section14_text2")}</p>
+        <p className="pages-text">{t("confidential.section14_text3")}</p>
 
-        <h2 className="pages-subheading">14. Изменение Политики</h2>
-        <p className="pages-text">
-          Мы можем периодически обновлять настоящую Политику. Актуальная
-          редакция публикуется на сайте и вступает в силу с момента её
-          размещения, если иной срок вступления в силу не указан в самой
-          редакции.
-        </p>
-        <p className="pages-text">
-          При внесении существенных изменений в условия обработки персональных
-          данных (включая изменение целей, категорий обрабатываемых данных,
-          способов и оснований передачи, круга получателей и иных условий), мы
-          уведомим об этом Пользователей доступными средствами, включая
-          уведомление в личном кабинете, через мобильное приложение или по
-          электронной почте.
-        </p>
-        <p className="pages-text">
-          Если изменения затрагивают основания обработки, требующие согласия,
-          либо расширяют объем обрабатываемых данных, Оператор обеспечит
-          получение нового согласия Пользователя до продолжения обработки.
-        </p>
-
-        <h2 className="pages-subheading">15. Реквизиты и контакты Оператора</h2>
-        <p className="pages-text">Полное наименование: ООО «ГЛОБАЛ СИМ»</p>
-        <p className="pages-text">ОГРН: 1257700534475</p>
-        <p className="pages-text">ИНН: 9721260266</p>
-        <p className="pages-text">
-          Юр.адрес: 111674, Россия, г. Москва, Вн.тер.г.муниципальный округ
-          Некрасова, ул 1-я Вольская,д. 26.
-        </p>
-        <p className="pages-text">
-          E‑mail для обращений по ПДн: support@jetsim.ru, info@jetsim.ru
-        </p>
-        <p className="pages-text">Тел.: +79339000003</p>
+        <h2 className="pages-subheading">
+          {t("confidential.section15_title")}
+        </h2>
+        <p className="pages-text">{t("confidential.section15_company")}</p>
+        <p className="pages-text">{t("confidential.section15_ogrn")}</p>
+        <p className="pages-text">{t("confidential.section15_inn")}</p>
+        <p className="pages-text">{t("confidential.section15_address")}</p>
+        <p className="pages-text">{t("confidential.section15_email")}</p>
+        <p className="pages-text">{t("confidential.section15_phone")}</p>
       </div>
 
       <LinkButton />

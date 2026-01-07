@@ -6,201 +6,102 @@ const Usloviya = () => {
   const { t } = useTranslation();
   return (
     <div className="container">
-      <h1 className="pages-heading">{t("pages.usloviya")}</h1>
+      <h1 className="pages-heading">{t("pages.rules")}</h1>
 
       <div className="pages-content">
-        <p className="pages-text">Редакция от « 15 » декабря 2025 г.</p>
+        <p className="pages-text">{t("usloviya.revision_date")}</p>
+        <p className="pages-text">{t("usloviya.intro1")}</p>
+        <p className="pages-text">{t("usloviya.intro2")}</p>
+
+        <h2 className="pages-subheading">{t("usloviya.section1_title")}</h2>
         <p className="pages-text">
-          Настоящая Политика возврата (далее – «Политика») определяет условия и
-          порядок возврата денежных средств Пользователям за цифровые услуги,
-          предоставляемые Обществом с ограниченной ответственностью «ГЛОБАЛ СИМ»
-          (ОГРН 1257700534475, ИНН 9721260266 (далее – «Исполнитель») через
-          веб-сайт, мобильное приложение и иные цифровые интерфейсы под брендом
-          JETSIM.
-        </p>
-        <p className="pages-text">
-          Политика является неотъемлемой частью Публичной оферты JETSIM и
-          применяется ко всем Пользователям, совершившим акцепт оферты и оплату
-          Услуг.
+          <strong>1.1.</strong> {t("usloviya.section1_1_1")}
         </p>
 
-        <h2 className="pages-subheading">1. Общие положения</h2>
+        <h2 className="pages-subheading">{t("usloviya.section2_title")}</h2>
+        <p className="pages-text">{t("usloviya.section2_text1")}</p>
         <p className="pages-text">
-          <strong>1.1.</strong> JETSIM оказывает информационно-организационные и
-          иные цифровые услуги, не являющиеся услугами связи. Услуга считается
-          оказанной надлежащим образом с момента предоставления Пользователю
-          доступа к функционалу соответствующего сервиса (активации учетной
-          записи, отображения QR-кода eSIM, направления инструкций, открытия
-          интерфейса управления или иного эквивалентного действия).
+          <strong>{t("usloviya.section2_2_1")}</strong>
         </p>
-
-        <h2 className="pages-subheading">2. Виды и основания возврата</h2>
-        <p className="pages-text">
-          Возврат денежных средств осуществляется в зависимости от основания и
-          срока обращения:
-        </p>
-        <p className="pages-text">
-          <strong>
-            2.1. Возврат в рамках гарантийного периода (технический возврат):
-          </strong>
-        </p>
-        <p className="pages-text">
-          Допускается, если обращение поступило в течение 30 календарных дней с
-          даты оплаты за доступ к профилю eSIM (гарантийный период) и имеются
-          документально подтвержденные технические причины, не зависящие от
-          Пользователя, в результате которых использование оплаченной Услуги
-          оказалось невозможным.
-        </p>
-        <p className="pages-text">К таким основаниям относятся:</p>
+        <p className="pages-text">{t("usloviya.section2_2_1_text")}</p>
+        <p className="pages-text">{t("usloviya.section2_list1_label")}</p>
         <ul className="pages-list">
-          <li>
-            технический сбой или ошибка сервиса JETSIM, произошедшая по вине
-            Исполнителя и приведшая к полной невозможности использования Услуги;
-          </li>
-          <li>некорректная работа eSIM при совместимом устройстве;</li>
-          <li>ошибки активации, не связанные с действиями Пользователя.</li>
+          <li>{t("usloviya.section2_list1_item1")}</li>
+          <li>{t("usloviya.section2_list1_item2")}</li>
+          <li>{t("usloviya.section2_list1_item3")}</li>
         </ul>
         <p className="pages-text">
-          <strong>
-            2.2. Возврат в общем порядке (до активации и по иным основаниям):
-          </strong>
+          <strong>{t("usloviya.section2_2_2")}</strong>
         </p>
-        <p className="pages-text">Возврат возможен в следующих случаях:</p>
+        <p className="pages-text">{t("usloviya.section2_list2_label")}</p>
         <ul className="pages-list">
-          <li>ошибочное или двойное списание денежных средств при оплате;</li>
-          <li>
-            отмена Исполнителем предоставления Услуги до её активации или
-            первого использования Пользователем;
-          </li>
-          <li>
-            отказ Пользователя от Услуги до активации профиля eSIM - с
-            удержанием фактически понесенных расходов Исполнителя (платежные
-            комиссии, затраты на обработку заказа и пр.);
-          </li>
-          <li>иные случаи, прямо предусмотренные законодательством РФ.</li>
+          <li>{t("usloviya.section2_list2_item1")}</li>
+          <li>{t("usloviya.section2_list2_item2")}</li>
+          <li>{t("usloviya.section2_list2_item3")}</li>
+          <li>{t("usloviya.section2_list2_item4")}</li>
         </ul>
         <p className="pages-text">
-          <strong>2.3. Возврат не осуществляется, если:</strong>
+          <strong>{t("usloviya.section2_2_3")}</strong>
         </p>
         <ul className="pages-list">
-          <li>
-            доступ к функционалу был предоставлен и Пользователь начал
-            использовать Услугу (профиль eSIM активирован);
-          </li>
-          <li>
-            технические проблемы возникли по причинам, находящимся на стороне
-            Пользователя (в т.ч. несовместимое устройство, сбой сети, ошибки
-            настроек, блокировки, ограничение доступа в стране использования);
-          </li>
-          <li>
-            отказ от Услуги вызван личными причинами (утрата интереса, ожидания
-            иное качество, изменение планов и т.п.);
-          </li>
-          <li>
-            обращение подано по истечении гарантийного периода без наличия
-            оснований, предусмотренных законодательством РФ.
-          </li>
+          <li>{t("usloviya.section2_list3_item1")}</li>
+          <li>{t("usloviya.section2_list3_item2")}</li>
+          <li>{t("usloviya.section2_list3_item3")}</li>
+          <li>{t("usloviya.section2_list3_item4")}</li>
         </ul>
 
-        <h2 className="pages-subheading">3. Порядок возврата</h2>
+        <h2 className="pages-subheading">{t("usloviya.section3_title")}</h2>
         <p className="pages-text">
-          <strong>3.1. Срок обращения:</strong>
+          <strong>{t("usloviya.section3_3_1")}</strong>
         </p>
-        <p className="pages-text">Обращение о возврате подается:</p>
+        <p className="pages-text">{t("usloviya.section3_list1_label")}</p>
         <ul className="pages-list">
-          <li>
-            в течение гарантийного периода (30 календарных дней с даты оплаты) -
-            для возвратов, связанных с техническими причинами по п. 2.1;
-          </li>
-          <li>
-            до активации профиля eSIM, но не более 30 календарных дней с даты
-            оплаты - для возвратов по основаниям, указанным в п. 2.2.
-          </li>
+          <li>{t("usloviya.section3_list1_item1")}</li>
+          <li>{t("usloviya.section3_list1_item2")}</li>
         </ul>
         <p className="pages-text">
-          <strong>3.2. Порядок подачи обращения:</strong>
+          <strong>{t("usloviya.section3_3_2")}</strong>
         </p>
-        <p className="pages-text">
-          Для инициирования возврата Пользователь направляет письменное
-          обращение через форму на сайте www.jetsim.ru или на e-mail
-          support@jetsim.ru
-        </p>
-        <p className="pages-text">К обращению прикладываются:</p>
+        <p className="pages-text">{t("usloviya.section3_3_2_text")}</p>
+        <p className="pages-text">{t("usloviya.section3_list2_label")}</p>
         <ul className="pages-list">
-          <li>
-            подтверждение оплаты (чек, выписка, идентификатор транзакции);
-          </li>
-          <li>описание обстоятельств (дата, вид нарушения, суть проблемы);</li>
-          <li>
-            при необходимости - сведения об устройстве и/или документ,
-            удостоверяющий личность, для подтверждения принадлежности платежа.
-          </li>
+          <li>{t("usloviya.section3_list2_item1")}</li>
+          <li>{t("usloviya.section3_list2_item2")}</li>
+          <li>{t("usloviya.section3_list2_item3")}</li>
         </ul>
         <p className="pages-text">
-          <strong>3.3. Рассмотрение обращения.</strong>
+          <strong>{t("usloviya.section3_3_3")}</strong>
+        </p>
+        <p className="pages-text">{t("usloviya.section3_3_3_text1")}</p>
+        <p className="pages-text">{t("usloviya.section3_3_3_text2")}</p>
+        <p className="pages-text">
+          <strong>{t("usloviya.section3_3_4")}</strong>
+        </p>
+        <p className="pages-text">{t("usloviya.section3_3_4_text1")}</p>
+        <p className="pages-text">{t("usloviya.section3_3_4_text2")}</p>
+        <p className="pages-text">
+          <strong>{t("usloviya.section3_3_5")}</strong>
+        </p>
+        <p className="pages-text">{t("usloviya.section3_3_5_text")}</p>
+
+        <h2 className="pages-subheading">{t("usloviya.section4_title")}</h2>
+        <p className="pages-text">
+          <strong>4.1.</strong> {t("usloviya.section4_4_1")}
         </p>
         <p className="pages-text">
-          Исполнитель рассматривает обращение в срок до 10 (десяти) рабочих дней
-          с даты получения полного комплекта сведений.
+          <strong>4.2.</strong> {t("usloviya.section4_4_2")}
         </p>
         <p className="pages-text">
-          При необходимости могут быть затребованы дополнительные данные для
-          проверки технических причин или факта активации.
-        </p>
-        <p className="pages-text">
-          <strong>3.4. Принятие решения и возврат.</strong>
-        </p>
-        <p className="pages-text">
-          В случае удовлетворения требования возврат осуществляется тем же
-          способом, которым была произведена оплата, если иное не согласовано с
-          Пользователем.
-        </p>
-        <p className="pages-text">
-          При возврате сумма может быть уменьшена на фактические расходы
-          Исполнителя, связанные с проведением возвратной операции (банковские и
-          платежные комиссии), если их возложение на Пользователя не запрещено
-          законом.
-        </p>
-        <p className="pages-text">
-          <strong>3.5. Срок перечисления денежных средств.</strong>
-        </p>
-        <p className="pages-text">
-          Перечисление производится в течение 10 (десяти) банковских дней с даты
-          принятия решения о возврате, если иной срок не установлен законом или
-          правилами платежной системы.
+          <strong>4.3.</strong> {t("usloviya.section4_4_3")}
         </p>
 
-        <h2 className="pages-subheading">4. Заключительные положения</h2>
-        <p className="pages-text">
-          <strong>4.1.</strong> JETSIM вправе изменять настоящую Политику. Новая
-          редакция размещается на официальном сайте и вступает в силу с момента
-          публикации, если иной срок не указан.
-        </p>
-        <p className="pages-text">
-          <strong>4.2.</strong> Продолжение использования Услуг после публикации
-          новой редакции означает согласие Пользователя с изменениями.
-        </p>
-        <p className="pages-text">
-          <strong>4.3.</strong> Правовое регулирование вопросов, связанных с
-          возвратом денежных средств, осуществляется в соответствии с
-          законодательством Российской Федерации, включая Закон РФ «О защите
-          прав потребителей» и Гражданский кодекс РФ.
-        </p>
-
-        <h2 className="pages-subheading">5. Реквизиты Исполнителя</h2>
-        <p className="pages-text">
-          Общество с ограниченной ответственностью «ГЛОБАЛ СИМ»
-        </p>
-        <p className="pages-text">ОГРН: 1257700534475 ИНН: 9721260266</p>
-        <p className="pages-text">
-          Юридический адрес: 111674, Россия, г. Москва, Вн.тер.г.муниципальный
-          округ Некрасова, ул 1-я Вольская,д. 26.
-        </p>
-        <p className="pages-text">
-          Электронная почта: info@jetsim.ru, support@jetsim.ru
-        </p>
-        <p className="pages-text">Веб-сайт: www.jetsim.ru</p>
-        <p className="pages-text">Тел.: +79339000003</p>
+        <h2 className="pages-subheading">{t("usloviya.section5_title")}</h2>
+        <p className="pages-text">{t("usloviya.section5_company")}</p>
+        <p className="pages-text">{t("usloviya.section5_ogrn_inn")}</p>
+        <p className="pages-text">{t("usloviya.section5_address")}</p>
+        <p className="pages-text">{t("usloviya.section5_email")}</p>
+        <p className="pages-text">{t("usloviya.section5_website")}</p>
+        <p className="pages-text">{t("usloviya.section5_phone")}</p>
       </div>
 
       <LinkButton />
