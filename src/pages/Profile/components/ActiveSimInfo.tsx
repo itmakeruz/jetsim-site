@@ -67,12 +67,6 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
         </span>
       </div>
       <div className="flex gap-1 justify-between">
-        {t("sims.expire_date")}
-        <span className="text-[#112D6C] font-bold">
-          {formatDate(sim?.expire_date || "-")}
-        </span>
-      </div>
-      <div className="flex gap-1 justify-between">
         ICCID
         <span className="text-[#112D6C] font-bold">{sim.iccid || "-"}</span>
       </div>
