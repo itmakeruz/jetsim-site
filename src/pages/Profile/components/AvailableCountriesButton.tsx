@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { ASSETS } from "@/assets";
 
 interface AvailableCountriesButtonProps {
@@ -10,6 +11,7 @@ const AvailableCountriesButton: React.FC<AvailableCountriesButtonProps> = ({
   onClick,
   disabled,
 }) => {
+  const { t } = useTranslation();
   return (
     <button
       onClick={onClick}
@@ -23,7 +25,7 @@ const AvailableCountriesButton: React.FC<AvailableCountriesButtonProps> = ({
         height="24"
       />
       <span className="text-[#1978E5] text-[20px] font-normal">
-        Доступные страны
+        {t("profile.available_countries")}
       </span>
     </button>
   );

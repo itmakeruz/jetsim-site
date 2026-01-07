@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import type { Myesim } from "@/types/api";
 
 interface SimDataSectionProps {
@@ -6,6 +7,7 @@ interface SimDataSectionProps {
 }
 
 const SimDataSection: React.FC<SimDataSectionProps> = ({ sim }) => {
+  const { t } = useTranslation();
   const dataFields = [
     { label: "ICCID:", value: sim.iccid || "-" },
     { label: "UID:", value: sim.uid || "-" },
@@ -15,7 +17,9 @@ const SimDataSection: React.FC<SimDataSectionProps> = ({ sim }) => {
 
   return (
     <div className="flex flex-col md:gap-2 gap-1 bg-linear border-b md:pb-1 pb-2 border-[#0000004D] h-full md:pr-[30px] pr-4">
-      <h2 className="text-base font-medium text-[#2f2d2d]">Данные SIM:</h2>
+      <h2 className="text-base font-medium text-[#2f2d2d]">
+        {t("profile.sim_data_title")}
+      </h2>
       <div className="flex flex-col gap-1 text-[14px] text-[#2f2d2d] font-normal">
         {dataFields.map((field, index) => (
           <React.Fragment key={field.label}>

@@ -82,7 +82,7 @@ const InactivePage = () => {
       } catch (error) {
         console.error("Error refetching inactive sims:", error);
       }
-    }, 5000); // 5 seconds
+    }, 20000); // 20 seconds
 
     return () => {
       clearInterval(intervalId);

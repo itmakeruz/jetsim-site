@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import AvailableCountriesButton from "./AvailableCountriesButton";
 
 interface CartItemFooterProps {
@@ -14,6 +15,7 @@ const CartItemFooter: React.FC<CartItemFooterProps> = ({
   onActivate,
   disabled = false,
 }) => {
+  const { t } = useTranslation();
   const isDisabled = disabled;
 
   return (
@@ -32,7 +34,7 @@ const CartItemFooter: React.FC<CartItemFooterProps> = ({
               : "bg-[#112D6C] hover:opacity-90"
           }`}
         >
-          Подробнее
+          {t("profile.details")}
         </button>
       )}
     </div>

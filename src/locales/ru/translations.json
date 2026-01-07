@@ -69,8 +69,20 @@
       "code": "Код купона",
       "apply": "Применить",
       "overall": "Итого:",
-      "okey": "Согласен с “Политикой конфиденциальности” и с “Условиями использования”"
-    }
+      "okey": "Согласен с \"Политикой конфиденциальности\" и с \"Условиями использования\""
+    },
+    "device_instructions_modal_title": "Как настроить eSIM на устройстве?",
+    "device_instructions_step1": "Настройки → Сотовая связь → Добавить тариф",
+    "device_instructions_step2": "Отсканируйте QR-код выше",
+    "device_instructions_step3": "Или используйте ссылку ниже",
+    "device_instructions_connect_button": "Подключить ЕSIM на устройству",
+    "device_instructions_modal_close": "Закрыть",
+    "sim_data_title": "Данные SIM:",
+    "support_title": "Служба поддержки:",
+    "support_phone_label": "Номер телефона:",
+    "support_telegram_label": "Телеграм-бот:",
+    "available_countries": "Доступные страны",
+    "details": "Подробнее"
   },
 
   "sims": {

@@ -1,11 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const SupportSection: React.FC = () => {
+  const { t } = useTranslation();
   const supportData = [
-    { label: "Номер телефона:", value: "+7 (933) 900-00-03", key: "phone" },
     {
-      label: "Телеграм-бот:",
+      label: t("profile.support_phone_label"),
+      value: "+7 (933) 900-00-03",
+      key: "phone",
+    },
+    {
+      label: t("profile.support_telegram_label"),
       value: "JetSim_support_bot",
       key: "telegram",
     },
@@ -14,7 +20,7 @@ const SupportSection: React.FC = () => {
   return (
     <div className="flex flex-col md:gap-2 gap-1 bg-linear border-b md:pb-1 pb-2 border-[#0000004D] h-full md:pr-[30px] pr-4">
       <h2 className="text-base font-medium text-[#2f2d2d]">
-        Служба поддержки:
+        {t("profile.support_title")}
       </h2>
       <div className="flex flex-col md:gap-1 gap-0.5 text-[14px] text-[#2f2d2d] font-normal">
         {supportData.map((item, index) => (
