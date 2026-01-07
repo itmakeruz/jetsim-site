@@ -1,9 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const SupportSection: React.FC = () => {
   const supportData = [
-    { label: "Номер телефона:", value: "+7 (933) 900-00-03" },
-    { label: "Телеграм-бот:", value: "https://t.me/JetSim_support_bot" },
+    { label: "Номер телефона:", value: "+7 (933) 900-00-03", key: "phone" },
+    {
+      label: "Телеграм-бот:",
+      value: "JetSim_support_bot",
+      key: "telegram",
+    },
   ];
 
   return (
@@ -16,7 +21,13 @@ const SupportSection: React.FC = () => {
           <React.Fragment key={item.label}>
             <div className="flex items-center justify-between">
               <span>{item.label}</span>
-              <span>{item.value}</span>
+              {item.key === "phone" ? (
+                <Link to={`tel:${item.value}`}>{item.value}</Link>
+              ) : (
+                <Link to={`https://t.me/${item.value}`} target="_blank">
+                  @{item.value}
+                </Link>
+              )}
             </div>
             {index < supportData.length - 1 && <hr className="bg-[#E4E4E4]" />}
           </React.Fragment>
