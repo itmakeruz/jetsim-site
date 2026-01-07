@@ -2,7 +2,7 @@ import React from "react";
 
 const SupportSection: React.FC = () => {
   const supportData = [
-    { label: "Номер телефона:", value: "+71 50 123 454 45" },
+    { label: "Номер телефона:", value: "+7 (933) 900-00-03" },
     { label: "Телеграм-бот:", value: "@JetSim" },
   ];
 
