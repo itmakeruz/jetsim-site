@@ -220,6 +220,7 @@ export interface Myesim {
   regions: Region[];
   status: string;
   can_activate: boolean;
+  quantity_internet: number;
 }
 
 export interface MyesimsResponse {
