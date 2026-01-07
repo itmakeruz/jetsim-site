@@ -30,58 +30,60 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-[10px] w-full md:py-[5px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
-      <img
-        className="md:w-[45px] w-[30px] md:h-[45px] h-[30px] shrink-0 object-contain"
-        src={icon}
-        alt=""
-      />
-      <div className="flex flex-col gap-[2px] font-medium w-full overflow-hidden">
-        {instructions.map((instruction, index) => (
-          <h6
-            key={index}
-            className="flex md:text-[16px] text-[14px] items-center gap-[5px]"
-          >
-            <svg
-              width="9"
-              height="9"
-              viewBox="0 0 9 9"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+    <div className="flex flex-col gap-[10px] w-full md:py-[5px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
+      <div className="flex items-center gap-[10px]">
+        <img
+          className="md:w-[45px] w-[30px] md:h-[45px] h-[30px] shrink-0 object-contain"
+          src={icon}
+          alt=""
+        />
+        <div className="flex flex-col gap-[2px] font-medium w-full overflow-hidden">
+          {instructions.map((instruction, index) => (
+            <h6
+              key={index}
+              className="flex md:text-[16px] text-[14px] items-center gap-[5px]"
             >
-              <rect
-                y="4.24264"
-                width="6"
-                height="6"
-                rx="0.781443"
-                transform="rotate(-45 0 4.24264)"
-                fill="black"
-              />
-            </svg>
-            {instruction}
-          </h6>
-        ))}
-        {showRawLink ? (
-          link ? (
-            <button
-              className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white rounded-md"
-              onClick={handleCopyLink}
-            >
-              <span className="block overflow-hidden whitespace-nowrap">
-                {link}
-              </span>{" "}
-              <Copy className="shrink-0" size={18} />
-            </button>
-          ) : null
-        ) : (
-          <button
-            className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white w-full rounded-md"
-            onClick={() => window.open(link, "_blank")}
-          >
-            Перейти <ArrowRight />
-          </button>
-        )}
+              <svg
+                width="9"
+                height="9"
+                viewBox="0 0 9 9"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <rect
+                  y="4.24264"
+                  width="6"
+                  height="6"
+                  rx="0.781443"
+                  transform="rotate(-45 0 4.24264)"
+                  fill="black"
+                />
+              </svg>
+              {instruction}
+            </h6>
+          ))}
+        </div>
       </div>
+      {showRawLink ? (
+        link ? (
+          <button
+            className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white rounded-md"
+            onClick={handleCopyLink}
+          >
+            <span className="block overflow-hidden whitespace-nowrap">
+              {link}
+            </span>{" "}
+            <Copy className="" size={18} />
+          </button>
+        ) : null
+      ) : (
+        <button
+          className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white w-full rounded-md"
+          onClick={() => window.open(link, "_blank")}
+        >
+          Перейти <ArrowRight />
+        </button>
+      )}
     </div>
   );
 };
