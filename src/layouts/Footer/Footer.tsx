@@ -39,7 +39,7 @@ const Footer = () => {
 
               <a href={APP_ROUTES.REFUND_POLICY}>{t("footer.usloviya")}</a>
 
-              <a href={APP_ROUTES.RULE}>{t("footer.rules")}</a>
+              {/* <a href={APP_ROUTES.RULE}>{t("footer.rules")}</a> */}
 
               <a href={APP_ROUTES.ABOUT}>{t("footer.about")}</a>
             </ul>
