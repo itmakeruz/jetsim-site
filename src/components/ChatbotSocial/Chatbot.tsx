@@ -102,16 +102,16 @@ export default function FloatingSocialMenu() {
             onClick={() => setIsOpen((prev) => !prev)}
             className="absolute top-1/2 left-1/2
                        -translate-x-1/2 -translate-y-1/2
-                       w-[60px] h-[60px] rounded-full
+                       md:w-[60px] md:h-[60px] w-[40px] h-[40px] rounded-full
                        bg-[#163B7A] text-white
                        flex items-center justify-center
-                       shadow-[0_0_0_10px_rgba(79,112,150,0.4)]
+                       md:shadow-[0_0_0_10px_rgba(79,112,150,0.4)] shadow-[0_0_0_5px_rgba(79,112,150,0.4)]
                        transition-transform duration-300
                        hover:scale-105"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className={`w-7 h-7 transition-transform duration-300 ${
+              className={`md:w-7 md:h-7 w-5 h-5 transition-transform duration-300 ${
                 isOpen ? "rotate-180" : ""
               }`}
               fill="none"
