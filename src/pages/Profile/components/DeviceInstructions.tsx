@@ -30,13 +30,13 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
   };
 
   return (
-    <div className="flex items-center gap-[10px] md:py-[5px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
+    <div className="flex items-center gap-[10px] w-full md:py-[5px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
       <img
         className="md:w-[45px] w-[30px] md:h-[45px] h-[30px] shrink-0 object-contain"
         src={icon}
         alt=""
       />
-      <div className="flex flex-col gap-[2px] font-medium w-full">
+      <div className="flex flex-col gap-[2px] font-medium w-full overflow-hidden">
         {instructions.map((instruction, index) => (
           <h6
             key={index}
@@ -67,10 +67,10 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
               className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white rounded-md"
               onClick={handleCopyLink}
             >
-              <span className="block min-w-0 overflow-hidden whitespace-nowrap">
+              <span className="block overflow-hidden whitespace-nowrap">
                 {link}
               </span>{" "}
-              <Copy size={18} />
+              <Copy className="shrink-0" size={18} />
             </button>
           ) : null
         ) : (
