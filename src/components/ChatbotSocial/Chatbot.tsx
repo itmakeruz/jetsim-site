@@ -12,11 +12,6 @@ export default function FloatingSocialMenu() {
       bgColor: "#29ABEE4D", // Telegram ko'k rang
     },
     {
-      icon: ASSETS.whatsapp,
-      href: "https://wa.me/79339000003",
-      bgColor: "#5FD6684D", // WhatsApp yashil rang
-    },
-    {
       icon: ASSETS.vk,
       href: "https://vk.com/id1090229648",
       bgColor: "#4645E84D", // VK ko'k rang
@@ -43,7 +38,7 @@ export default function FloatingSocialMenu() {
             const radius = 80;
 
             // 180° → 300° oralig'ida yoyiladi
-            const startAngle = 250;
+            const startAngle = 270;
             const endAngle = 380;
             const angleStep =
               socials.length === 1
