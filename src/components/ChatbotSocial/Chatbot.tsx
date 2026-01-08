@@ -11,16 +11,16 @@ export default function FloatingSocialMenu() {
       href: "https://t.me/Jetsim_support_bot",
       bgColor: "#29ABEE4D", // Telegram ko'k rang
     },
-    {
-      icon: ASSETS.vk,
-      href: "https://vk.com/id1090229648",
-      bgColor: "#4645E84D", // VK ko'k rang
-    },
-    {
-      icon: ASSETS.inst,
-      href: "https://www.instagram.com/jetsim.ru",
-      bgColor: "#E446744D", // Instagram gradient
-    },
+    // {
+    //   icon: ASSETS.vk,
+    //   href: "https://vk.com/id1090229648",
+    //   bgColor: "#4645E84D", // VK ko'k rang
+    // },
+    // {
+    //   icon: ASSETS.inst,
+    //   href: "https://www.instagram.com/jetsim.ru",
+    //   bgColor: "#E446744D", // Instagram gradient
+    // },
   ];
 
   return (
@@ -38,7 +38,7 @@ export default function FloatingSocialMenu() {
             const radius = 80;
 
             // 180° → 300° oralig'ida yoyiladi
-            const startAngle = 270;
+            const startAngle = 360;
             const endAngle = 380;
             const angleStep =
               socials.length === 1

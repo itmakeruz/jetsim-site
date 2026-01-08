@@ -21,7 +21,7 @@ const ActivationPanel: React.FC<ActivationPanelProps> = ({ sim }) => {
         />
         <DeviceInstructions
           icon={ASSETS.android}
-          link={sim?.qrcode_content?.for_android || ""}
+          // link={sim?.qrcode_content?.for_android || ""}
           showRawLink
         />
       </div>

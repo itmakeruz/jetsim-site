@@ -19,12 +19,12 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
       : 0;
 
   // Calculate days remaining percentage
-  const daysLeft = sim?.day_left || 0;
-  const totalDays = sim?.validity_period || 0;
-  const daysPercentage =
-    totalDays > 0
-      ? Math.min(100, Math.max(0, (daysLeft / totalDays) * 100))
-      : 0;
+  // const daysLeft = sim?.day_left || 0;
+  // const totalDays = sim?.validity_period || 0;
+  // const daysPercentage =
+  //   totalDays > 0
+  //     ? Math.min(100, Math.max(0, (daysLeft / totalDays) * 100))
+  //     : 0;
 
   return (
     <div className="space-y-2">
@@ -44,7 +44,7 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
           ></div>
         </div>
       </div>
-      <div className="flex flex-col gap-1">
+      {/* <div className="flex flex-col gap-1">
         <div className="flex gap-1 justify-between">
           {t("sims.srok")}
           <span className="text-[#112D6C] font-bold">{sim.day_left} дней</span>
@@ -57,7 +57,7 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
             }}
           ></div>
         </div>
-      </div>
+      </div> */}
       <div className="flex items-center justify-between gap-3">
         <span>{t("sims.set")}</span>
         <div className="text-white flex items-center gap-3 text-[12px]">

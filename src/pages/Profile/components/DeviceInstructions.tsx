@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 
 interface DeviceInstructionsProps {
   icon: string;
-  link: string;
+  link?: string;
   showRawLink?: boolean;
 }
 
@@ -42,7 +42,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
   };
 
   return (
-    <div className="flex flex-col gap-[10px] w-full md:py-[5px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
+    <div className="flex flex-col gap-[10px] justify-center w-full md:py-[15px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
       <div className="flex items-center gap-[10px]">
         <img
           className="md:w-[45px] w-[30px] md:h-[45px] h-[30px] shrink-0 object-contain"
