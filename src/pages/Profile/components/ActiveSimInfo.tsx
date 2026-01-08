@@ -58,6 +58,12 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
           ></div>
         </div>
       </div> */}
+      <div className="flex gap-1 justify-between">
+        {t("sims.srok")}
+        <span className="text-[#112D6C] font-bold">
+          {sim?.validity_period} дней
+        </span>
+      </div>
       <div className="flex items-center justify-between gap-3">
         <span>{t("sims.set")}</span>
         <div className="text-white flex items-center gap-3 text-[12px]">
@@ -77,12 +83,14 @@ const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
           )}
         </div>
       </div>
+
       <div className="flex gap-1 justify-between">
         {t("sims.created_at")}
         <span className="text-[#112D6C] font-bold">
           {formatDate(sim?.created_at || "-")}
         </span>
       </div>
+
       <div className="flex gap-1 justify-between">
         ICCID
         <span className="text-[#112D6C] font-bold">{sim.iccid || "-"}</span>
