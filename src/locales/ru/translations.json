@@ -72,9 +72,9 @@
       "okey": "Согласен с \"Политикой конфиденциальности\" и с \"Условиями использования\""
     },
     "device_instructions_modal_title": "Как настроить eSIM на устройстве?",
-    "device_instructions_step1": "Настройки → Сотовая связь → Добавить тариф",
+    "device_instructions_step1": "Настройки → Сотовая связь → Добавить eSIM",
     "device_instructions_step2": "Отсканируйте QR-код ниже",
-    "device_instructions_step3": "Или используйте ссылку ниже",
+    "device_instructions_step3": "Или нажмите на кнопку быстрой установки ниже",
     "device_instructions_connect_button": "Нажмите кнопку для установки eSIM",
     "device_instructions_modal_close": "Закрыть",
     "sim_data_title": "Данные SIM:",
