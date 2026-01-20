@@ -1,28 +1,10 @@
 import { CategoryButton } from "@/components/Buttons";
 import { useTranslation } from "react-i18next";
-
-const categories = [
-  {
-    id: 1,
-    key: "popular",
-  },
-  {
-    id: 2,
-    key: "local",
-  },
-  {
-    id: 3,
-    key: "regional",
-  },
-  {
-    id: 4,
-    key: "global",
-  },
-];
+import { categories } from "@/constants";
 
 interface HomeCategoriesProps {
-  activeCategory: number | null;
-  setActiveCategory: (category: number | null) => void;
+  activeCategory: string | null;
+  setActiveCategory: (category: string | null) => void;
 }
 
 function HomeCategories({
@@ -33,14 +15,14 @@ function HomeCategories({
 
   return (
     <div className="flex md:gap-[20px] gap-[10px] md:justify-center items-center md:mt-[28px] mt-[20px] md:mb-[50px] mb-[30px] overflow-x-auto no-scroll snap-x">
-      {categories.map((category: any) => (
+      {categories.map((category) => (
         <CategoryButton
           key={category.id}
-          id={category.id}
+          id={category.key}
           name={t(`categories.${category.key}`)}
-          active={activeCategory === category.id}
-          onClick={(id) => {
-            setActiveCategory(Number(id));
+          active={activeCategory === category.key}
+          onClick={(key) => {
+            setActiveCategory(key as string);
           }}
         />
       ))}
