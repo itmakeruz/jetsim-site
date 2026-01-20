@@ -36,10 +36,11 @@ export const singleRegionQuery = async (
 };
 
 export const tariffsQuery = async (
-  id: string | number
+  id: string | number,
+  type: string | null = null
 ): Promise<TariffResponse> => {
   if (!id) throw new Error("Tariff ID is required");
-  const response = await regionAPI.getTariffs(id);
+  const response = await regionAPI.getTariffs(id, type);
   return response.data;
 };
 

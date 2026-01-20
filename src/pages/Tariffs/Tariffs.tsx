@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../../components/Loader";
 import SingleRegionHead from "./components/SingleRegionHead";
@@ -13,18 +13,20 @@ import Empty from "@/pages/Empty/Empty";
 function Tariffs() {
   const { i18n, t } = useTranslation();
   const { id } = useParams<{ id: string }>();
+  const [searchParams] = useSearchParams();
+  const typeParam = searchParams.get("type");
   const { selectedTariff, setSelectedTariff } = useTariffStore();
 
   const isRegionIds = id?.startsWith("ids=");
   const regionIds = isRegionIds ? id?.replace("ids=", "") : null;
 
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["tariffs", id, i18n.language],
+    queryKey: ["tariffs", id, typeParam, i18n.language],
     queryFn: () => {
       if (isRegionIds && regionIds) {
         return tariffsByRegionIdsQuery(regionIds);
       }
-      return tariffsQuery(id!);
+      return tariffsQuery(id!, typeParam || null);
     },
     enabled: !!id,
   });

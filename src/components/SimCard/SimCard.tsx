@@ -5,12 +5,17 @@ import { ASSETS } from "@/assets";
 
 interface SimCardProps {
   regionGroup: RegionGroup;
+  activeCategory?: string | null;
 }
 
-const SimCard = ({ regionGroup }: SimCardProps) => {
+const SimCard = ({ regionGroup, activeCategory }: SimCardProps) => {
+  const toUrl = activeCategory
+    ? `/tariffs/${regionGroup.id}?type=${activeCategory}`
+    : `/tariffs/${regionGroup.id}`;
+
   return (
     <Link
-      to={`/tariffs/${regionGroup.id}`}
+      to={toUrl}
       className="shadow-[0px_4px_8.4px_0px_#AAAFB361] bg-white z-1 group overflow-hidden relative border border-[#E8EDF2] md:rounded-[12px] rounded-[8px] md:px-[18px] px-[10px] md:py-[27px] py-[18px]"
     >
       <div className="flex items-center md:gap-[18px] gap-[10px]">
