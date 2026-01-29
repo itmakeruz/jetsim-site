@@ -1,5 +1,8 @@
+import { useRef, useCallback, useEffect } from "react";
 import { useTariffStore } from "@/store/tariffStore";
 import { useQueryClient } from "@tanstack/react-query";
+
+const DEBOUNCE_MS = 400;
 
 const ESIMCounter = () => {
   const {
@@ -9,22 +12,41 @@ const ESIMCounter = () => {
     decreaseQuantity,
   } = useTariffStore();
   const queryClient = useQueryClient();
+  const invalidateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const selectedTariffData = selectedTariffs.find(
     (t) => t.id === selectedTariff?.id
   );
 
-  const handleIncrease = async () => {
-    if (selectedTariff) {
-      await increaseQuantity(selectedTariff);
+  const debouncedInvalidate = useCallback(() => {
+    if (invalidateTimeoutRef.current) {
+      clearTimeout(invalidateTimeoutRef.current);
+    }
+    invalidateTimeoutRef.current = setTimeout(() => {
+      invalidateTimeoutRef.current = null;
       queryClient.invalidateQueries({ queryKey: ["cartItems"] });
+    }, DEBOUNCE_MS);
+  }, [queryClient]);
+
+  useEffect(() => {
+    return () => {
+      if (invalidateTimeoutRef.current) {
+        clearTimeout(invalidateTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleIncrease = () => {
+    if (selectedTariff) {
+      increaseQuantity(selectedTariff);
+      debouncedInvalidate();
     }
   };
 
-  const handleDecrease = async () => {
+  const handleDecrease = () => {
     if (selectedTariff) {
-      await decreaseQuantity(selectedTariff);
-      queryClient.invalidateQueries({ queryKey: ["cartItems"] });
+      decreaseQuantity(selectedTariff);
+      debouncedInvalidate();
     }
   };
 

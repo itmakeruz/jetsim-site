@@ -53,81 +53,15 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
     }
   },
 
-  // Quantity oshirish (+)
+  // Quantity oshirish (+) — login qilganda ham optimistic: avval UI yangilanadi, keyin API
   increaseQuantity: async (tariff: Tariff) => {
     const { isAuthenticated } = useAuthStore.getState();
     const { selectedTariffs, setSelectedTariffs } = get();
 
-    if (isAuthenticated) {
-      // API'ga jo'natish
-      try {
-        await cartAPI.addToBasket({
-          tariff_id: tariff.id,
-          quantity: 1,
-        });
-      } catch (error) {
-        console.error("Error increasing quantity:", error);
-      }
-    } else {
-      const foundTariff = selectedTariffs.find((t) => t.id === tariff.id);
-
-      if (foundTariff) {
-        const newQuantity = (foundTariff.quantity || 0) + 1;
-        const updated = selectedTariffs.map((t) =>
-          t.id === tariff.id
-            ? {
-                ...t,
-                quantity: newQuantity,
-                total_amount: t.price_sell * newQuantity,
-              }
-            : t
-        );
-        setSelectedTariffs(updated);
-      } else {
-        setSelectedTariffs([
-          ...selectedTariffs,
-          {
-            ...tariff,
-            quantity: 1,
-            image: tariff.region_group.image,
-            total_amount: tariff.price_sell,
-          },
-        ]);
-      }
-    }
-  },
-
-  // Quantity kamaytirish (-)
-  decreaseQuantity: async (tariff: Tariff) => {
-    const { isAuthenticated } = useAuthStore.getState();
-    const { selectedTariffs, setSelectedTariffs } = get();
-
     const foundTariff = selectedTariffs.find((t) => t.id === tariff.id);
-    if (!foundTariff) return;
 
-    const currentCount = foundTariff.quantity || 1;
-
-    if (isAuthenticated) {
-      // API'ga jo'natish
-      try {
-        // Agar count 1 bo'lsa, item'ni to'liq o'chirish uchun removeItemFromBasket ishlatamiz
-        await cartAPI.decreaseItemFromBasket({
-          tariff_id: tariff.id,
-          quantity: 1,
-        });
-      } catch (error) {
-        console.error("Error decreasing quantity:", error);
-      }
-    } else {
-      // localStorage'ga saqlash
-      if (currentCount <= 1) {
-        // Agar count 1 bo'lsa, tariffni o'chirish
-        const updated = selectedTariffs.filter((t) => t.id !== tariff.id);
-        setSelectedTariffs(updated);
-        return;
-      }
-
-      const newQuantity = currentCount - 1;
+    if (foundTariff) {
+      const newQuantity = (foundTariff.quantity || 0) + 1;
       const updated = selectedTariffs.map((t) =>
         t.id === tariff.id
           ? {
@@ -138,6 +72,96 @@ export const useTariffStore = create<TariffStore>((set, get) => ({
           : t
       );
       setSelectedTariffs(updated);
+    } else {
+      setSelectedTariffs([
+        ...selectedTariffs,
+        {
+          ...tariff,
+          quantity: 1,
+          image: tariff.region_group.image,
+          total_amount: tariff.price_sell,
+        } as cartTariff,
+      ]);
+    }
+
+    if (isAuthenticated) {
+      try {
+        await cartAPI.addToBasket({
+          tariff_id: tariff.id,
+          quantity: 1,
+        });
+      } catch (error) {
+        console.error("Error increasing quantity:", error);
+        // Xato bo'lsa optimistic o'zgartirishni qaytarish kerak (rollback)
+        const { selectedTariffs: current } = get();
+        const prev = current.find((t) => t.id === tariff.id);
+        if (prev) {
+          const rollbackQty = Math.max(0, (prev.quantity || 1) - 1);
+          if (rollbackQty === 0) {
+            setSelectedTariffs(current.filter((t) => t.id !== tariff.id));
+          } else {
+            setSelectedTariffs(
+              current.map((t) =>
+                t.id === tariff.id
+                  ? { ...t, quantity: rollbackQty, total_amount: t.price_sell * rollbackQty }
+                  : t
+              )
+            );
+          }
+        }
+      }
+    }
+  },
+
+  // Quantity kamaytirish (-) — login qilganda ham optimistic
+  decreaseQuantity: async (tariff: Tariff) => {
+    const { isAuthenticated } = useAuthStore.getState();
+    const { selectedTariffs, setSelectedTariffs } = get();
+
+    const foundTariff = selectedTariffs.find((t) => t.id === tariff.id);
+    if (!foundTariff) return;
+
+    const currentCount = foundTariff.quantity || 1;
+
+    if (currentCount <= 1) {
+      const updated = selectedTariffs.filter((t) => t.id !== tariff.id);
+      setSelectedTariffs(updated);
+      if (isAuthenticated) {
+        try {
+          await cartAPI.decreaseItemFromBasket({
+            tariff_id: tariff.id,
+            quantity: 1,
+          });
+        } catch (error) {
+          console.error("Error decreasing quantity:", error);
+          setSelectedTariffs(selectedTariffs);
+        }
+      }
+      return;
+    }
+
+    const newQuantity = currentCount - 1;
+    const updated = selectedTariffs.map((t) =>
+      t.id === tariff.id
+        ? {
+            ...t,
+            quantity: newQuantity,
+            total_amount: t.price_sell * newQuantity,
+          }
+        : t
+    );
+    setSelectedTariffs(updated);
+
+    if (isAuthenticated) {
+      try {
+        await cartAPI.decreaseItemFromBasket({
+          tariff_id: tariff.id,
+          quantity: 1,
+        });
+      } catch (error) {
+        console.error("Error decreasing quantity:", error);
+        setSelectedTariffs(selectedTariffs);
+      }
     }
   },
 }));
