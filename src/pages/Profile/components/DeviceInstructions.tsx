@@ -2,16 +2,23 @@ import { ArrowRight, Copy, Info } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
+const VIDEO = {
+  android: "https://www.youtube.com/embed/hgpoFufSV9I",
+  iphone: "https://www.youtube.com/embed/9WHRRAMmWu8",
+} as const;
+
 interface DeviceInstructionsProps {
   icon: string;
   link?: string;
   showRawLink?: boolean;
+  deviceType?: "android" | "iphone";
 }
 
 const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
   icon,
   link,
   showRawLink = false,
+  deviceType = "android",
 }) => {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -101,7 +108,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
           className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white w-full rounded-md"
           onClick={() => window.open(link, "_blank")}
         >
-          {t("profile.device_instructions_connect_button")} <ArrowRight />
+          {t("profile.device_instructions_connect_button")} <ArrowRight className="animate-right" />
         </button>
       )}
 
@@ -120,11 +127,12 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
               </h2>
 
               <div className="w-full mb-6">
+
                 <div className="relative w-full aspect-video bg-black rounded-[8px] overflow-hidden">
                   <iframe
                     className="w-full h-full"
-                    src="https://www.youtube.com/embed/_zwwHlh65K4?si=PDaXNuyu6NPpPZCK"
-                    title="YouTube video player"
+                    src={VIDEO[deviceType]}
+                    title={`YouTube video - ${deviceType === "android" ? "Android" : "iPhone"}`}
                     frameBorder={0}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"

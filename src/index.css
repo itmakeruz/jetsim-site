@@ -8,37 +8,46 @@ html {
   scrollbar-gutter: stable !important;
   height: 100%;
 }
+
 html body[data-scroll-locked] {
   margin-right: 0px !important;
 }
+
 @theme {
   --color-main-blue: #1978e5;
   --font-norms: "TTNormsMedium";
 }
+
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   font-family: "Nunito", sans-serif;
 }
+
 button {
   cursor: pointer;
 }
+
 body {
   background-color: #ffffff;
 }
+
 .header-link-btn:hover svg path {
   transition: all 0.3s ease;
   fill: #c0c0c0;
 }
+
 .container {
   max-width: 1500px;
   padding-left: 20px;
   padding-right: 20px;
   margin: 0 auto;
 }
+
 .no-scroll::-webkit-scrollbar {
   display: none;
 }
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -81,13 +90,13 @@ input:-webkit-autofill:active {
     padding-right: 15px;
   }
 }
+
 .bg-linear {
-  background: linear-gradient(
-    158.86deg,
-    rgba(255, 255, 255, 0.2) 34.21%,
-    rgba(28, 122, 229, 0.06) 95.4%
-  );
+  background: linear-gradient(158.86deg,
+      rgba(255, 255, 255, 0.2) 34.21%,
+      rgba(28, 122, 229, 0.06) 95.4%);
 }
+
 .upload-label::before {
   content: "";
   position: absolute;
@@ -111,10 +120,12 @@ input:-webkit-autofill:active {
     transform: scale(1);
     opacity: 1;
   }
+
   70% {
     transform: scale(1.15);
     opacity: 0;
   }
+
   100% {
     transform: scale(1.15);
     opacity: 0;
@@ -232,7 +243,22 @@ input:-webkit-autofill:active {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+.animate-right {
+  animation: right 1s linear infinite;
+}
+
+@keyframes right {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(6px);
   }
 }

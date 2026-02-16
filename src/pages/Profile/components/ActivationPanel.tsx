@@ -18,11 +18,13 @@ const ActivationPanel: React.FC<ActivationPanelProps> = ({ sim }) => {
         <DeviceInstructions
           icon={ASSETS.apple}
           link={sim?.qrcode_content?.for_ios || ""}
+          deviceType="iphone"
         />
         <DeviceInstructions
           icon={ASSETS.android}
           // link={sim?.qrcode_content?.for_android || ""}
           showRawLink
+          deviceType="android"
         />
       </div>
 
