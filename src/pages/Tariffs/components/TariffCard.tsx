@@ -5,6 +5,7 @@ import { ASSETS } from "@/assets";
 import type { Tariff } from "@/types/api";
 import RegionsModal from "./RegionsModal";
 import DescriptionModal from "./DescriptionModal";
+import ESIMSupportModal from "./ESIMSupportModal";
 import { useTariffStore } from "@/store/tariffStore";
 import { Info } from "lucide-react";
 
@@ -15,6 +16,7 @@ interface TariffCardProps {
 export default function TariffCard({ tariff }: TariffCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDescriptionModalOpen, setIsDescriptionModalOpen] = useState(false);
+  const [isESIMSupportModalOpen, setIsESIMSupportModalOpen] = useState(false);
   const { selectedTariffs, setSelectedTariff, selectedTariff } =
     useTariffStore();
   const selectedTariffData = selectedTariffs.find((t) => t.id === tariff.id);
@@ -31,7 +33,12 @@ export default function TariffCard({ tariff }: TariffCardProps) {
   };
 
   const handleCardClick = () => {
-    if (tariff.id !== selectedTariff?.id) setSelectedTariff(tariff);
+    if (tariff.id === selectedTariff?.id) return;
+    setIsESIMSupportModalOpen(true);
+  };
+
+  const handleESIMConfirm = () => {
+    setSelectedTariff(tariff);
   };
 
   const handleDescriptionModalOpen = (e: React.MouseEvent) => {
@@ -120,6 +127,12 @@ export default function TariffCard({ tariff }: TariffCardProps) {
         onClose={handleDescriptionModalClose}
         title={tariff.name}
         description={tariff.description || ""}
+      />
+
+      <ESIMSupportModal
+        isOpen={isESIMSupportModalOpen}
+        onClose={() => setIsESIMSupportModalOpen(false)}
+        onConfirm={handleESIMConfirm}
       />
     </>
   );

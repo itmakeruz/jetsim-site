@@ -78,6 +78,11 @@
     "available_countries": "Available countries",
     "details": "Details"
   },
+  "esim_modal": {
+    "title": "Does your device support eSIM technology?",
+    "no": "No, it does not support",
+    "yes": "Yes"
+  },
   "sims": {
     "global": "Global",
     "top_destinations": "Top destinations",
