@@ -34,6 +34,7 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
       onActivate();
     }
   };
+  console.log(sim);
 
   return (
     <>
@@ -59,7 +60,7 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
           } flex flex-col gap-4`}
         >
           <TariffHeader
-            id={sim.id}
+            id={sim.order_id}
             image={sim.region_group.image}
             title={sim.tariff_name}
           />

@@ -25,7 +25,7 @@ const TariffHeader: React.FC<TariffHeaderProps> = ({ id, image, title }) => {
         {id && (
           <span
             onClick={() => handleCopyId(id)}
-            className="text-sm text-black shrink-0 font-bold"
+            className="text-sm text-black shrink-0 font-bold cursor-copy"
           >
             ID: {id}
           </span>
