@@ -79,9 +79,9 @@
     "details": "Details"
   },
   "esim_modal": {
-    "title": "Does your device support eSIM technology?",
+    "title": "Before buying, make sure your phone supports eSIM technology.",
     "no": "No, it does not support",
-    "yes": "Yes"
+    "yes": "Yes it supports"
   },
   "sims": {
     "global": "Global",
