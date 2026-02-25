@@ -86,36 +86,6 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
               </h6>
             );
           })}
-          <h6
-            onClick={handleOpenModal}
-            className="flex md:text-[16px] font-bold text-[#112D6C] text-[14px] items-center gap-[5px] cursor-pointer"
-          >
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              className="w-5"
-            >
-              <path
-                d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M10 15V9L15 12L10 15Z"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-
-            {t(`profile.device_instructions_video_button_${deviceType}`)}
-          </h6>
         </div>
       </div>
 
@@ -140,6 +110,35 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
           <ArrowRight className="animate-right" />
         </button>
       )}
+      <button
+        className="md:text-[16px] justify-between flex items-center gap-4 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white rounded-md"
+        onClick={handleOpenModal}
+      >
+        {t(`profile.device_instructions_video_button_${deviceType}`)}
+        <svg
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-5 shrink-0"
+        >
+          <path
+            d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12Z"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M10 15V9L15 12L10 15Z"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </button>
 
       {isModalOpen && (
         <div
