@@ -156,7 +156,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
               </h2>
 
               <div className="w-full mb-6">
-                <div className="relative w-full aspect-video bg-black rounded-[8px] overflow-hidden">
+                <div className="relative w-full md:aspect-video aspect-square bg-black rounded-[8px] overflow-hidden">
                   <iframe
                     className="w-full h-full"
                     src={VIDEO[deviceType]}
