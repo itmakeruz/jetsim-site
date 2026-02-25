@@ -125,7 +125,13 @@ const InactivePage = () => {
             <ActiveSimCard
               sim={sim}
               isInactive={activeSim?.id === sim.id}
-              onActivate={() => setActiveSim(sim)}
+              onActivate={() => {
+                setActiveSim(sim);
+                activationPanelRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
             />
             {!sim.can_activate &&
               sim.status !== "COMPLETED" &&
