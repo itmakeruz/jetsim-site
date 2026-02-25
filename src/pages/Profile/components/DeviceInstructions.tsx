@@ -1,4 +1,4 @@
-import { ArrowRight, Copy, Info } from "lucide-react";
+import { ArrowRight, Copy } from "lucide-react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -50,7 +50,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
 
   return (
     <div className="flex flex-col gap-[10px] justify-center w-full md:py-[15px] py-4 pr-4 bg-linear border-b border-[#0000004D] h-full">
-      <div className="flex items-center gap-[10px]">
+      <div className="flex items-start gap-[10px]">
         <img
           className="md:w-[45px] w-[30px] md:h-[45px] h-[30px] shrink-0 object-contain"
           src={icon}
@@ -86,11 +86,39 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
               </h6>
             );
           })}
+          <h6
+            onClick={handleOpenModal}
+            className="flex md:text-[16px] font-bold text-[#112D6C] text-[14px] items-center gap-[5px] cursor-pointer"
+          >
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              className="w-5"
+            >
+              <path
+                d="M3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M10 15V9L15 12L10 15Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
+            {t(`profile.device_instructions_video_button_${deviceType}`)}
+          </h6>
         </div>
-        <button className="self-start text-[#323D4A]" onClick={handleOpenModal}>
-          <Info className="w-5 h-5" />
-        </button>
       </div>
+
       {showRawLink ? (
         link ? (
           <button
@@ -108,7 +136,8 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
           className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white w-full rounded-md"
           onClick={() => window.open(link, "_blank")}
         >
-          {t("profile.device_instructions_connect_button")} <ArrowRight className="animate-right" />
+          {t("profile.device_instructions_connect_button")}{" "}
+          <ArrowRight className="animate-right" />
         </button>
       )}
 
@@ -127,12 +156,13 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
               </h2>
 
               <div className="w-full mb-6">
-
                 <div className="relative w-full aspect-video bg-black rounded-[8px] overflow-hidden">
                   <iframe
                     className="w-full h-full"
                     src={VIDEO[deviceType]}
-                    title={`YouTube video - ${deviceType === "android" ? "Android" : "iPhone"}`}
+                    title={`YouTube video - ${
+                      deviceType === "android" ? "Android" : "iPhone"
+                    }`}
                     frameBorder={0}
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
