@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { getAllRegions } from "@/hooks/queries";
 import { useQuery } from "@tanstack/react-query";
 import type { Region } from "@/types/api";
+import { filterByUniversalSearch } from "@/lib/searchUtils";
 import SelectedRegionChip from "./HomeSearch/SelectedRegionChip";
 import SearchInput from "./HomeSearch/SearchInput";
 import RegionDropdown from "./HomeSearch/RegionDropdown";
@@ -19,13 +20,20 @@ function HomeSearch() {
   const { i18n } = useTranslation();
   const navigate = useNavigate();
 
-  // Regionlarni API dan olish
+  // Regionlarni API dan olish (barcha regionlar, qidiruv client-side searchUtils orqali)
   const { data: allRegionsData, isLoading: isLoadingAll } = useQuery({
-    queryKey: ["regions", inputValue, i18n.language],
-    queryFn: () => getAllRegions(inputValue, 1000000),
+    queryKey: ["regions", i18n.language],
+    queryFn: () => getAllRegions(null, 5000),
   });
 
-  const regions = allRegionsData?.data || [];
+  const allRegions = allRegionsData?.data || [];
+
+  // searchUtils orqali qidiruv: kirill/lotin, aliaslar (masalan Dubai → ОАЭ)
+  const regions = useMemo(() => {
+    const trimmed = inputValue.trim();
+    if (!trimmed) return allRegions;
+    return filterByUniversalSearch(allRegions, trimmed, (r) => r.name);
+  }, [allRegions, inputValue]);
 
   // Tashqariga bosilganda dropdown yopish
   useEffect(() => {
