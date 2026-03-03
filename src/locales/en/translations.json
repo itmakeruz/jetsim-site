@@ -9,7 +9,13 @@
     "title": "Error",
     "retry": "Try again",
     "tariff_not_found": "This tariff was not found. Perhaps you can view the list of available tariffs.",
-    "back_to_list": "Back to list"
+    "back_to_list": "Back to list",
+    "notFound": {
+      "title": "Page not found",
+      "description": "The page you are looking for does not exist or you do not have access. Please check the URL.",
+      "back": "Go back",
+      "home": "Home"
+    }
   },
   "nav": {
     "all": "All destinations",
