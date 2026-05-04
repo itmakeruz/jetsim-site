@@ -76,9 +76,16 @@ export const cartAPI = {
   getMyesims: () => axios.get("/sims/static"),
 };
 
+/** Body keys depend on backend; common names for payment-provider return URLs. */
+export interface PreparePaymentBody {
+  success_url?: string;
+  failure_url?: string;
+}
+
 // Payment API'lar
 export const paymentAPI = {
-  preparePayment: (data?: any) => axios.post("/payment/prepare-payment", data),
+  preparePayment: (data?: PreparePaymentBody) =>
+    axios.post("/payment/prepare-payment", data),
 };
 
 // Boshqa API'larni qo'shishingiz mumkin

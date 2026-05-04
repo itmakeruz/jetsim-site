@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { formatNumber } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import { paymentAPI } from "@/services/api.service";
+import { APP_ROUTES } from "@/router/path";
 
 interface PaymentFormProps {
   totalPrice: number;
@@ -26,7 +27,11 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
 
     setIsProcessingPayment(true);
     try {
-      const response = await paymentAPI.preparePayment();
+      const origin = window.location.origin;
+      const response = await paymentAPI.preparePayment({
+        success_url: `${origin}${APP_ROUTES.THANK_YOU}`,
+        failure_url: `${origin}${APP_ROUTES.PAYMENT}`,
+      });
       if (response.data.success) {
         const paymentUrl = response.data.data?.payment_url;
         if (paymentUrl) {

@@ -33,6 +33,14 @@
     "standard": "Standard",
     "turbo": "Turbo"
   },
+  "thankYou": {
+    "pageHeading": "Thank you",
+    "title": "Thank you for your purchase!",
+    "subtitle": "Your payment was successful. We’re preparing your order and will send the details to your email shortly.",
+    "emailHint": "If you don’t see an email within a few minutes, check your spam folder and the address in your profile.",
+    "ctaHome": "Back to home",
+    "ctaOrders": "My eSIM"
+  },
   "profile": {
     "title": "Personal cabinet",
     "tabs": {

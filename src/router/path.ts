@@ -11,6 +11,7 @@ export const APP_ROUTES = {
   USLOVIYA: "/usloviya",
   RULE: "/rule",
   PAYMENT: "/payment",
+  THANK_YOU: "/thank-you",
   PROFILE: "/profile",
   CART: "/cart",
   MYESIM: "/myesim",

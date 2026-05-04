@@ -13,6 +13,7 @@ const Rules = lazy(() => import("../pages/Rules/Rules"));
 const Usloviya = lazy(() => import("../pages/Usloviya/Usloviya"));
 const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const How = lazy(() => import("../pages/HowWorks/How"));
+const ThankYou = lazy(() => import("../pages/ThankYou/ThankYou"));
 const ProfileLayout = lazy(
   () => import("../layouts/ProfileLayout/ProfileLayout")
 );
@@ -113,6 +114,14 @@ export const appRoutes = [
         element: (
           <Suspense fallback={<Loader />}>
             <PaymentPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: APP_ROUTES.THANK_YOU,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <ThankYou />
           </Suspense>
         ),
       },
