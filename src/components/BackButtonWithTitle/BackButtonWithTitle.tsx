@@ -27,7 +27,7 @@ function BackButtonWithTitle({
   return (
     <button
       onClick={handleClick}
-      className={`flex items-center md:gap-[15px] gap-[10px] ${className}`}
+      className={`flex items-center w-max md:gap-[15px] gap-[10px] ${className}`}
     >
       <div className="md:w-[50px] md:h-[50px] w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
         <img

@@ -45,7 +45,7 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
       }
     } catch (error: any) {
       toast.error(
-        error.response?.data?.message || "Ошибка при обработке платежа"
+        error.response?.data?.message || "Ошибка при обработке платежа",
       );
     } finally {
       setIsProcessingPayment(false);
@@ -76,7 +76,22 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
           баланс eSIM, инструкции вы найдёте в письме об активации.
         </p>
       </div>
-
+      <div className="flex flex-col gap-2">
+        <h2 className="font-bold">Промокод</h2>
+        <div className="flex items-center gap-2 border border-[#DDE1EA] p-1 rounded-md">
+          <input
+            className="w-full font-bold px-3 py-2 outline-none"
+            type="text"
+            placeholder="Введите промокод"
+          />
+          <button
+            disabled={true}
+            className="bg-[#112D6C] text-white disabled:opacity-50 font-medium px-3 py-2 rounded-md"
+          >
+            Применить
+          </button>
+        </div>
+      </div>
       {/* Terms and Conditions */}
       <label className="flex items-start gap-2 cursor-pointer">
         <input
