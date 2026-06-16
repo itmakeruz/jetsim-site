@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { formatNumber } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
@@ -24,8 +24,79 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
   const [promoError, setPromoError] = useState("");
   const [isApplyingPromo, setIsApplyingPromo] = useState(false);
   const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
+  const revalidateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   const finalPrice = appliedPromo?.final_amount ?? totalPrice;
+
+  const validatePromo = useCallback(
+    async (code: string, options: { silent?: boolean } = {}) => {
+      const trimmedCode = code.trim();
+
+      if (!isAuthenticated) {
+        toast.error("Пожалуйста, сначала войдите в систему");
+        return;
+      }
+
+      if (!trimmedCode) {
+        setPromoError("Введите промокод");
+        return;
+      }
+
+      setIsApplyingPromo(true);
+      setPromoError("");
+
+      try {
+        const response = await promoCodeAPI.validate({ code: trimmedCode });
+
+        if (response.data.success) {
+          setAppliedPromo(response.data.data);
+          setPromoCode(response.data.data.code);
+          if (!options.silent) {
+            toast.success(response.data.message || "Промокод применён!");
+          }
+        } else {
+          const message = response.data.message || "Промокод не применим";
+          setAppliedPromo(null);
+          setPromoError(message);
+          if (options.silent) {
+            toast.error(message);
+          }
+        }
+      } catch (error: any) {
+        const message =
+          error.response?.data?.message || "Не удалось применить промокод";
+        setAppliedPromo(null);
+        setPromoError(message);
+        if (options.silent) {
+          toast.error(message);
+        }
+      } finally {
+        setIsApplyingPromo(false);
+      }
+    },
+    [isAuthenticated],
+  );
+
+  useEffect(() => {
+    if (!appliedPromo?.code) return;
+    if (appliedPromo.total_amount === totalPrice) return;
+
+    if (revalidateTimeoutRef.current) {
+      clearTimeout(revalidateTimeoutRef.current);
+    }
+
+    revalidateTimeoutRef.current = setTimeout(() => {
+      validatePromo(appliedPromo.code, { silent: true });
+    }, 700);
+
+    return () => {
+      if (revalidateTimeoutRef.current) {
+        clearTimeout(revalidateTimeoutRef.current);
+      }
+    };
+  }, [totalPrice, appliedPromo?.code, validatePromo]);
 
   const handlePromoChange = (value: string) => {
     const normalizedValue = value.toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -38,41 +109,7 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
   };
 
   const handleApplyPromo = async () => {
-    const code = promoCode.trim();
-
-    if (!isAuthenticated) {
-      toast.error("Пожалуйста, сначала войдите в систему");
-      return;
-    }
-
-    if (!code) {
-      setPromoError("Введите промокод");
-      return;
-    }
-
-    setIsApplyingPromo(true);
-    setPromoError("");
-
-    try {
-      const response = await promoCodeAPI.validate({ code });
-
-      if (response.data.success) {
-        setAppliedPromo(response.data.data);
-        setPromoCode(response.data.data.code);
-        toast.success(response.data.message || "Промокод применён!");
-      } else {
-        const message = response.data.message || "Промокод не применим";
-        setAppliedPromo(null);
-        setPromoError(message);
-      }
-    } catch (error: any) {
-      const message =
-        error.response?.data?.message || "Не удалось применить промокод";
-      setAppliedPromo(null);
-      setPromoError(message);
-    } finally {
-      setIsApplyingPromo(false);
-    }
+    await validatePromo(promoCode);
   };
 
   const handleClearPromo = () => {
@@ -220,12 +257,19 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
               : ""
           }
           onClick={handlePayment}
-          disabled={!agreedToTerms || isProcessingPayment || !isAuthenticated}
+          disabled={
+            !agreedToTerms ||
+            isProcessingPayment ||
+            !isAuthenticated ||
+            isApplyingPromo
+          }
           className="bg-[#112D6C] disabled:cursor-not-allowed! h-[54px] w-full rounded-[8px] text-[16px] font-medium text-white disabled:cursor-not-allowed! disabled:opacity-50 hover:bg-[#0f2659] transition-colors"
         >
-          {isProcessingPayment
-            ? "Обработка..."
-            : `Оплатить сейчас ${formatNumber(finalPrice)}₽`}
+          {isApplyingPromo
+            ? "Проверка промокода..."
+            : isProcessingPayment
+              ? "Обработка..."
+              : `Оплатить сейчас ${formatNumber(finalPrice)}₽`}
         </button>
       }
     </div>
