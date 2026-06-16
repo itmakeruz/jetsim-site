@@ -80,12 +80,17 @@ export const cartAPI = {
 export interface PreparePaymentBody {
   success_url?: string;
   failure_url?: string;
+  promo_code?: string;
 }
 
 // Payment API'lar
 export const paymentAPI = {
   preparePayment: (data?: PreparePaymentBody) =>
     axios.post("/payment/prepare-payment", data),
+};
+
+export const promoCodeAPI = {
+  validate: (data: { code: string }) => axios.post("/promocode/validate", data),
 };
 
 // Boshqa API'larni qo'shishingiz mumkin
@@ -103,6 +108,7 @@ const api = {
   region: regionAPI,
   tariff: tariffAPI,
   cart: cartAPI,
+  promoCode: promoCodeAPI,
   user: userAPI,
   payment: paymentAPI,
 };
