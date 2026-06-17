@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { ASSETS } from "@/assets";
@@ -16,6 +16,7 @@ export default function ESIMSupportModal({
 }: ESIMSupportModalProps) {
   const { t } = useTranslation();
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [confirmDelay, setConfirmDelay] = useState(10);
 
   useEffect(() => {
     if (isOpen) {
@@ -43,7 +44,31 @@ export default function ESIMSupportModal({
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) {
+      setConfirmDelay(10);
+      return;
+    }
+
+    setConfirmDelay(10);
+    const intervalId = window.setInterval(() => {
+      setConfirmDelay((currentDelay) => {
+        if (currentDelay <= 1) {
+          window.clearInterval(intervalId);
+          return 0;
+        }
+
+        return currentDelay - 1;
+      });
+    }, 1000);
+
+    return () => {
+      window.clearInterval(intervalId);
+    };
+  }, [isOpen]);
+
   const handleConfirm = () => {
+    if (confirmDelay > 0) return;
     onConfirm();
     onClose();
   };
@@ -124,9 +149,12 @@ export default function ESIMSupportModal({
               <button
                 type="button"
                 onClick={handleConfirm}
-                className="bg-main-blue hover:bg-main-blue/80 text-white font-bold text-sm sm:text-base rounded-[8px] sm:rounded-[10px] px-6 py-2.5 sm:px-8 sm:py-3 transition-colors shadow-sm w-full sm:w-auto"
+                disabled={confirmDelay > 0}
+                className="bg-main-blue hover:bg-main-blue/80 text-white font-bold text-sm sm:text-base rounded-[8px] sm:rounded-[10px] px-6 py-2.5 sm:px-8 sm:py-3 transition-colors shadow-sm w-full sm:w-auto disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-main-blue"
               >
-                {t("esim_modal.yes")}
+                {confirmDelay > 0
+                  ? `${t("esim_modal.yes")} (${confirmDelay})`
+                  : t("esim_modal.yes")}
               </button>
             </div>
           </motion.div>
