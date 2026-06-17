@@ -216,7 +216,8 @@
     "nav2": "Service information about the device will automatically appear on the screen",
     "nav3": "If the displayed data includes a unique identifier ",
     "nav3-2": "EID (Embedded Identity Document)",
-    "nav3-3": " , this means that your device technically supports the use of eSIM. If there is no EID number, the eSIM function is not implemented on this model"
+    "nav3-3": " , this means that your device technically supports the use of eSIM.",
+    "nav4": "Jetsim reserves the right to refuse a refund if the user's device does not support eSIM and compatibility was not checked before purchase."
   },
   "card": {
     "heading": "Our advantages",

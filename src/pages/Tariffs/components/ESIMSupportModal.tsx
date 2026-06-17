@@ -116,6 +116,10 @@ export default function ESIMSupportModal({
                     <span className="text-[#28AF40]">{t("phone.nav3-2")}</span>
                     {t("phone.nav3-3")}
                   </li>
+
+                  <li className="relative pl-3 sm:pl-4 md:pl-5 text-sm sm:text-base before:content-['•'] before:absolute before:left-0 before:text-black before:text-sm md:before:text-xl before:-top-0.5 md:before:-top-[3px]">
+                    {t("phone.nav4")}
+                  </li>
                 </ul>
               </div>
 
