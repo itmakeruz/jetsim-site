@@ -6,7 +6,7 @@ const Usloviya = () => {
   const { t } = useTranslation();
   return (
     <div className="container">
-      <h1 className="pages-heading">{t("pages.rules")}</h1>
+      <h1 className="pages-heading">{t("pages.usloviya")}</h1>
 
       <div className="pages-content">
         <p className="pages-text">{t("usloviya.revision_date")}</p>
@@ -49,6 +49,10 @@ const Usloviya = () => {
           <li>{t("usloviya.section2_list3_item3")}</li>
           <li>{t("usloviya.section2_list3_item4")}</li>
         </ul>
+        <p className="pages-text">
+          <strong>{t("usloviya.section2_2_4")}</strong>
+        </p>
+        <p className="pages-text">{t("usloviya.section2_2_4_text")}</p>
 
         <h2 className="pages-subheading">{t("usloviya.section3_title")}</h2>
         <p className="pages-text">
