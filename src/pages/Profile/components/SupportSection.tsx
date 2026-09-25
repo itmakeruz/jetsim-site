@@ -12,7 +12,8 @@ const SupportSection: React.FC = () => {
     },
     {
       label: t("profile.support_telegram_label"),
-      value: "JetSim_support_bot",
+      // Оператор, а не бот — клиенту нужно место, куда можно написать вопрос
+      value: "Operator1jet",
       key: "telegram",
     },
   ];

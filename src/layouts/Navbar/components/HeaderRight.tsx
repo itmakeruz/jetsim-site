@@ -24,28 +24,26 @@ function HeaderRight() {
   };
 
   return (
-    <div className="flex items-center gap-5">
+    <div className="flex items-center gap-2 md:gap-3">
       <div className="hidden md:block">
         <LanguageSwitcher />
       </div>
-      <>
-        {isAuthenticated ? (
-          <div className="flex items-center md:gap-5 gap-4">
-            <CartButton />
-            <UserButton />
-          </div>
-        ) : (
-          <LoginButton onClick={() => navigate(APP_ROUTES.LOGIN)} />
-        )}
-      </>
-      <div className="bg-[#D9D9D9] w-[1px] min-h-full shrink-0 self-stretch hidden md:block"></div>
-      <div className="hidden md:block">
-        {isAuthenticated ? (
-          <LogoutButton onClick={() => setIsLogoutModalOpen(true)} />
-        ) : (
+
+      {isAuthenticated ? (
+        <>
           <CartButton />
-        )}
-      </div>
+          <UserButton />
+          <span className="hidden h-6 w-px shrink-0 bg-black/10 md:block" />
+          <div className="hidden md:block">
+            <LogoutButton onClick={() => setIsLogoutModalOpen(true)} />
+          </div>
+        </>
+      ) : (
+        <>
+          <CartButton />
+          <LoginButton onClick={() => navigate(APP_ROUTES.LOGIN)} />
+        </>
+      )}
       <LogoutModal
         isOpen={isLogoutModalOpen}
         onClose={() => setIsLogoutModalOpen(false)}

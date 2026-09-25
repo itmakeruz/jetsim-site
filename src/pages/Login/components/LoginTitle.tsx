@@ -4,9 +4,9 @@ const LoginTitle = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="lg:text-[26px] md:text-[20px] text-[16px] font-bold text-black leading-none lg:mt-[30px] mt-4 flex flex-col lg:gap-[10px] gap-1">
+    <div className="flex flex-col gap-1 text-[20px] font-bold leading-[1.25] text-[#0d141c] md:text-[24px] lg:text-[28px]">
       <h1>{t("login.title1")}</h1>
-      <h1> {t("login.title2")}</h1>
+      <h1>{t("login.title2")}</h1>
     </div>
   );
 };

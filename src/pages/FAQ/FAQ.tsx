@@ -62,8 +62,15 @@ const Faq = () => {
   ];
 
   return (
-    <div className="container">
-      <h1 className="pages-heading">F.A.Q</h1>
+    <div className="container py-12 md:py-16">
+      <header className="mb-10 flex flex-col items-center text-center md:mb-14">
+        <span className="inline-flex items-center rounded-full border border-main-blue/25 bg-white px-4 py-1.5 text-[12px] font-semibold uppercase tracking-[0.14em] text-main-blue">
+          Частые вопросы
+        </span>
+        <h1 className="mt-5 text-[32px] md:text-[44px] leading-[1.1] font-semibold tracking-[-0.02em] text-[#0d141c]">
+          F.A.Q
+        </h1>
+      </header>
 
       <FAQ items={faqData} />
     </div>

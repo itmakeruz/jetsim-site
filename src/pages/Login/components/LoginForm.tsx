@@ -50,12 +50,12 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col lg:gap-[10px] gap-2 lg:mt-[60px] md:mt-4 mt-2"
+      className="mt-7 flex flex-col gap-2.5 lg:mt-9"
     >
-      <p className="md:text-[14px] text-[12px] font-medium text-black md:leading-[1.4] leading-[1.2]">
+      <p className="text-[13px] font-medium leading-[1.45] text-[#4f7096] md:text-[14px]">
         {t("login.description")}
       </p>
-      <div className="border border-[#4F709680] lg:rounded-[12px] rounded relative">
+      <div className="relative rounded-[12px] border border-[#4F709680] transition-colors focus-within:border-main-blue">
         <img
           src={ASSETS.emailAddress}
           alt=""
@@ -70,8 +70,11 @@ const LoginForm = () => {
           disabled={isLoading}
         />
       </div>
-      <label className="flex items-center gap-[5px] text-[14px] font-bold text-black leading-[1.4] cursor-pointer select-none md:mt-3 mt-1">
-        <input type="checkbox" />
+      <label className="mt-2 flex cursor-pointer select-none items-center gap-2 text-[14px] font-medium leading-[1.4] text-[#0d141c]">
+        <input
+          type="checkbox"
+          className="h-4 w-4 shrink-0 cursor-pointer accent-[#1978E5]"
+        />
         {t("login.remember")}
       </label>
       <VerificationSubmitButton

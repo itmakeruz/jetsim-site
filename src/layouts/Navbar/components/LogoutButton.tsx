@@ -10,17 +10,15 @@ const LogoutButton = ({ onClick }: LogoutButtonProps) => {
 
   return (
     <button
+      type="button"
       onClick={onClick}
-      className="flex flex-col gap-1 items-center text-[#E84118] text-sm font-medium"
+      // В покое — нейтральный, красным становится только на наведении:
+      // постоянный #E84118 выбивался из синей палитры и кричал сильнее логина
+      className="flex items-center gap-2 rounded-full px-2.5 py-2 text-sm font-medium text-[#4f7096]
+        transition-colors hover:bg-[#E84118]/[0.08] hover:text-[#E84118]"
     >
-      <div className="relative">
-        <img
-          src={ASSETS.logout}
-          alt="logout"
-          className="md:w-[26px] md:h-[26px] w-[28px] h-[28px]"
-        />
-      </div>
-      <span className="relative leading-none">{t("nav.exit")}</span>
+      <img src={ASSETS.logout} alt="" aria-hidden="true" className="h-[22px] w-[22px] shrink-0" />
+      <span>{t("nav.exit")}</span>
     </button>
   );
 };

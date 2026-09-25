@@ -104,7 +104,11 @@ export default function ESIMSupportModal({
                   <li className="relative pl-3 sm:pl-4 md:pl-5 text-sm sm:text-base before:content-['•'] before:absolute before:left-0 before:text-black before:text-sm md:before:text-xl before:-top-0.5 md:before:-top-[3px]">
                     {t("phone.nav1")}
                     <span className="text-[#1978E5]">{t("phone.nav1-2")}</span>
-                    {t("phone.nav1-3")}
+                    {t("phone.nav1-3")}{" "}
+                    <code className="inline-flex items-center rounded-md border border-[#1978E5]/25 bg-[#1978E5]/[0.07] px-1.5 py-0.5 font-mono text-[0.95em] font-semibold tracking-wider text-[#1978E5]">
+                      *#06#
+                    </code>
+                    {t("phone.nav1-4")}
                   </li>
 
                   <li className="relative pl-3 sm:pl-4 md:pl-5 text-sm sm:text-base before:content-['•'] before:absolute before:left-0 before:text-black before:text-sm md:before:text-xl before:-top-0.5 md:before:-top-[3px]">

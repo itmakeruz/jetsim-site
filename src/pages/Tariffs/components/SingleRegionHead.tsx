@@ -1,10 +1,30 @@
 import { ASSETS } from "@/assets";
 import type { Region } from "@/types/api";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import BackButtonWithTitle from "@/components/BackButtonWithTitle";
 
+// Названия приходят с API уже локализованными, поэтому сопоставляем по обоим языкам
+const INSTALL_NOTICES: Record<string, string> = {
+  "вьетнам": "vietnam",
+  "vietnam": "vietnam",
+  "таиланд": "thailand",
+  "thailand": "thailand",
+};
+
 function SingleRegionHead({ regions }: { regions: Region[] }) {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const installNotices = Array.from(
+    new Set(
+      (regions ?? [])
+        .map((region) =>
+          region?.name ? INSTALL_NOTICES[region.name.trim().toLowerCase()] : undefined
+        )
+        .filter((notice): notice is string => Boolean(notice))
+    )
+  );
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -54,6 +74,24 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
               <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-[#0D141C]">
                 Как работают пакеты JetSim eSIM?
               </h2>
+
+              {installNotices.length > 0 && (
+                <div className="mb-6 rounded-[8px] border border-[#F0B429] bg-[#FFF8E6] p-4">
+                  <h3 className="mb-2 text-base md:text-lg font-semibold text-[#8A5A00]">
+                    {t("install_notice.title")}
+                  </h3>
+                  <ul className="flex flex-col gap-2">
+                    {installNotices.map((notice) => (
+                      <li
+                        key={notice}
+                        className="text-sm md:text-base text-[#5C3D00] leading-snug"
+                      >
+                        {t(`install_notice.${notice}`)}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               <div className="w-full mb-6">
                 <div className="relative w-full aspect-video bg-black rounded-[8px] overflow-hidden">

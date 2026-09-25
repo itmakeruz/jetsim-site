@@ -101,7 +101,7 @@ function HomeSearch() {
       <div ref={searchRef} className="relative">
         <form
           onSubmit={handleSearchSubmit}
-          className="border border-[#8A8AC7] bg-[#F0F0FB] md:rounded-[10px] rounded-[6px] relative"
+          className="relative rounded-[12px] border border-[#D5E3F5] bg-white shadow-[0_8px_26px_-14px_rgba(16,58,110,0.35)] transition-all duration-200 focus-within:border-main-blue focus-within:shadow-[0_10px_30px_-12px_rgba(25,120,229,0.45)]"
         >
           <div className="flex items-center flex-wrap md:gap-2 gap-1 md:p-2 p-1 md:pr-14 pr-2 md:min-h-[60px] min-h-[50px]">
             {/* Tanlangan regionlar */}

@@ -252,7 +252,7 @@ const Chatbot = () => {
                   <div className="flex justify-center gap-3">
                     {/* Telegram */}
                     <a
-                      href="https://t.me/Jetsim_support_bot"
+                      href="https://t.me/Operator1jet"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex flex-col items-center gap-1 rounded-xl"
@@ -297,14 +297,14 @@ const Chatbot = () => {
                       </span>
                     </a>
                     <a
-                      href="https://vk.com/id1090229648"
+                      href="https://max.ru/u/f9LHodD0cOLjNJVFzTXrS0_f9s7hEANWEYwVHYH55gY8cheoaTnvfpP7IP8"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex flex-col items-center gap-1 rounded-xl"
                     >
                       <img
-                        src={ASSETS.vk}
-                        alt="VKontakte"
+                        src={ASSETS.max}
+                        alt="MAX"
                         className="w-8 h-8 object-contain"
                       />
                       <span className="text-[12px] font-medium text-gray-800">

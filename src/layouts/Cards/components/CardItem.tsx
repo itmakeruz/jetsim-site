@@ -1,77 +1,58 @@
 import React from "react";
 
+export type CardAccent = "blue" | "green" | "purple";
+
 interface CardItemProps {
   image: string;
   heading: string;
   text: string;
-  variant: "left" | "right"; // left = border-right, right = border-left
-  gradientType: "green" | "purple";
-  imageFirst?: boolean;
+  accent: CardAccent;
 }
 
-const GRADIENT_STYLES = {
-  green: "linear-gradient(145.99deg, #ffffff 47.52%, #60ff78 117.94%)",
-  purple:
-    "linear-gradient(189.81deg, #ffffff -3.56%, rgba(222, 177, 255, 0.3) 109.77%)",
+const ACCENT_STYLES: Record<CardAccent, { tile: string; glow: string }> = {
+  blue: {
+    tile: "bg-[#e7f1fd] group-hover:bg-[#d6e8fc]",
+    glow: "group-hover:shadow-[0_12px_32px_-12px_rgba(25,120,229,0.35)]",
+  },
+  green: {
+    tile: "bg-[#e6f9ea] group-hover:bg-[#d3f4da]",
+    glow: "group-hover:shadow-[0_12px_32px_-12px_rgba(46,182,80,0.32)]",
+  },
+  purple: {
+    tile: "bg-[#f3e9ff] group-hover:bg-[#e9dbff]",
+    glow: "group-hover:shadow-[0_12px_32px_-12px_rgba(167,108,255,0.32)]",
+  },
 };
 
-const CardItem: React.FC<CardItemProps> = ({
-  image,
-  heading,
-  text,
-  variant,
-  gradientType,
-  imageFirst = false,
-}) => {
-  const baseCardClasses =
-    "flex items-center py-[30px] px-3 pb-10 pl-5 lg:py-[30px] lg:px-3 lg:pb-10 lg:pl-5 md:py-5 md:px-[10px] md:pb-[30px] md:pl-[15px] max-md:py-[15px] max-md:px-[10px] max-[475px]:py-2.5 max-[475px]:px-2 transition-all duration-[400ms] group max-md:border max-md:rounded-md max-md:flex-col max-md:text-center max-md:w-full max-md:max-w-[400px] max-[475px]:max-w-[300px]";
-
-  const borderClasses =
-    variant === "left"
-      ? "border-t border-r border-b border-black/30 lg:border-l-0"
-      : "border-t border-l border-b border-black/30 lg:border-r-0";
-
-  const headingClasses =
-    "text-[#0d141c] text-2xl lg:text-2xl md:text-xl max-md:text-lg max-[475px]:text-base leading-[19.36px] lg:leading-[19.36px] md:leading-4 max-md:leading-[14px] max-[475px]:leading-3 max-w-[290px] lg:max-w-[290px] md:max-w-[250px] max-md:max-w-full";
-
-  const textClasses =
-    "text-[#4f7096] text-base lg:text-base md:text-sm max-md:text-[13px] max-[475px]:text-xs leading-6 lg:leading-6 md:leading-5 max-md:leading-[18px] max-[475px]:leading-4 font-medium max-w-[325px] lg:max-w-[325px] md:max-w-[280px] max-md:max-w-full mt-2.5 lg:mt-2.5 md:mt-2 max-md:mt-1.5 max-[475px]:mt-[5px]";
-
-  const imageClasses =
-    "w-[105px] h-[105px] lg:w-[105px] lg:h-[105px] md:w-[90px] md:h-[90px] max-md:w-20 max-md:h-20 max-[475px]:w-[60px] max-[475px]:h-[60px] object-contain max-md:my-2.5 max-[475px]:my-2";
-
-  const content = (
-    <>
-      <div>
-        <h2 className={headingClasses}>{heading}</h2>
-        <p className={textClasses}>{text}</p>
-      </div>
-      <img className={imageClasses} src={image} alt={heading} />
-    </>
-  );
+const CardItem: React.FC<CardItemProps> = ({ image, heading, text, accent }) => {
+  const styles = ACCENT_STYLES[accent];
 
   return (
-    <div
-      className={`${baseCardClasses} ${borderClasses}`}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = GRADIENT_STYLES[gradientType];
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = "";
-      }}
+    <article
+      className={`group h-full flex flex-col rounded-2xl border border-black/10 bg-white
+        p-6 md:p-7 transition-all duration-300 ease-out
+        hover:-translate-y-1 hover:border-main-blue/35 ${styles.glow}`}
     >
-      {imageFirst ? (
-        <>
-          <img className={imageClasses} src={image} alt={heading} />
-          <div>
-            <h2 className={headingClasses}>{heading}</h2>
-            <p className={textClasses}>{text}</p>
-          </div>
-        </>
-      ) : (
-        content
-      )}
-    </div>
+      <div
+        className={`w-14 h-14 md:w-16 md:h-16 rounded-xl flex items-center justify-center
+          shrink-0 transition-colors duration-300 ${styles.tile}`}
+      >
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          className="w-8 h-8 md:w-9 md:h-9 object-contain"
+        />
+      </div>
+
+      <h3 className="mt-5 text-[19px] md:text-[21px] leading-[1.25] font-semibold text-[#0d141c] text-balance">
+        {heading}
+      </h3>
+
+      <p className="mt-2.5 text-[15px] md:text-base leading-[1.6] text-[#4f7096]">
+        {text}
+      </p>
+    </article>
   );
 };
 

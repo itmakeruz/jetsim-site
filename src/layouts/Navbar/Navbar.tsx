@@ -46,9 +46,9 @@ const Navbar: React.FC = () => {
 
   return (
     <>
-      <header className="relative z-[11]">
+      <header className="sticky top-0 z-[11] border-b border-black/[0.07] bg-white/85 backdrop-blur-md">
         <div className="container">
-          <div className="flex relative z-[1] justify-between items-center my-[10px]">
+          <div className="relative z-[1] flex items-center justify-between gap-4 py-[10px]">
             <HeaderLeft onMenuClick={() => setIsMobileMenuOpen(true)} />
             <Link to={APP_ROUTES.HOME} className="md:hidden">
               <img

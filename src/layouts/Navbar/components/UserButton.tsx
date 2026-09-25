@@ -9,18 +9,11 @@ const UserButton = () => {
   return (
     <Link
       to={APP_ROUTES.PROFILE}
-      className="flex flex-col gap-1 items-center text-black md:text-sm text-[12px] font-medium"
+      className="flex items-center gap-2 rounded-full px-2.5 py-2 text-[13px] font-medium text-[#0d141c]
+        transition-colors hover:bg-black/[0.04] md:text-sm"
     >
-      <div>
-        <img
-          src={ASSETS.user}
-          alt="user"
-          className="md:w-[26px] md:h-[26px] w-[28px] h-[28px]"
-        />
-      </div>
-      <span className="relative leading-none hidden md:block">
-        {t("nav.cabinet")}
-      </span>
+      <img src={ASSETS.user} alt="" aria-hidden="true" className="h-[24px] w-[24px] shrink-0" />
+      <span className="hidden md:block">{t("nav.cabinet")}</span>
     </Link>
   );
 };

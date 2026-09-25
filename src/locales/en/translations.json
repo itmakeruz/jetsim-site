@@ -99,6 +99,11 @@
     "no": "No, it does not support",
     "yes": "Yes it supports"
   },
+  "install_notice": {
+    "title": "Important before installing",
+    "vietnam": "The eSIM must be installed only while you are in Vietnam",
+    "thailand": "For Thailand: install the eSIM on your departure day"
+  },
   "sims": {
     "global": "Global",
     "top_destinations": "Top destinations",
@@ -155,7 +160,7 @@
     "how1-t": "You can choose multiple destinations!",
     "how1-s": "Convenient!",
     "how2-h": "Quick authorization",
-    "how2-t": "Enter your email address Enter the code from email",
+    "how2-t": "Enter your email address and the code we send you",
     "how2-s": "Fast!",
     "how3-h": "Go to your personal cabinet",
     "how3-t": "There you will have all purchased eSIM. Details and connection instructions",
@@ -168,6 +173,7 @@
     "rules": "Return Policy"
   },
   "about": {
+    "eyebrow": "About us",
     "title": "JetSim is the freedom to travel without borders. One click - and the whole world is in your pocket",
     "text": "JetSim - your fast ticket to the world of unlimited connectivity",
     "bigtext": "JetSim is your fast ticket to the world of unlimited connectivity. We created the company that to completely change the perception of roaming and make international connection easy, profitable and accessible to everyone. Forget about crazy roaming bills and searching for a local SIM at the airport - with JetSim everything is solved in a couple of minutes. Connect eSIM directly from your smartphone, choose a tariff for your trip and be online anywhere in the world",
@@ -212,15 +218,19 @@
     "heading3": " with eSIM technology, do the following:",
     "nav1": "Open the '",
     "nav1-2": "Phone",
-    "nav1-3": "' app and enter the combination *#06# on the keypad",
+    "eyebrow": "Device check",
+    "nav1-3": "' app and enter the combination",
+    "nav1-4": " on the keypad",
     "nav2": "Service information about the device will automatically appear on the screen",
     "nav3": "If the displayed data includes a unique identifier ",
     "nav3-2": "EID (Embedded Identity Document)",
-    "nav3-3": " , this means that your device technically supports the use of eSIM.",
+    "nav3-3": " — this means that your device technically supports the use of eSIM.",
     "nav4": "Jetsim reserves the right to refuse a refund if the user's device does not support eSIM and compatibility was not checked before purchase."
   },
   "card": {
     "heading": "Our advantages",
+    "eyebrow": "Why JetSim",
+    "brand-t": "A digital SIM that works the moment you buy it — anywhere on your route",
     "card1-h": "Fast connection",
     "card1-t": "Activation in 2 minutes via QR code. No office visits and waiting - connection is available immediately",
     "card2-h": "Multiple numbers in one device",
@@ -254,9 +264,7 @@
     "br1": "Global SIM LLC",
     "br2": "OGRN: 1257700534475",
     "br3": "INN: 9721260266",
-    "br4": "Legal address: 111674, Russia, г.",
-    "br5": " Moscow, Vn.ter.g.municipal district Neksarova, ул 1-я Vol'skaya,d. 26.",
-    "br6": "Email: info@jetsim.ru",
+    "br4": "Legal address: 1-ya Volskaya St., 26, Nekrasovka District, Moscow, 111674, Russia",
     "clients": "Clients",
     "tarifs": "Tariffs",
     "app": "Mobile application",
@@ -269,7 +277,7 @@
     "phone": "Phone number:",
     "email": "E-mail:",
     "faks": "Fax:",
-    "rights": "JetSim 2025 ⓒ All rights reserved",
+    "rights": "All rights reserved",
     "subtitle": "Affordable mobile eSIM internet you can rely on",
     "made-by": "Developed by ITdodasi",
     "title": "Your internet without borders!",

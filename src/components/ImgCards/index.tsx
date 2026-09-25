@@ -3,26 +3,36 @@ import { getImageUrl } from "@/config/imageUtils";
 interface ImagePreviewProps {
   src: string;
   alt?: string;
-  width?: number; // px bo'yicha o'lcham, default 40px
-  height?: number; // px bo'yicha o'lcham, default 40px
-  rounded?: boolean; // px bo'yicha radius, default 2px
+  /** Размер в px. Если не задан — размер берётся из className (в т.ч. адаптивный) */
+  width?: number;
+  height?: number;
+  rounded?: boolean;
   className?: string;
 }
 
 export const ImagePreview = ({
   src,
   alt = "",
-  width = 40,
-  height = 30,
+  width,
+  height,
   rounded = true,
   className = "",
 }: ImagePreviewProps) => {
+  // Класс w-[${width}px] использовать нельзя: Tailwind собирает только те классы,
+  // которые видит в коде строкой, поэтому новое значение молча не применялось.
+  // Инлайн-стиль ставим только если размер пришёл пропсами — иначе он перебил бы
+  // адаптивные классы у вызовов, которые задают размер через className.
+  const hasExplicitSize = width !== undefined || height !== undefined;
+  const style = hasExplicitSize
+    ? { width: width ?? height, height: height ?? width }
+    : undefined;
+
   return (
     <div
-      className={`w-[${width}px] h-[${height}px] ${
-        !rounded ? `rounded-[${rounded}px]` : "rounded-full"
+      style={style}
+      className={`${
+        rounded ? "rounded-full" : "rounded-[2px]"
       } shrink-0 overflow-hidden border-2 border-white drop-shadow-[0px_0px_12px_#C1CDD9] ${className}`}
-      // style={{ width: width, height: height }}
     >
       <img
         src={getImageUrl(src)}

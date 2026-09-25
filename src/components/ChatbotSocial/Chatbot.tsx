@@ -8,8 +8,14 @@ export default function FloatingSocialMenu() {
   const socials = [
     {
       icon: ASSETS.telegram,
-      href: "https://t.me/Jetsim_support_bot",
+      // Живой оператор, а не бот: из бота клиенту некуда написать вопрос
+      href: "https://t.me/Operator1jet",
       bgColor: "#29ABEE4D", // Telegram ko'k rang
+    },
+    {
+      icon: ASSETS.max,
+      href: "https://max.ru/u/f9LHodD0cOLjNJVFzTXrS0_f9s7hEANWEYwVHYH55gY8cheoaTnvfpP7IP8",
+      bgColor: "#7B5CFA4D", // MAX
     },
     // {
     //   icon: ASSETS.vk,
