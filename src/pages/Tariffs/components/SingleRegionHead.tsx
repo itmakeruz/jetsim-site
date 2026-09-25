@@ -1,30 +1,53 @@
 import { ASSETS } from "@/assets";
 import type { Region } from "@/types/api";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import BackButtonWithTitle from "@/components/BackButtonWithTitle";
 
-// Названия приходят с API уже локализованными, поэтому сопоставляем по обоим языкам
-const INSTALL_NOTICES: Record<string, string> = {
-  "вьетнам": "vietnam",
-  "vietnam": "vietnam",
-  "таиланд": "thailand",
-  "thailand": "thailand",
-};
+/**
+ * Названия приходят с API уже локализованными и с произвольными добавками
+ * («Вьетнам 5G», «Вьетнам 4G »), поэтому сравнивать строки целиком нельзя —
+ * ищем страну по подстроке сразу в обоих языках.
+ */
+const INSTALL_NOTICE_RULES: { notice: string; patterns: string[] }[] = [
+  { notice: "vietnam", patterns: ["вьетнам", "vietnam"] },
+  { notice: "thailand", patterns: ["таиланд", "thailand"] },
+];
+
+function matchInstallNotices(regions: Region[] | undefined): string[] {
+  const haystack = (regions ?? [])
+    .map((region) => region?.name?.toLowerCase() ?? "")
+    .join(" ");
+
+  if (!haystack.trim()) return [];
+
+  return INSTALL_NOTICE_RULES.filter((rule) =>
+    rule.patterns.some((pattern) => haystack.includes(pattern))
+  ).map((rule) => rule.notice);
+}
+
+function InstallNoticeList({ notices }: { notices: string[] }) {
+  const { t } = useTranslation();
+
+  return (
+    <ul className="flex flex-col gap-2">
+      {notices.map((notice) => (
+        <li
+          key={notice}
+          className="text-sm md:text-base text-[#5C3D00] leading-snug"
+        >
+          {t(`install_notice.${notice}`)}
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 function SingleRegionHead({ regions }: { regions: Region[] }) {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const installNotices = Array.from(
-    new Set(
-      (regions ?? [])
-        .map((region) =>
-          region?.name ? INSTALL_NOTICES[region.name.trim().toLowerCase()] : undefined
-        )
-        .filter((notice): notice is string => Boolean(notice))
-    )
-  );
+  const installNotices = useMemo(() => matchInstallNotices(regions), [regions]);
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -61,6 +84,33 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
         </button>
       </div>
 
+      {/* Условие установки видно сразу: раньше оно жило только внутри модалки «?» */}
+      {installNotices.length > 0 && (
+        <div className="mb-[26px] flex gap-3 rounded-[12px] border border-[#F0B429] bg-[#FFF8E6] p-4 md:p-5">
+          <svg
+            className="mt-[2px] h-5 w-5 shrink-0 md:h-6 md:w-6"
+            viewBox="0 0 24 24"
+            fill="none"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="10" fill="#F0B429" />
+            <path
+              d="M12 7v6"
+              stroke="#fff"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <circle cx="12" cy="16.5" r="1.25" fill="#fff" />
+          </svg>
+          <div className="flex flex-col gap-1">
+            <h3 className="text-base md:text-lg font-semibold text-[#8A5A00]">
+              {t("install_notice.title")}
+            </h3>
+            <InstallNoticeList notices={installNotices} />
+          </div>
+        </div>
+      )}
+
       {isModalOpen && (
         <div
           className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-[1000]"
@@ -80,16 +130,7 @@ function SingleRegionHead({ regions }: { regions: Region[] }) {
                   <h3 className="mb-2 text-base md:text-lg font-semibold text-[#8A5A00]">
                     {t("install_notice.title")}
                   </h3>
-                  <ul className="flex flex-col gap-2">
-                    {installNotices.map((notice) => (
-                      <li
-                        key={notice}
-                        className="text-sm md:text-base text-[#5C3D00] leading-snug"
-                      >
-                        {t(`install_notice.${notice}`)}
-                      </li>
-                    ))}
-                  </ul>
+                  <InstallNoticeList notices={installNotices} />
                 </div>
               )}
 
