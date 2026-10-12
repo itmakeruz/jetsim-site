@@ -1,5 +1,5 @@
 import { ASSETS } from "@/assets";
-import type { Region } from "@/types/api";
+import type { Region, Tariff } from "@/types/api";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import BackButtonWithTitle from "@/components/BackButtonWithTitle";
@@ -7,16 +7,40 @@ import BackButtonWithTitle from "@/components/BackButtonWithTitle";
 /**
  * Названия приходят с API уже локализованными и с произвольными добавками
  * («Вьетнам 5G», «Вьетнам 4G »), поэтому сравнивать строки целиком нельзя —
- * ищем страну по подстроке сразу в обоих языках.
+ * ищем подстроку сразу в обоих языках.
  */
 const INSTALL_NOTICE_RULES: { notice: string; patterns: string[] }[] = [
   { notice: "vietnam", patterns: ["вьетнам", "vietnam"] },
   { notice: "thailand", patterns: ["таиланд", "thailand"] },
+  { notice: "africa6", patterns: ["африка 6", "africa 6"] },
 ];
 
-function matchInstallNotices(regions: Region[] | undefined): string[] {
-  const haystack = (regions ?? [])
-    .map((region) => region?.name?.toLowerCase() ?? "")
+/**
+ * Страница открывается двумя разными маршрутами с разной формой данных:
+ *  - /tariffs/:region_group_id — `regions` в ответе уже содержит имя самого
+ *    пакета («Вьетнам 5G», «Африка 6»), заголовка достаточно;
+ *  - /tariffs/ids=<страна> — `regions` содержит только страну («ЮАР»),
+ *    а нужный пакет («Африка 6») виден лишь внутри каждого тарифа как
+ *    `region_group.name`. Без тарифов уведомление на этом маршруте никогда
+ *    бы не сработало.
+ * Поэтому сопоставляем по объединению обоих источников.
+ */
+function matchInstallNotices(
+  regions: Region[] | undefined,
+  tariffs: { local: Tariff[]; regional: Tariff[]; global: Tariff[] } | undefined
+): string[] {
+  const names = [
+    ...(regions ?? []).map((region) => region?.name),
+    ...[
+      ...(tariffs?.local ?? []),
+      ...(tariffs?.regional ?? []),
+      ...(tariffs?.global ?? []),
+    ].map((tariff) => tariff?.region_group?.name),
+  ];
+
+  const haystack = names
+    .filter(Boolean)
+    .map((name) => name!.toLowerCase())
     .join(" ");
 
   if (!haystack.trim()) return [];
@@ -43,11 +67,19 @@ function InstallNoticeList({ notices }: { notices: string[] }) {
   );
 }
 
-function SingleRegionHead({ regions }: { regions: Region[] }) {
+interface SingleRegionHeadProps {
+  regions: Region[];
+  tariffs?: { local: Tariff[]; regional: Tariff[]; global: Tariff[] };
+}
+
+function SingleRegionHead({ regions, tariffs }: SingleRegionHeadProps) {
   const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const installNotices = useMemo(() => matchInstallNotices(regions), [regions]);
+  const installNotices = useMemo(
+    () => matchInstallNotices(regions, tariffs),
+    [regions, tariffs]
+  );
 
   const handleOpenModal = () => {
     setIsModalOpen(true);

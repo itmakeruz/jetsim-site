@@ -51,7 +51,7 @@ function Tariffs() {
   }
   return (
     <div className={`container py-8 ${selectedTariff ? "pb-[150px]" : ""}`}>
-      <SingleRegionHead regions={region as any} />
+      <SingleRegionHead regions={region as any} tariffs={tariffs as any} />
       <div className="flex flex-col gap-[40px]">
         <TariffSection
           title="Локальные тарифы"
