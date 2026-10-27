@@ -1,3 +1,4 @@
+import type { UsageSnapshot } from "@/components/UsagePanel";
 // Region Category Types
 export interface Region {
   id: number;
@@ -192,6 +193,8 @@ export interface TariffDetail {
 
 // Active SIM Card Types
 export interface Myesim {
+  usage_snapshot?: UsageSnapshot | null;
+  usage_checked_at?: string | null;
   id: number;
   created_at: string;
   expire_date: string;

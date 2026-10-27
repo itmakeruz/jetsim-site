@@ -16,19 +16,19 @@ const InactivePage = () => {
   const queryClient = useQueryClient();
   const pollingCountRef = useRef<Map<number, number>>(new Map());
 
-  // Polling for sims with can_activate: false (max 3 times)
+  // Polling for sims with can_activate: false (up to 5 minutes)
   useEffect(() => {
     const { myesims: currentInactiveSims } = useSimcardStore.getState();
 
     // Clean up counters for sims that are no longer in the list or can_activate is true
     currentInactiveSims.forEach((sim) => {
-      if (sim.can_activate || sim.status !== "CREATED") {
+      if (sim.can_activate || !["CREATED", "PENDING", "NOTIFY_COUPON", "REDEEM_COUPON"].includes(sim.status)) {
         pollingCountRef.current.delete(sim.id);
       }
     });
 
     const simsNeedingPolling = currentInactiveSims.filter(
-      (sim) => !sim.can_activate && sim.status === "CREATED"
+      (sim) => !sim.can_activate && ["CREATED", "PENDING", "NOTIFY_COUPON", "REDEEM_COUPON"].includes(sim.status)
     );
 
     if (simsNeedingPolling.length === 0) {
@@ -47,13 +47,13 @@ const InactivePage = () => {
         // Get current sims from store to check fresh status
         const { myesims: latestInactiveSims } = useSimcardStore.getState();
         const currentSims = latestInactiveSims.filter(
-          (sim) => !sim.can_activate && sim.status === "CREATED"
+          (sim) => !sim.can_activate && ["CREATED", "PENDING", "NOTIFY_COUPON", "REDEEM_COUPON"].includes(sim.status)
         );
 
-        // Check if any sim still needs polling (hasn't reached 3 attempts)
+        // Check if any sim still needs polling (hasn't reached 15 attempts)
         const activeSimsForPolling = currentSims.filter((sim) => {
           const count = pollingCountRef.current.get(sim.id) || 0;
-          return count < 3;
+          return count < 15;
         });
 
         if (activeSimsForPolling.length === 0) {
@@ -139,7 +139,7 @@ const InactivePage = () => {
                 <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-[20px] z-20 flex items-center justify-center">
                   <div className="flex flex-col items-center gap-3">
                     <div className="loader"></div>
-                    <p className="text-sm text-gray-600">Активация...</p>
+                    <p className="text-sm text-gray-600">{t("balance.issuing")}</p>
                   </div>
                 </div>
               )}

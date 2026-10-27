@@ -674,5 +674,27 @@
     "section15_address": "Legal address: 111674, Russia, Moscow, Vn.ter.g.municipal district Nekrasova, st. 1-ya Volskaya, d. 26.",
     "section15_email": "Email for personal data inquiries: support@jetsim.ru, info@jetsim.ru",
     "section15_phone": "Tel.: +79339000003"
+  },
+  "balance": {
+    "check": "Check balance",
+    "checking": "Checking…",
+    "remaining": "Data remaining",
+    "used": "Data used",
+    "expires": "Valid until",
+    "days": "Days remaining",
+    "checked": "Last checked",
+    "unlimited": "Unlimited",
+    "noData": "No data",
+    "notReady": "Balance will be available after the eSIM is issued",
+    "unsupported": "Balance checks are unavailable",
+    "error": "Could not check balance. Previously received data is shown if available.",
+    "active": "Plan active",
+    "not_activated": "Plan not activated yet",
+    "expired": "Plan expired",
+    "depleted": "Data allowance depleted",
+    "mb": "MB",
+    "daily": "Daily allowance",
+    "today": "Used today",
+    "issuing": "Issuing eSIM…"
   }
 }
