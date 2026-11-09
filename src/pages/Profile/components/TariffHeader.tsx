@@ -18,17 +18,18 @@ const TariffHeader: React.FC<TariffHeaderProps> = ({ id, image, title }) => {
         <ImagePreview src={image} alt={title} width={40} height={40} />
         <h3
           title={title}
-          className="font-normal line-clamp-1 w-full text-lg md:text-xl lg:text-2xl leading-[1] tracking-[0px]"
+          className="font-semibold w-full text-lg md:text-xl leading-tight tracking-tight min-w-0"
         >
           {title}
         </h3>
         {id && (
-          <span
+          <button
+            type="button"
             onClick={() => handleCopyId(id)}
             className="text-sm text-black shrink-0 font-bold cursor-copy"
           >
             ID: {id}
-          </span>
+          </button>
         )}
       </div>
     </div>

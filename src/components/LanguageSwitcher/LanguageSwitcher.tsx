@@ -1,56 +1,33 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { useTranslation } from "react-i18next";
-import { ASSETS } from "@/assets";
-const languages = [
-  { code: "ru", image: ASSETS.ru, label: "Русский" },
-  { code: "en", image: ASSETS.en, label: "English" },
-];
-
-function LanguageSwitcher() {
-  const { i18n } = useTranslation();
-  const [language, setLanguage] = useState(i18n.language);
-
-  useEffect(() => {
-    setLanguage(i18n.language);
-  }, [i18n.language]);
-
-  const handleChange = (value: string) => {
-    setLanguage(value);
-    i18n.changeLanguage(value);
-  };
-
+import PremiumSelect from "@/components/jetstream/PremiumSelect";
+export default function LanguageSwitcher() {
+  const { i18n, t } = useTranslation();
   return (
-    <Select value={language} onValueChange={handleChange}>
-      <SelectTrigger className="lg:w-[120px] max-md:max-w-full md:border-none shadow-none! focus:ring-0! focus:ring-offset-0! focus:shadow-none! focus:outline-none! lg:text-[16px] text-[14px] font-semibold [&_svg]:hidden">
-        <SelectValue placeholder="Language" />
-      </SelectTrigger>
-      <SelectContent className="border-none shadow w-max z-[130]">
-        {languages.map((lang) => (
-          <SelectItem
-            key={lang.code}
-            value={lang.code}
-            className="lg:text-[14px] text-[12px] font-semibold cursor-pointer hover:bg-gray-100"
-          >
-            <img
-              className="lg:w-[22px] lg:h-[22px] w-[18px] h-[18px] object-contain"
-              src={lang.image}
-              alt={lang.code}
-            />
-            <span>{lang.label}</span>
-          </SelectItem>
-        ))}
-      </SelectContent>
-    </Select>
+    <div className="js-language">
+      <PremiumSelect
+        compact
+        label={t("everywhere.language")}
+        value={i18n.language.startsWith("en") ? "en" : "ru"}
+        onValueChange={(language) => {
+          void i18n.changeLanguage(language);
+        }}
+        options={[
+          {
+            value: "ru",
+            shortLabel: "RU",
+            label: "Русский",
+            description: t("everywhere.languageRu"),
+            image: "/flags/ru.svg",
+          },
+          {
+            value: "en",
+            shortLabel: "EN",
+            label: "English",
+            description: t("everywhere.languageEn"),
+            image: "/flags/gb.svg",
+          },
+        ]}
+      />
+    </div>
   );
 }
-
-export default LanguageSwitcher;

@@ -1,126 +1,137 @@
-import { ASSETS } from "../../assets";
+import { Link } from "react-router-dom";
+import { ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { APP_ROUTES } from "../../router/path";
+import { useAuthStore } from "@/store/authStore";
+import { ASSETS } from "@/assets";
 
-// Вернуть в true после релиза мобильного приложения
-const SHOW_APP_BANNER = false;
-
-const PHONE = "+7 (933) 900-00-03";
-const EMAIL = "info@jetsim.ru";
-const TELEGRAM = "Operator1jet";
-
-const Footer = () => {
+export default function Footer() {
   const { t } = useTranslation();
-
-  const linkClasses =
-    "text-[15px] leading-6 text-white/75 transition-colors duration-200 hover:text-white";
-
-  const clientLinks = [
-    { href: "#tarifs", label: t("footer.tarifs") },
-    ...(SHOW_APP_BANNER ? [{ href: "", label: t("footer.app") }] : []),
-    { href: APP_ROUTES.FAQ, label: "F.A.Q" },
-    { href: APP_ROUTES.PRIVACY_POLICY, label: t("footer.confidential") },
-    { href: APP_ROUTES.PUBLIC_OFFER, label: t("footer.oferta") },
-    { href: APP_ROUTES.REFUND_POLICY, label: t("footer.usloviya") },
-    { href: APP_ROUTES.ABOUT, label: t("footer.about") },
+  const authenticated = useAuthStore((state) => state.isAuthenticated);
+  const navigation = [
+    { to: "/#tarifs", text: t("jetstream.destinations") },
+    { to: "/how", text: t("jetstream.how") },
+    { to: "/about", text: t("nav.about") },
+    { to: "/faq", text: "FAQ" },
+    {
+      to: authenticated ? "/myesim" : "/login?next=%2Fmyesim",
+      text: t("jetstream.account"),
+    },
   ];
-
+  const documents = [
+    { to: "/privacy-policy", text: t("footer.confidential") },
+    { to: "/public-offer", text: t("footer.oferta") },
+    { to: "/refund-policy", text: t("footer.usloviya") },
+  ];
+  const socials = [
+    {
+      icon: ASSETS.inst,
+      name: "Instagram",
+      url: "https://www.instagram.com/jetsim.ru?igsh=dWRnbXk1MjUzNWk5",
+    },
+    { icon: ASSETS.vk, name: "VKontakte", url: "https://vk.com/id1090229648" },
+    { icon: ASSETS.telegram, name: "Telegram", url: "https://t.me/jetsimru" },
+    {
+      icon: ASSETS.max,
+      name: "MAX",
+      url: "https://max.ru/u/f9LHodD0cOLjNJVFzTXrS0_f9s7hEANWEYwVHYH55gY8cheoaTnvfpP7IP8",
+    },
+    {
+      icon: ASSETS.tt,
+      name: "TikTok",
+      url: "https://www.tiktok.com/@jetsim.ru?_r=1&_t=ZM-92QrM7FY9jk",
+    },
+  ];
   return (
-    <footer className="bg-[#112d6c] text-white">
-      <div className="container pt-12 pb-8 md:pt-16 md:pb-10">
-        <div className="grid gap-10 md:gap-8 lg:gap-12 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr]">
+    <footer className="js-footer">
+      <div className="container">
+        <div className="js-footer-grid">
           <div>
-            <img src={ASSETS.whitelogo} alt="JetSim" className="h-8 w-auto object-contain" />
-
-            <div className="mt-7 flex flex-col gap-2.5 text-[15px] leading-6 text-white/70 max-w-[46ch]">
-              <p className="text-white/90 font-medium">{t("footer.br1")}</p>
-              <p>{t("footer.br2")}</p>
-              <p>{t("footer.br3")}</p>
-              <p>{t("footer.br4")}</p>
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-[17px] font-semibold tracking-[0.01em] text-white">
-              {t("footer.clients")}
-            </h2>
-
-            <ul className="mt-5 flex flex-col gap-3">
-              {clientLinks.map((link) => (
-                <li key={link.label}>
-                  <a href={link.href} className={linkClasses}>
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h2 className="text-[17px] font-semibold tracking-[0.01em] text-white">
-              {t("footer.contacts")}
-            </h2>
-
-            <ul className="mt-5 flex flex-col gap-4">
-              <li className="flex flex-col gap-0.5">
-                <span className="text-[13px] uppercase tracking-[0.1em] text-white/45">
-                  {t("footer.phone")}
-                </span>
+            <Link to="/" aria-label="JetSim">
+              <img
+                className="js-footer-logo"
+                src={ASSETS.whitelogo}
+                alt="JetSim"
+                width="130"
+                height="40"
+                loading="lazy"
+              />
+            </Link>
+            <p className="js-footer-tagline">{t("jetstream.footerTagline")}</p>
+            <div className="js-socials">
+              {socials.map((social) => (
                 <a
-                  href={`tel:${PHONE.replace(/[^+\d]/g, "")}`}
-                  className="text-[17px] font-medium leading-6 text-white transition-opacity hover:opacity-80"
-                >
-                  {PHONE}
-                </a>
-              </li>
-
-              <li className="flex flex-col gap-0.5">
-                <span className="text-[13px] uppercase tracking-[0.1em] text-white/45">
-                  {t("footer.email")}
-                </span>
-                <a
-                  href={`mailto:${EMAIL}`}
-                  className="text-[17px] font-medium leading-6 text-white transition-opacity hover:opacity-80"
-                >
-                  {EMAIL}
-                </a>
-              </li>
-
-              <li className="flex flex-col gap-0.5">
-                <span className="text-[13px] uppercase tracking-[0.1em] text-white/45">
-                  Telegram
-                </span>
-                <a
-                  href={`https://t.me/${TELEGRAM}`}
+                  href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[17px] font-medium leading-6 text-white transition-opacity hover:opacity-80"
+                  key={social.name}
+                  aria-label={social.name}
                 >
-                  @{TELEGRAM}
+                  <img
+                    src={social.icon}
+                    alt=""
+                    width="18"
+                    height="18"
+                    loading="lazy"
+                  />
                 </a>
-              </li>
-            </ul>
-
-            {SHOW_APP_BANNER && (
-              <div className="mt-8">
-                <h2 className="text-[17px] font-semibold text-white">{t("footer.app")}</h2>
-                <div className="mt-4 flex items-center gap-3">
-                  <img src={ASSETS.google} alt="Google Play" className="h-10 w-auto" />
-                  <img src={ASSETS.appstore} alt="App Store" className="h-10 w-auto" />
-                </div>
-              </div>
-            )}
+              ))}
+            </div>
+          </div>
+          <div>
+            <h2>{t("jetstream.navigation")}</h2>
+            <nav className="js-footer-links">
+              {navigation.map((link) => (
+                <Link key={link.to} to={link.to}>
+                  {link.text}
+                </Link>
+              ))}
+            </nav>
+          </div>
+          <div>
+            <h2>{t("jetstream.contact")}</h2>
+            <div className="js-footer-links">
+              <a className="js-footer-contact" href="tel:+79339000003">
+                +7 (933) 900-00-03
+              </a>
+              <a href="mailto:info@jetsim.ru">info@jetsim.ru</a>
+              <a
+                href="https://t.me/Operator1jet"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex gap-2 items-center"
+              >
+                Telegram / @Operator1jet
+                <ArrowUpRight size={15} />
+              </a>
+            </div>
           </div>
         </div>
-
-        <div className="mt-12 md:mt-14 border-t border-white/15 pt-6">
-          <p className="text-[14px] leading-6 text-white/55">
-            JetSim {new Date().getFullYear()} © {t("footer.rights")}
-          </p>
+        <div className="js-footer-legal">
+          <div>
+            {["br1", "br2", "br3", "br4"].map((key) => (
+              <p key={key}>{t(`footer.${key}`)}</p>
+            ))}
+          </div>
+          <div>
+            <nav
+              className="js-footer-legal-links"
+              aria-label={t("jetstream.legal")}
+            >
+              {documents.map((link) => (
+                <Link key={link.to} to={link.to}>
+                  {link.text}
+                </Link>
+              ))}
+            </nav>
+            <p className="mt-4">
+              © {new Date().getFullYear()} JetSim. {t("footer.rights")}
+            </p>
+          </div>
         </div>
+      </div>
+      <div className="js-footer-wordmark" aria-hidden="true">
+        JetSim
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

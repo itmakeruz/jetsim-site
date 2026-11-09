@@ -1,3 +1,4 @@
+import { apiFailure } from "@/lib/apiFailure";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useSearchParams, useNavigate } from "react-router-dom";
@@ -74,7 +75,7 @@ const VerificationForm = () => {
 
   const handleKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
@@ -127,7 +128,12 @@ const VerificationForm = () => {
         }
 
         // Navigate to home or profile after successful verification
-        navigate(APP_ROUTES.HOME);
+        const next = searchParams.get("next");
+        navigate(
+          next === APP_ROUTES.MYESIM || next === APP_ROUTES.PROFILE
+            ? next
+            : APP_ROUTES.HOME,
+        );
       } else {
         // Check if it's an expired OTP error (400)
         if (response.data.statusCode === 400) {
@@ -141,15 +147,16 @@ const VerificationForm = () => {
         else if (response.data.statusCode === 401) {
           setHasError(true);
           toast.error(
-            response.data.message || t("verification.error_occurred")
+            response.data.message || t("verification.error_occurred"),
           );
         }
       }
-    } catch (error: any) {
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
       // Check if it's an expired OTP error (400)
       if (error.response?.data?.statusCode === 400) {
         toast.error(
-          error.response?.data?.message || t("verification.code_expired")
+          error.response?.data?.message || t("verification.code_expired"),
         );
         setHasError(true);
         setOtp(Array(6).fill(""));
@@ -181,9 +188,10 @@ const VerificationForm = () => {
       } else {
         toast.error(response.data.message || t("verification.error_occurred"));
       }
-    } catch (error: any) {
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
       toast.error(
-        error.response?.data?.message || t("verification.error_occurred")
+        error.response?.data?.message || t("verification.error_occurred"),
       );
     } finally {
       setIsLoading(false);

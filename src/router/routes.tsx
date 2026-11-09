@@ -5,6 +5,7 @@ import SimpleLayout from "../layouts/SimpleLayout/SimpleLayout";
 import AuthLayout from "../layouts/AuthLayout/AuthLayout";
 import Loader from "../components/Loader";
 
+const Countries = lazy(() => import("../pages/Countries/Countries"));
 const Home = lazy(() => import("../pages/Home/Home"));
 const About = lazy(() => import("../pages/AboutUs/About"));
 const Confidential = lazy(() => import("../pages/Confidential/Confidential"));
@@ -15,7 +16,7 @@ const FAQ = lazy(() => import("../pages/FAQ/FAQ"));
 const How = lazy(() => import("../pages/HowWorks/How"));
 const ThankYou = lazy(() => import("../pages/ThankYou/ThankYou"));
 const ProfileLayout = lazy(
-  () => import("../layouts/ProfileLayout/ProfileLayout")
+  () => import("../layouts/ProfileLayout/ProfileLayout"),
 );
 const ProfilePage = lazy(() => import("../pages/Profile/ProfilePage"));
 const CartPage = lazy(() => import("../pages/Profile/CartPage"));
@@ -31,6 +32,14 @@ export const appRoutes = [
     path: "/",
     element: <MainLayout />,
     children: [
+      {
+        path: APP_ROUTES.COUNTRIES,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <Countries />
+          </Suspense>
+        ),
+      },
       {
         index: true,
         element: (
@@ -71,6 +80,14 @@ export const appRoutes = [
           </Suspense>
         ),
       },
+      ...[
+        [APP_ROUTES.CONFIDENTIAL, <Confidential />],
+        [APP_ROUTES.OFERTA, <Oferta />],
+        [APP_ROUTES.USLOVIYA, <Usloviya />],
+      ].map(([path, element]) => ({
+        path: path as string,
+        element: <Suspense fallback={<Loader />}>{element}</Suspense>,
+      })),
       {
         path: APP_ROUTES.PRIVACY_POLICY,
         element: (

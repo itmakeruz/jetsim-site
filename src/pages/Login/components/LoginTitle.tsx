@@ -1,14 +1,10 @@
 import { useTranslation } from "react-i18next";
-
-const LoginTitle = () => {
+export default function LoginTitle() {
   const { t } = useTranslation();
-
   return (
-    <div className="flex flex-col gap-1 text-[20px] font-bold leading-[1.25] text-[#0d141c] md:text-[24px] lg:text-[28px]">
-      <h1>{t("login.title1")}</h1>
-      <h1>{t("login.title2")}</h1>
-    </div>
+    <header>
+      <span className="js-kicker">{t("jetstream.authLabel")}</span>
+      <h1>{t("jetstream.authTitle")}</h1>
+    </header>
   );
-};
-
-export default LoginTitle;
+}

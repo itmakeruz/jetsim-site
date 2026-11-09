@@ -12,7 +12,7 @@ interface ActivationPanelProps {
 
 const ActivationPanel: React.FC<ActivationPanelProps> = ({ sim }) => {
   return (
-    <div className="grid lg:grid-cols-[1fr_300px_1fr]  gap-4 mt-5">
+    <div className="ew-installation grid lg:grid-cols-[minmax(0,1fr)_260px_minmax(0,1fr)] gap-6 mt-6">
       {/* Left: Device Instructions */}
       <div className="flex flex-col md:gap-[0px] gap-1 h-full w-full overflow-hidden">
         <DeviceInstructions

@@ -1,17 +1,30 @@
+import { apiFailure } from "@/lib/apiFailure";
+import { useNavigate } from "react-router-dom";
+import LogoutModal from "@/layouts/Navbar/components/LogoutModal";
+import { useTariffStore } from "@/store/tariffStore";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAuthStore } from "../../store/authStore";
 import { FormField } from "../../components/FormField";
 import { UniversalInput } from "../../components/UniversalInput";
-import { ImageUp } from "lucide-react";
+import {
+  Camera,
+  UserRound,
+  LogOut,
+  ArrowUpRight,
+  LockKeyhole,
+} from "lucide-react";
 import { UniversalTextarea } from "../../components/UniversalTextarea";
 import { userAPI } from "../../services/api.service";
 import { toast } from "react-toastify";
 
 const ProfilePage = () => {
   const { t } = useTranslation();
-  const { user, setUser } = useAuthStore();
+  const { user, setUser, logout } = useAuthStore();
 
+  const [confirmLogout, setConfirmLogout] = useState(false);
+  const navigate = useNavigate();
+  const clearCart = useTariffStore((state) => state.setSelectedTariffs);
   const [formData, setFormData] = useState({
     fio: "",
     homePhone: "",
@@ -22,6 +35,16 @@ const ProfilePage = () => {
   });
 
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  useEffect(() => {
+    if (!selectedImage) {
+      setPreviewUrl(null);
+      return;
+    }
+    const url = URL.createObjectURL(selectedImage);
+    setPreviewUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [selectedImage]);
   const [isLoading, setIsLoading] = useState(false);
   const [isDeletingImage, setIsDeletingImage] = useState(false);
 
@@ -49,7 +72,7 @@ const ProfilePage = () => {
   const handleInputChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -73,24 +96,24 @@ const ProfilePage = () => {
       const response = await userAPI.updateUser(formDataToSend);
 
       if (response.data.success) {
-        toast.success("Profile updated successfully!");
+        toast.success(t("everywhere.profileSaved"));
         if (response.data.data) {
           setUser(response.data.data);
         }
         setSelectedImage(null);
         const fileInput = document.getElementById(
-          "upload-input"
+          "upload-input",
         ) as HTMLInputElement;
         if (fileInput) {
           fileInput.value = "";
         }
       } else {
-        toast.error(response.data.message || "Failed to update profile");
+        toast.error(response.data.message || t("everywhere.profileFailed"));
       }
-    } catch (error: any) {
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
       toast.error(
-        error.response?.data?.message ||
-          "An error occurred while updating profile"
+        error.response?.data?.message || t("everywhere.profileFailed"),
       );
     } finally {
       setIsLoading(false);
@@ -104,17 +127,18 @@ const ProfilePage = () => {
     try {
       const response = await userAPI.deleteProfileImage(user.id);
       if (response.data.success) {
-        toast.success("Profile image deleted successfully!");
+        toast.success(t("everywhere.imageDeleted"));
         // Update user in store to remove image
         if (user) {
           setUser({ ...user, image: null });
         }
       } else {
-        toast.error(response.data.message || "Failed to delete profile image");
+        toast.error(response.data.message || t("everywhere.imageDeleteFailed"));
       }
-    } catch (error: any) {
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
       toast.error(
-        error.response?.data?.message || "Failed to delete profile image"
+        error.response?.data?.message || t("everywhere.imageDeleteFailed"),
       );
     } finally {
       setIsDeletingImage(false);
@@ -125,140 +149,179 @@ const ProfilePage = () => {
     setSelectedImage(null);
     // Reset file input
     const fileInput = document.getElementById(
-      "upload-input"
+      "upload-input",
     ) as HTMLInputElement;
     if (fileInput) {
       fileInput.value = "";
     }
   };
 
+  const dirty =
+    !!selectedImage ||
+    formData.fio !== (user?.name || "") ||
+    formData.homePhone !== (user?.phone_number || "") ||
+    formData.address !== (user?.address || "") ||
+    formData.about !== (user?.about || "");
   return (
-    <div className="w-full grid lg:grid-cols-[450px_1fr] grid-cols-1 gap-4 md:gap-6">
-      <div className="flex flex-col items-center p-5 md:p-[60px] lg:p-[80px] border border-[#b2b2b2] rounded-lg">
-        <div className="flex flex-col items-center mb-4 md:mb-[15px]">
-          <label
-            htmlFor="upload-input"
-            className="upload-label w-[100px] h-[100px] md:w-[128px] md:h-[128px] max-w-[128px] shrink-0 rounded-full text-white gap-2 bg-[rgba(0,0,0,48%)] flex flex-col items-center justify-center mb-2.5 relative cursor-pointer"
-          >
-            {selectedImage ? (
-              <div className="w-full h-full rounded-full overflow-hidden">
-                <img
-                  src={URL.createObjectURL(selectedImage)}
-                  alt="Selected"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ) : user?.image ? (
-              <div className="w-full h-full rounded-full overflow-hidden">
-                <img
-                  src={`${import.meta.env.VITE_API_URL}${user.image}`}
-                  alt="Profile"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-            ) : (
-              <>
-                <ImageUp className="w-[20px] h-[20px] md:w-[24px] md:h-[24px]" />
-                <span className="text-[10px] md:text-[12px]">
-                  {t("profile.profile.download")}
-                </span>
-              </>
-            )}
-          </label>
-
+    <div className="ew-profile-layout">
+      <aside className="ew-profile-identity">
+        <span className="ew-eyebrow">{t("everywhere.yourAccount")}</span>
+        <label className="ew-profile-avatar">
           <input
             id="upload-input"
             type="file"
             accept=".jpg,.jpeg,.png,.gif"
             onChange={handleFileUpload}
-            style={{ display: "none" }}
+            className="sr-only"
+            aria-label={t("profile.profile.download")}
           />
-        </div>
-        <p className="text-[#919eab] font-normal text-[13px] md:text-[15px] leading-[18px] tracking-[0px] text-center">
-          {t("profile.profile.permission")}
+          {previewUrl ? (
+            <img src={previewUrl} alt={t("everywhere.selectedPhoto")} />
+          ) : user?.image ? (
+            <img
+              src={
+                /^https?:/.test(user.image)
+                  ? user.image
+                  : `${import.meta.env.VITE_API_URL}${user.image}`
+              }
+              alt={t("everywhere.profilePhoto")}
+            />
+          ) : (
+            <UserRound size={40} strokeWidth={1.25} />
+          )}
+          <span className="ew-avatar-camera">
+            <Camera size={17} />
+          </span>
+        </label>
+        <h2>{user?.name || t("everywhere.yourProfile")}</h2>
+        <p className="ew-profile-email">{user?.email}</p>
+        <label className="ew-profile-upload" htmlFor="upload-input">
+          {t("everywhere.changePhoto")}
+          <ArrowUpRight size={15} />
+        </label>
+        <p className="ew-profile-file-note">
+          <span>{t("profile.profile.permission")}</span>
+          <span>{t("profile.profile.permission2")}</span>
         </p>
-        <p className="text-[#919eab] font-normal text-[13px] md:text-[15px] leading-[18px] tracking-[0px] text-center mb-4 md:mb-[25px]">
-          {t("profile.profile.permission2")}
-        </p>
-
         {(user?.image || selectedImage) && (
           <button
-            className="bg-[#ff563014] text-[#b71d18] border-none py-2 md:py-[10px] px-4 md:px-5 rounded cursor-pointer text-xs md:text-sm transition-colors w-full md:w-auto"
-            onClick={() => {
-              if (selectedImage) {
-                handleClearSelectedImage();
-              } else {
-                handleDeleteImage();
-              }
-            }}
+            type="button"
+            className="ew-profile-remove-photo"
             disabled={isDeletingImage}
+            onClick={() => {
+              if (selectedImage) handleClearSelectedImage();
+              else void handleDeleteImage();
+            }}
           >
             {t("profile.profile.delete")}
           </button>
         )}
-      </div>
-
-      <form className="flex-1 flex flex-col items-center p-4 md:p-6 border border-[#b2b2b2] rounded-lg">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        <button
+          type="button"
+          className="ew-profile-logout"
+          onClick={() => setConfirmLogout(true)}
+        >
+          <LogOut size={16} />
+          {t("jetstream.logout")}
+        </button>
+      </aside>
+      <form
+        className="ew-profile-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          void handleSave();
+        }}
+      >
+        <header>
+          <div>
+            <span className="ew-eyebrow">
+              {t("everywhere.personalDetails")}
+            </span>
+            <h2>{t("everywhere.profileFormTitle")}</h2>
+          </div>
+          <span className="ew-profile-form-icon">
+            <UserRound size={22} strokeWidth={1.4} />
+          </span>
+        </header>
+        <div className="ew-profile-fields">
           <FormField label={t("profile.profile.fio")}>
             <UniversalInput
-              type="text"
               name="fio"
-              placeholder="ФИО"
+              autoComplete="name"
+              placeholder={t("everywhere.fullName")}
               value={formData.fio}
               onChange={handleInputChange}
             />
           </FormField>
-          <FormField label="Email">
-            <UniversalInput
-              type="email"
-              name="email"
-              placeholder="Электронная почта"
-              value={user?.email || ""}
-              variant="readonly"
-              readOnly
-            />
+          <FormField label={t("everywhere.emailLabel")}>
+            <div className="ew-readonly-field">
+              <UniversalInput
+                name="email"
+                type="email"
+                autoComplete="email"
+                value={user?.email || ""}
+                variant="readonly"
+                readOnly
+              />
+              <LockKeyhole size={15} />
+            </div>
           </FormField>
           <FormField label={t("profile.profile.phone")}>
             <UniversalInput
-              type="tel"
               name="homePhone"
-              placeholder="Номер телефона"
+              type="tel"
+              autoComplete="tel"
+              placeholder={t("everywhere.phoneLabel")}
               value={formData.homePhone}
               onChange={handleInputChange}
             />
           </FormField>
           <FormField label={t("profile.profile.adres")}>
             <UniversalInput
-              type="text"
               name="address"
-              placeholder="Адрес"
+              autoComplete="street-address"
+              placeholder={t("everywhere.addressLabel")}
               value={formData.address}
               onChange={handleInputChange}
             />
           </FormField>
           <FormField
-            className="md:col-span-2 col-span-1"
+            className="ew-profile-about-field"
             label={t("profile.profile.about")}
           >
             <UniversalTextarea
               name="about"
-              placeholder="О себе"
+              rows={3}
+              placeholder={t("everywhere.aboutLabel")}
               value={formData.about}
               onChange={handleInputChange}
             />
           </FormField>
         </div>
-
-        <button
-          type="button"
-          className="bg-[#112D6C] mt-6 md:mt-auto text-white border-none py-4 md:py-5 px-6 rounded-[10px] text-sm md:text-base cursor-pointer w-full disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={handleSave}
-          disabled={isLoading}
-        >
-          {isLoading ? "Saving..." : t("profile.profile.save")}
-        </button>
+        <footer className="ew-profile-form-footer">
+          <p aria-live="polite">
+            <i className={dirty ? "is-dirty" : ""} />
+            {t(
+              dirty
+                ? "everywhere.unsavedChanges"
+                : "everywhere.profileSaveHint",
+            )}
+          </p>
+          <button type="submit" className="js-btn" disabled={isLoading}>
+            {t(isLoading ? "everywhere.saving" : "profile.profile.save")}
+            <ArrowUpRight size={16} />
+          </button>
+        </footer>
       </form>
+      <LogoutModal
+        isOpen={confirmLogout}
+        onClose={() => setConfirmLogout(false)}
+        onConfirm={() => {
+          logout();
+          clearCart([]);
+          navigate("/");
+        }}
+      />
     </div>
   );
 };

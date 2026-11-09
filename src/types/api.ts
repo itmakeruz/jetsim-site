@@ -1,11 +1,13 @@
 import type { UsageSnapshot } from "@/components/UsagePanel";
 // Region Category Types
 export interface Region {
+  cover_image?: string | null;
   id: number;
   name: string;
   image: string;
 }
 export interface RegionGroup {
+  cover_image?: string | null;
   id: number;
   name: string;
   image: string;
@@ -15,6 +17,7 @@ export interface RegionGroup {
 }
 
 export interface SingleRegion {
+  cover_image?: string | null;
   id: number;
   name: string;
   image: string;
@@ -193,6 +196,16 @@ export interface TariffDetail {
 
 // Active SIM Card Types
 export interface Myesim {
+  payment_status?:
+    | "PENDING"
+    | "SUCCESS"
+    | "WAITING_ORDER_CONFIRMATION"
+    | "FAILED"
+    | "CANCELED"
+    | "REFUNDED"
+    | "ERROR"
+    | "UNKNOWN"
+    | null;
   usage_snapshot?: UsageSnapshot | null;
   usage_checked_at?: string | null;
   id: number;

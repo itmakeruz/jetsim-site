@@ -1,51 +1,52 @@
 import UsagePanel from "@/components/UsagePanel";
 import { useTranslation } from "react-i18next";
 import type { Myesim } from "@/types/api";
-import { formatDate } from "@/lib/utils";
-
-interface ActiveSimInfoProps {
-  sim: Myesim;
-}
-
-const ActiveSimInfo: React.FC<ActiveSimInfoProps> = ({ sim }) => {
-  const { t } = useTranslation();
-
+import { simFulfillment } from "@/lib/simFulfillment";
+export default function ActiveSimInfo({ sim }: { sim: Myesim }) {
+  const { t, i18n } = useTranslation();
+  const state = simFulfillment(sim);
   return (
-    <div className="space-y-2">
-      <UsagePanel simId={sim.id} status={sim.status} snapshot={sim.usage_snapshot} />
-      <div className="flex items-center justify-between gap-3">
-        <span>{t("sims.set")}</span>
-        <div className="text-white flex items-center gap-3 text-[12px]">
-          {sim.is_4g ? (
-            <span className="bg-[#34C759] w-[38px] h-[18px] font-bold rounded-[12px] flex justify-center items-center">
-              4G
-            </span>
-          ) : (
-            ""
-          )}{" "}
-          {sim.is_5g ? (
-            <span className="bg-[#34C759] w-[38px] h-[18px] font-bold rounded-[12px] flex justify-center items-center">
-              5G
-            </span>
-          ) : (
-            ""
-          )}
+    <div className="ew-sim-info">
+      <span className={`ew-issue-status ew-issue-status--${state}`}>
+        {t(`fulfillment.${state}`)}
+      </span>
+      {sim.status === "COMPLETED" ? (
+        <UsagePanel
+          simId={sim.id}
+          status={sim.status}
+          snapshot={sim.usage_snapshot}
+        />
+      ) : (
+        <p className="ew-sim-state-message">
+          {t(`fulfillment.${state}Description`)}
+        </p>
+      )}
+      <dl className="ew-sim-metadata">
+        <div>
+          <dt>{t("sims.set")}</dt>
+          <dd>
+            {[sim.is_4g && "4G", sim.is_5g && "5G"]
+              .filter(Boolean)
+              .join(" / ") || t("balance.noData")}
+          </dd>
         </div>
-      </div>
-
-      <div className="flex gap-1 justify-between">
-        {t("sims.created_at")}
-        <span className="text-[#112D6C] font-bold">
-          {formatDate(sim?.created_at || "-")}
-        </span>
-      </div>
-
-      <div className="flex gap-1 justify-between">
-        ICCID
-        <span className="text-[#112D6C] font-bold">{sim.iccid || "-"}</span>
-      </div>
+        <div>
+          <dt>{t("sims.created_at")}</dt>
+          <dd>
+            {sim.created_at
+              ? new Date(sim.created_at).toLocaleDateString(
+                  i18n.language.startsWith("en") ? "en-GB" : "ru-RU",
+                )
+              : t("balance.noData")}
+          </dd>
+        </div>
+        {sim.iccid && (
+          <div>
+            <dt>ICCID</dt>
+            <dd>{sim.iccid}</dd>
+          </div>
+        )}
+      </dl>
     </div>
   );
-};
-
-export default ActiveSimInfo;
+}

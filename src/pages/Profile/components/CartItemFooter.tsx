@@ -31,7 +31,7 @@ const CartItemFooter: React.FC<CartItemFooterProps> = ({
           className={`rounded-[9px] h-[50px] text-white text-base font-medium transition-opacity ${
             isDisabled
               ? "bg-gray-400 cursor-not-allowed opacity-60"
-              : "bg-[#112D6C] hover:opacity-90"
+              : "bg-[#101722] hover:opacity-90"
           }`}
         >
           {t("profile.details")}

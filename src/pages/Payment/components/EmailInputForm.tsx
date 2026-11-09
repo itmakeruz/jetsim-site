@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import { apiFailure } from "@/lib/apiFailure";
 import { useState, useMemo } from "react";
 import { authAPI } from "@/services/api.service";
 import { toast } from "react-toastify";
@@ -11,21 +13,21 @@ const EmailInputForm = ({
   onEmailSubmitted,
   onTimerReset,
 }: EmailInputFormProps) => {
+  const { t } = useTranslation();
   const [email, setEmail] = useState("");
   const [emailLoading, setEmailLoading] = useState(false);
 
   // Email validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const isValidEmail = useMemo(
-    () => email.trim() !== "" && emailRegex.test(email),
-    [email]
+    () => email.trim() !== "" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
+    [email],
   );
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!isValidEmail) {
-      toast.error("Введите корректный email");
+      toast.error(t("everywhere.invalidEmail"));
       return;
     }
 
@@ -35,15 +37,16 @@ const EmailInputForm = ({
       const response = await authAPI.sendOtp({ email });
 
       if (response.data.success) {
-        toast.success("Код подтверждения отправлен на вашу почту");
+        toast.success(t("everywhere.codeSent"));
         onTimerReset();
         onEmailSubmitted(email);
       } else {
-        toast.error(response.data.message || "Произошла ошибка");
+        toast.error(response.data.message || t("everywhere.genericError"));
       }
-    } catch (error: any) {
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
       toast.error(
-        error.response?.data?.message || "Произошла ошибка. Попробуйте еще раз."
+        error.response?.data?.message || t("everywhere.genericError"),
       );
     } finally {
       setEmailLoading(false);
@@ -53,7 +56,7 @@ const EmailInputForm = ({
   return (
     <form
       onSubmit={handleEmailSubmit}
-      className="flex items-center md:flex-row flex-col gap-2"
+      className="ew-checkout-email flex flex-col gap-3"
     >
       <div className="flex flex-col gap-2 relative w-full">
         {/* <label
@@ -63,6 +66,8 @@ const EmailInputForm = ({
           Email
         </label> */}
         <input
+          aria-label="Email"
+          autoComplete="email"
           id="email-input"
           className="border border-[#919EAB33] px-[14px] py-[18px] text-[14px] rounded-[8px] w-full"
           type="email"
@@ -76,9 +81,9 @@ const EmailInputForm = ({
       <button
         type="submit"
         disabled={!isValidEmail || emailLoading}
-        className="bg-[#112D6C] max-md:w-full  disabled:cursor-not-allowed!  disabled:bg-[#919EAB] disabled:opacity-50 h-[54px] px-[64px] rounded-[8px] text-[16px] font-medium text-white transition-colors"
+        className="js-btn w-full"
       >
-        {emailLoading ? "..." : "Далее"}
+        {emailLoading ? "..." : t("everywhere.next")}
       </button>
     </form>
   );

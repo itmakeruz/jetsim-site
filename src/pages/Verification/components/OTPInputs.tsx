@@ -20,7 +20,7 @@ const OTPInputs = ({
   onPaste,
 }: OTPInputsProps) => {
   return (
-    <div className="flex gap-2 lg:gap-3 justify-center md:mb-4 mb-2">
+    <div className="js-otp-group">
       {otp.map((digit, index) => (
         <input
           key={index}
@@ -29,6 +29,9 @@ const OTPInputs = ({
               inputRefs.current[index] = el;
             }
           }}
+          aria-label={`OTP ${index + 1}`}
+          autoComplete={index === 0 ? "one-time-code" : "off"}
+          aria-invalid={hasError}
           type="text"
           inputMode="numeric"
           maxLength={1}
@@ -37,7 +40,7 @@ const OTPInputs = ({
           onKeyDown={(e) => onKeyDown(index, e)}
           onPaste={onPaste}
           disabled={isLoading}
-          className={`w-[45px] h-[45px] lg:w-[60px] lg:h-[60px] border lg:rounded-[12px] rounded text-center text-[20px] lg:text-[24px] font-bold outline-none disabled:opacity-50 ${
+          className={`min-w-0 w-full h-[54px] border lg:rounded-[12px] rounded text-center text-[20px] lg:text-[24px] font-bold outline-none disabled:opacity-50 ${
             hasError
               ? "border-red-500 border-2 focus:border-red-500 focus:border-2"
               : "border-[#4F709680] text-[#4F7096] focus:border-[#112D6C] focus:border-2"

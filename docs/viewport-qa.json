@@ -1,0 +1,114 @@
+[
+  {
+    "bottomNav": "grid",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 320,
+    "width": 320
+  },
+  {
+    "bottomNav": "grid",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "bottomNav": "grid",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 390,
+    "width": 390
+  },
+  {
+    "bottomNav": "grid",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 430,
+    "width": 430
+  },
+  {
+    "bottomNav": "grid",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 768,
+    "width": 768
+  },
+  {
+    "bottomNav": "none",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 1024,
+    "width": 1024
+  },
+  {
+    "bottomNav": "none",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 1440,
+    "width": 1440
+  },
+  {
+    "bottomNav": "none",
+    "h1": 1,
+    "page": "/payment",
+    "scroll": 1920,
+    "width": 1920
+  },
+  {
+    "h1": 1,
+    "oversize": ["js-category"],
+    "page": "/",
+    "scroll": 320,
+    "width": 320
+  },
+  {
+    "h1": 1,
+    "oversize": ["js-category"],
+    "page": "/",
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "h1": 1,
+    "oversize": [],
+    "page": "/",
+    "scroll": 390,
+    "width": 390
+  },
+  {
+    "h1": 1,
+    "oversize": [],
+    "page": "/",
+    "scroll": 430,
+    "width": 430
+  },
+  {
+    "h1": 1,
+    "oversize": [],
+    "page": "/",
+    "scroll": 768,
+    "width": 768
+  },
+  {
+    "h1": 1,
+    "oversize": [],
+    "page": "/",
+    "scroll": 1024,
+    "width": 1024
+  },
+  {
+    "h1": 1,
+    "oversize": [],
+    "page": "/",
+    "scroll": 1440,
+    "width": 1440
+  },
+  {
+    "h1": 1,
+    "oversize": [],
+    "page": "/",
+    "scroll": 1920,
+    "width": 1920
+  }
+]

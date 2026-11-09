@@ -7,11 +7,14 @@ import CartItem from "../Profile/components/CartItem";
 import EmailInputForm from "./components/EmailInputForm";
 import OTPVerificationForm from "./components/OTPVerificationForm";
 import PaymentForm from "./components/PaymentForm";
-import BackButtonWithTitle from "@/components/BackButtonWithTitle";
+import { useTranslation } from "react-i18next";
+import { Mail, KeyRound, CreditCard, Check } from "lucide-react";
+import PageIntro from "@/components/jetstream/PageIntro";
 
 type PaymentStep = "email" | "otp" | "payment";
 
 const PaymentPage = () => {
+  const { t } = useTranslation();
   const { selectedTariffs } = useTariffStore();
   const { isAuthenticated } = useAuthStore();
   const navigate = useNavigate();
@@ -37,7 +40,7 @@ const PaymentPage = () => {
   // Calculate total price
   const totalPrice = useMemo(
     () => selectedTariffs.reduce((acc, tariff) => acc + tariff.total_amount, 0),
-    [selectedTariffs]
+    [selectedTariffs],
   );
 
   const handleEmailSubmitted = (submittedEmail: string) => {
@@ -55,16 +58,45 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container js-page ew-checkout">
       <div className="py-4 flex flex-col">
-        <BackButtonWithTitle className="mb-[20px]" title="Оплата" />
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-[40px]">
+        <PageIntro
+          eyebrow={t("everywhere.paymentEyebrow")}
+          title={t("everywhere.paymentTitle")}
+          description={t("everywhere.paymentLead")}
+        />
+        <ol
+          className="ew-checkout-progress"
+          aria-label={t("jetstream.checkoutLabel")}
+        >
+          {["email", "otp", "payment"].map((step, index) => {
+            const icons = [Mail, KeyRound, CreditCard];
+            const Icon = icons[index];
+            const complete =
+              index < ["email", "otp", "payment"].indexOf(currentStep);
+            return (
+              <li
+                key={step}
+                className={complete ? "is-complete" : ""}
+                aria-current={step === currentStep ? "step" : undefined}
+              >
+                <span className="ew-checkout-progress-track" />
+                <span className="ew-checkout-progress-label">
+                  {complete ? <Check size={15} /> : <Icon size={15} />}{" "}
+                  {t(`jetstream.checkoutStep${index + 1}`)}
+                </span>
+              </li>
+            );
+          })}
+        </ol>
+
+        <div className="js-checkout-grid">
           <div className="flex flex-col gap-3">
             {selectedTariffs.map((tariff) => (
               <CartItem key={tariff.id} tariff={tariff} />
             ))}
           </div>
-          <div className="sticky top-4 h-max">
+          <div className="js-panel js-checkout-payment">
             <div className="flex flex-col gap-[20px]">
               {/* Email Input Step */}
               {(currentStep === "email" || currentStep === "otp") && (

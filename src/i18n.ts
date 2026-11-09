@@ -12,6 +12,7 @@ i18n.use(initReactI18next).init({
     ru: { translation: ru },
     en: { translation: en },
   },
+  react: { bindI18nStore: "added" },
   lng: savedLang,
   fallbackLng: "ru",
   interpolation: {
@@ -20,11 +21,28 @@ i18n.use(initReactI18next).init({
 });
 
 i18n.on("languageChanged", (lng) => {
-  console.log(lng);
-
   localStorage.setItem("lang", lng);
   // Til o'zgarganda barcha querylarni invalidate qilish
   queryClient.invalidateQueries();
 });
 
 export default i18n;
+
+// Keep translations live during design work without resetting cart or form state.
+if (import.meta.hot) {
+  import.meta.hot.accept(
+    ["./locales/ru/translations.json", "./locales/en/translations.json"],
+    (modules) => {
+      modules.forEach((module, index) => {
+        if (module?.default)
+          i18n.addResourceBundle(
+            index === 0 ? "ru" : "en",
+            "translation",
+            module.default,
+            true,
+            true,
+          );
+      });
+    },
+  );
+}

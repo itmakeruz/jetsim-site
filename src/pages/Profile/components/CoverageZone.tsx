@@ -31,7 +31,7 @@ const CoverageZone: React.FC<CoverageZoneProps> = ({
           />
         ))}
         <button
-          className="text-[14px] leading-[1.2] bg-[#112D6C] text-white min-w-[95px] rounded-r-[10px] rounded-l-[2px]"
+          className="text-[14px] leading-[1.2] bg-[#101722] text-white min-w-[95px] rounded-r-[10px] rounded-l-[2px]"
           onClick={onToggle}
         >
           Подробнее

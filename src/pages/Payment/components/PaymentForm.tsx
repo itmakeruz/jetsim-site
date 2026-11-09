@@ -1,8 +1,11 @@
+import { apiFailure } from "@/lib/apiFailure";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { formatNumber } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 import { paymentAPI, promoCodeAPI } from "@/services/api.service";
+import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 import { APP_ROUTES } from "@/router/path";
 
 interface PaymentFormProps {
@@ -17,6 +20,7 @@ type AppliedPromo = {
 };
 
 const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
+  const { t } = useTranslation();
   const { isAuthenticated } = useAuthStore();
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
@@ -35,12 +39,12 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
       const trimmedCode = code.trim();
 
       if (!isAuthenticated) {
-        toast.error("Пожалуйста, сначала войдите в систему");
+        toast.error(t("everywhere.loginFirst"));
         return;
       }
 
       if (!trimmedCode) {
-        setPromoError("Введите промокод");
+        setPromoError(t("everywhere.enterPromo"));
         return;
       }
 
@@ -54,19 +58,22 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
           setAppliedPromo(response.data.data);
           setPromoCode(response.data.data.code);
           if (!options.silent) {
-            toast.success(response.data.message || "Промокод применён!");
+            toast.success(
+              response.data.message || t("everywhere.promoApplied"),
+            );
           }
         } else {
-          const message = response.data.message || "Промокод не применим";
+          const message = response.data.message || t("everywhere.promoInvalid");
           setAppliedPromo(null);
           setPromoError(message);
           if (options.silent) {
             toast.error(message);
           }
         }
-      } catch (error: any) {
+      } catch (cause: unknown) {
+        const error = apiFailure(cause);
         const message =
-          error.response?.data?.message || "Не удалось применить промокод";
+          error.response?.data?.message || t("everywhere.promoInvalid");
         setAppliedPromo(null);
         setPromoError(message);
         if (options.silent) {
@@ -76,7 +83,7 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
         setIsApplyingPromo(false);
       }
     },
-    [isAuthenticated],
+    [isAuthenticated, t],
   );
 
   useEffect(() => {
@@ -96,7 +103,12 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
         clearTimeout(revalidateTimeoutRef.current);
       }
     };
-  }, [totalPrice, appliedPromo?.code, validatePromo]);
+  }, [
+    totalPrice,
+    appliedPromo?.code,
+    appliedPromo?.total_amount,
+    validatePromo,
+  ]);
 
   const handlePromoChange = (value: string) => {
     const normalizedValue = value.toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -120,12 +132,12 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
 
   const handlePayment = async () => {
     if (!agreedToTerms) {
-      toast.error("Пожалуйста, согласитесь с условиями обслуживания");
+      toast.error(t("everywhere.agreeTerms"));
       return;
     }
 
     if (!isAuthenticated) {
-      toast.error("Пожалуйста, сначала войдите в систему");
+      toast.error(t("everywhere.loginFirst"));
       return;
     }
 
@@ -143,14 +155,15 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
           // Open payment URL in new tab
           window.open(paymentUrl, "_self");
         } else {
-          toast.error("URL оплаты не найден");
+          toast.error(t("everywhere.paymentUrlMissing"));
         }
       } else {
-        toast.error(response.data.message || "Не удалось подготовить платеж");
+        toast.error(response.data.message || t("everywhere.paymentFailed"));
       }
-    } catch (error: any) {
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
       toast.error(
-        error.response?.data?.message || "Ошибка при обработке платежа",
+        error.response?.data?.message || t("everywhere.paymentFailed"),
       );
     } finally {
       setIsProcessingPayment(false);
@@ -158,122 +171,119 @@ const PaymentForm = ({ totalPrice }: PaymentFormProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-[26px]">
-      {/* PayPal Section */}
-      <div className="flex gap-3 px-4 bg-[#E1E5E85E] rounded-[10px] h-[80px] items-center">
-        <img
-          className="w-8 h-8"
-          src="	https://cdn.tbank.ru/static/pfa-multimedia/images/33447f85-5b92-42f9-8d88-509bd152b47c.svg"
-          alt=""
-        />
-        <span className="text-[16px] font-medium text-black">
-          Оплата через T-Bank
-        </span>
+    <div className="ew-payment-content flex flex-col gap-6">
+      <div className="js-payment-method">
+        <span className="js-bank-mark">T</span>
+        <div>
+          <strong>{t("jetstream.paymentMethod")}</strong>
+          <p className="js-small">{t("jetstream.paymentOnce")}</p>
+        </div>
       </div>
-
-      {/* Payment Info */}
-      <div className="text-center space-y-2">
-        <p className="text-[12px] text-[#637381] leading-[1.5]">
-          100% безопасная оплата через T-Bank.
-        </p>
-        <p className="text-[14px] text-[#637381] leading-[1.5]">
-          Это единоразовый, НЕПОВТОРЯЮЩИЙСЯ платёж. Если вам нужно пополнить
-          баланс eSIM, инструкции вы найдёте в письме об активации.
-        </p>
-      </div>
-      <div className="flex flex-col gap-2">
-        <h2 className="font-bold">Промокод</h2>
-        <div className="flex items-center gap-2 border border-[#DDE1EA] p-1 rounded-md">
+      <details className="ew-promo">
+        <summary>
+          {t("jetstream.promo")}
+          <span aria-hidden="true">+</span>
+        </summary>
+        <label htmlFor="promo-code" className="sr-only">
+          {t("jetstream.promo")}
+        </label>
+        <div className="flex gap-2 mt-2">
           <input
-            className="w-full font-bold px-3 py-2 outline-none"
+            id="promo-code"
+            className="js-input min-w-0"
             type="text"
             value={promoCode}
             onChange={(e) => handlePromoChange(e.target.value)}
-            placeholder="Введите промокод"
+            placeholder={t("jetstream.promoPlaceholder")}
             minLength={4}
             maxLength={32}
           />
           {appliedPromo ? (
             <button
               type="button"
+              className="js-btn js-btn--outline"
               onClick={handleClearPromo}
-              className="bg-[#E1E5E85E] text-[#112D6C] font-medium px-3 py-2 rounded-md"
             >
-              Убрать
+              {t("jetstream.remove")}
             </button>
           ) : (
             <button
               type="button"
+              className="js-btn"
               onClick={handleApplyPromo}
               disabled={!promoCode.trim() || isApplyingPromo}
-              className="bg-[#112D6C] text-white disabled:opacity-50 font-medium px-3 py-2 rounded-md"
             >
-              {isApplyingPromo ? "Проверка..." : "Применить"}
+              {t(isApplyingPromo ? "jetstream.checking" : "jetstream.apply")}
             </button>
           )}
         </div>
         {promoError && (
-          <p className="text-[12px] leading-[1.3] text-red-500">
+          <p role="alert" className="text-red-700 text-sm mt-2">
             {promoError}
           </p>
         )}
-        {appliedPromo && (
-          <div className="flex flex-col gap-2 rounded-md border border-[#DDE1EA] bg-[#F8FAFC] p-3 text-[14px]">
-            <div className="flex justify-between gap-3 text-[#637381]">
-              <span>Сумма</span>
-              <span>{formatNumber(appliedPromo.total_amount)}₽</span>
-            </div>
-            <div className="flex justify-between gap-3 text-green-700">
-              <span>Скидка</span>
-              <span>-{formatNumber(appliedPromo.discount_amount)}₽</span>
-            </div>
-            <div className="flex justify-between gap-3 font-bold text-[#112D6C]">
-              <span>К оплате</span>
-              <span>{formatNumber(appliedPromo.final_amount)}₽</span>
-            </div>
-          </div>
-        )}
+      </details>
+      {appliedPromo && (
+        <div className="js-summary-line">
+          <span>{t("jetstream.discount")}</span>
+          <strong>−{formatNumber(appliedPromo.discount_amount)} ₽</strong>
+        </div>
+      )}
+      <div className="js-summary-total">
+        <span>{t("jetstream.total")}</span>
+        <strong>{formatNumber(finalPrice)} ₽</strong>
       </div>
-      {/* Terms and Conditions */}
-      <label className="flex items-start gap-2 cursor-pointer">
+      <label className="flex items-start gap-3 cursor-pointer">
         <input
           type="checkbox"
           checked={agreedToTerms}
           onChange={(e) => setAgreedToTerms(e.target.checked)}
-          className="mt-1 w-4 h-4 text-[#112D6C] border-gray-300 rounded focus:ring-[#112D6C]"
+          className="mt-1 w-5 h-5 shrink-0 accent-blue-600"
         />
-        <span className="text-[12px] text-[#4F7096] leading-[1.3]">
-          Я согласен с условиями обслуживания, я подтвердил, что мое устройство
-          совместимо с eSIM, и я согласен с Политикой возврата средств.
+        <span className="js-small">
+          {t("jetstream.paymentAgreement")}{" "}
+          <Link
+            className="underline"
+            to={APP_ROUTES.PUBLIC_OFFER}
+            target="_blank"
+          >
+            {t("jetstream.offer")}
+          </Link>{" "}
+          ·{" "}
+          <Link
+            className="underline"
+            to={APP_ROUTES.REFUND_POLICY}
+            target="_blank"
+          >
+            {t("jetstream.refund")}
+          </Link>
         </span>
       </label>
-
-      {/* Pay Button - only show if authenticated */}
-      {
-        <button
-          title={
-            !isAuthenticated
-              ? "Чтобы перейти к оплате, пожалуйста, войдите в свой аккаунт."
-              : ""
-          }
-          onClick={handlePayment}
-          disabled={
-            !agreedToTerms ||
-            isProcessingPayment ||
-            !isAuthenticated ||
-            isApplyingPromo
-          }
-          className="bg-[#112D6C] disabled:cursor-not-allowed! h-[54px] w-full rounded-[8px] text-[16px] font-medium text-white disabled:cursor-not-allowed! disabled:opacity-50 hover:bg-[#0f2659] transition-colors"
-        >
-          {isApplyingPromo
-            ? "Проверка промокода..."
+      <button
+        onClick={handlePayment}
+        disabled={
+          !agreedToTerms ||
+          isProcessingPayment ||
+          !isAuthenticated ||
+          isApplyingPromo
+        }
+        className="js-btn ew-purchase-button w-full"
+      >
+        {t(
+          isApplyingPromo
+            ? "jetstream.checking"
             : isProcessingPayment
-              ? "Обработка..."
-              : `Оплатить сейчас ${formatNumber(finalPrice)}₽`}
-        </button>
-      }
+              ? "jetstream.processing"
+              : "jetstream.pay",
+        )}{" "}
+        {!isProcessingPayment &&
+          !isApplyingPromo &&
+          `${formatNumber(finalPrice)} ₽`}
+      </button>
+      {!isAuthenticated && (
+        <p className="js-small">{t("jetstream.paymentLogin")}</p>
+      )}
     </div>
   );
 };
-
 export default PaymentForm;

@@ -1,5 +1,6 @@
 export const APP_ROUTES = {
   HOME: "/",
+  COUNTRIES: "/countries",
   AUTH: "/auth",
   LOGIN: "/login",
   VERIFY: "/verify",

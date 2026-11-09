@@ -1,22 +1,14 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
-import Bottom from "../Bottom/Bottom";
-import { useAuthStore } from "../../store/authStore";
-import Loader from "../../components/Loader";
-
-const MainLayout = () => {
-  const { isLoading } = useAuthStore();
-  if (isLoading) {
-    return <Loader />;
-  }
-
+import Footer from "../Footer/Footer";
+export default function MainLayout() {
   return (
-    <div className="min-h-screen">
+    <div className="js-shell">
       <Navbar />
-      <Outlet />
-      <Bottom />
+      <main id="main-content">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
-};
-
-export default MainLayout;
+}

@@ -1,14 +1,30 @@
-import React from "react";
 import { useTranslation } from "react-i18next";
-
-const ProfileHeader: React.FC = () => {
+import { useLocation } from "react-router-dom";
+import PageIntro from "@/components/jetstream/PageIntro";
+export default function ProfileHeader() {
   const { t } = useTranslation();
-
+  const path = useLocation().pathname;
+  if (path === "/cart")
+    return (
+      <PageIntro
+        eyebrow={t("everywhere.cartEyebrow")}
+        title={t("everywhere.cartTitle")}
+        description={t("everywhere.cartLead")}
+      />
+    );
   return (
-    <h1 className="font-extrabold text-[24px] md:text-[44px] sm:text-[30px] leading-[100%] tracking-[0px] text-center m-0 mb-[40px] md:mb-[40px] sm:mb-[20px]">
-      {t("profile.title")}
-    </h1>
+    <header className="ew-account-heading">
+      <span className="ew-eyebrow">{t("everywhere.yourAccount")}</span>
+      <h1>
+        {t(path === "/myesim" ? "profile.tabs.myesim" : "profile.tabs.profile")}
+      </h1>
+      <p>
+        {t(
+          path === "/myesim"
+            ? "everywhere.simsLead"
+            : "everywhere.profileHeadingLead",
+        )}
+      </p>
+    </header>
   );
-};
-
-export default ProfileHeader;
+}

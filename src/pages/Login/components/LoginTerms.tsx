@@ -6,18 +6,18 @@ const LoginTerms = () => {
   const { t } = useTranslation();
 
   return (
-    <p className="lg:text-[14px] text-[12px] max-lg:justify-center font-medium text-[#8A9099] md:leading-[1.4] leading-none mt-auto flex flex-wrap gap-1">
+    <p className="js-auth-terms">
       {t("login.terms_text")}{" "}
       <Link
         className="underline font-bold text-[#696B70]"
-        to={APP_ROUTES.USLOVIYA}
+        to={APP_ROUTES.REFUND_POLICY}
       >
         {t("login.terms_link")}
       </Link>{" "}
       {t("login.and")}{" "}
       <Link
         className="underline font-bold text-[#696B70]"
-        to={APP_ROUTES.CONFIDENTIAL}
+        to={APP_ROUTES.PRIVACY_POLICY}
       >
         {t("login.privacy_link")}
       </Link>{" "}

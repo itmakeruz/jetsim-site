@@ -1,93 +1,97 @@
-import { useState, useEffect } from "react";
-import SimCard from "@/components/SimCard/SimCard";
-import type { RegionGroup } from "@/types/api";
-import { regionGroupsQuery } from "@/hooks/queries";
-import SimCardSkeleton from "@/components/SimCard/SimCardSkeleton";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useTranslation } from "react-i18next";
+import { ArrowDown, RefreshCcw } from "lucide-react";
+import { regionGroupsQuery } from "@/hooks/queries";
+import SimCard from "@/components/SimCard/SimCard";
 
-interface HomeSimCardsProps {
+export default function HomeSimCards({
+  activeCategory,
+}: {
   activeCategory: string | null;
-}
-
-function HomeSimCards({ activeCategory }: HomeSimCardsProps) {
+}) {
   const { i18n, t } = useTranslation();
-  const [page, setPage] = useState(1);
-  const [allRegionGroups, setAllRegionGroups] = useState<RegionGroup[]>([]);
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
-
-  const categoryKey = activeCategory;
-
-  const { data: regionGroupResponse, isLoading } = useQuery({
-    queryKey: ["regionGroup", categoryKey, i18n.language, page],
-    queryFn: () => regionGroupsQuery(categoryKey, 12, page),
-    enabled: !!activeCategory,
+  const query = useInfiniteQuery({
+    queryKey: ["regionGroup", activeCategory, i18n.language],
+    initialPageParam: 1,
+    queryFn: ({ pageParam }) =>
+      regionGroupsQuery(activeCategory, 12, pageParam),
+    getNextPageParam: (last, _pages, page) =>
+      last.meta?.hasNextPage ? page + 1 : undefined,
+    staleTime: 60000,
   });
-
-  // Reset when category changes
-  useEffect(() => {
-    if (activeCategory) {
-      setPage(1);
-      setAllRegionGroups([]);
-    }
-  }, [activeCategory]);
-
-  // Update allRegionGroups when new data arrives
-  useEffect(() => {
-    if (regionGroupResponse?.data) {
-      if (page === 1) {
-        setAllRegionGroups(regionGroupResponse.data);
-      } else {
-        setAllRegionGroups((prev) => [...prev, ...regionGroupResponse.data]);
-      }
-      setIsLoadingMore(false);
-    }
-  }, [regionGroupResponse, page]);
-
-  const hasNextPage = regionGroupResponse?.meta?.hasNextPage ?? false;
-
-  const handleLoadMore = () => {
-    setIsLoadingMore(true);
-    setPage((prev) => prev + 1);
-  };
-
-  const isInitialLoading = isLoading && page === 1;
-
+  const groups = [
+    ...new Map(
+      (query.data?.pages.flatMap((page) => page.data) ?? []).map((group) => [
+        group.id,
+        group,
+      ]),
+    ).values(),
+  ];
+  if (query.isError && !groups.length)
+    return (
+      <div className="js-empty" role="alert">
+        <p>{t("jetstream.catalogueError")}</p>
+        <button
+          type="button"
+          className="js-btn js-btn--ghost"
+          onClick={() => query.refetch()}
+        >
+          {t("jetstream.retry")}
+          <RefreshCcw size={16} />
+        </button>
+      </div>
+    );
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 md:gap-5 gap-3">
-        {!isInitialLoading
-          ? allRegionGroups.map((regionGroup: RegionGroup) => (
-              <SimCard
-                key={regionGroup.id}
-                regionGroup={regionGroup as any}
-                activeCategory={activeCategory}
+      <div className="ew-destination-grid" aria-busy={query.isPending}>
+        {query.isPending
+          ? Array.from({ length: 6 }, (_, index) => (
+              <div
+                key={index}
+                className="js-skeleton h-[210px]"
+                aria-hidden="true"
               />
             ))
-          : Array.from({ length: 12 }).map((_, index) => (
-              <SimCardSkeleton key={index} />
+          : groups.map((group, index) => (
+              <SimCard
+                key={group.id}
+                regionGroup={group}
+                activeCategory={activeCategory}
+                index={index}
+              />
             ))}
-        {isLoadingMore &&
-          Array.from({ length: 6 }).map((_, index) => (
-            <SimCardSkeleton key={`loading-${index}`} />
-          ))}
       </div>
-
-      {!isInitialLoading && hasNextPage && (
-        <div className="flex justify-center mt-8">
+      {!query.isPending && !groups.length && (
+        <div className="js-empty">{t("jetstream.catalogueEmpty")}</div>
+      )}
+      {query.isFetchNextPageError && (
+        <div className="js-empty" role="alert">
+          <p>{t("jetstream.catalogueError")}</p>
           <button
-            onClick={handleLoadMore}
-            disabled={isLoadingMore}
-            className="px-8 py-3 bg-[#112D6C] text-white font-semibold rounded-[10px] hover:bg-[#0e2459] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="js-btn js-btn--ghost"
+            onClick={() => query.fetchNextPage()}
           >
-            {isLoadingMore
-              ? t("common.loading") || "Yuklanmoqda..."
-              : t("common.load_more") || "Yana yuklash"}
+            {t("jetstream.retry")}
+          </button>
+        </div>
+      )}
+      {query.hasNextPage && !query.isFetchNextPageError && (
+        <div className="js-load-more">
+          <button
+            type="button"
+            className="js-btn js-btn--ghost"
+            onClick={() => query.fetchNextPage()}
+            disabled={query.isFetchingNextPage}
+          >
+            {t(
+              query.isFetchingNextPage
+                ? "common.loading"
+                : "jetstream.loadMore",
+            )}
+            <ArrowDown size={16} />
           </button>
         </div>
       )}
     </>
   );
 }
-
-export default HomeSimCards;

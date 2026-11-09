@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 const Oferta = () => {
   const { t } = useTranslation();
   return (
-    <div className="container">
+    <div className="container js-legal">
       <h1 className="pages-heading">{t("pages.oferta")}</h1>
 
       <div className="pages-content">

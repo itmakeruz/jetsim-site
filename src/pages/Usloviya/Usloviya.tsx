@@ -5,7 +5,7 @@ import LinkButton from "../../components/LinkButton";
 const Usloviya = () => {
   const { t } = useTranslation();
   return (
-    <div className="container">
+    <div className="container js-legal">
       <h1 className="pages-heading">{t("pages.usloviya")}</h1>
 
       <div className="pages-content">

@@ -1,171 +1,114 @@
-import { useEffect, useMemo, useState } from "react";
-import { ASSETS } from "@/assets";
-import HeaderLeft from "./components/HeaderLeft";
-import HeaderRight from "./components/HeaderRight";
-import LogoutModal from "./components/LogoutModal";
-import { Link, useNavigate } from "react-router-dom";
-import { APP_ROUTES } from "@/router/path";
+import { useEffect, useState } from "react";
+import { Link, NavLink, useNavigate, useLocation } from "react-router-dom";
+import { ShoppingBag, UserRound, LogOut, ArrowUpRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
+import { ASSETS } from "@/assets";
 import { useAuthStore } from "@/store/authStore";
 import { useTariffStore } from "@/store/tariffStore";
+import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
+import LogoutModal from "./components/LogoutModal";
 
-const Navbar: React.FC = () => {
+export default function Navbar() {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const home = useLocation().pathname === "/";
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 24);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
   const { isAuthenticated, logout } = useAuthStore();
-  const { setSelectedTariffs, selectedTariffs } = useTariffStore();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
-
+  const { selectedTariffs, setSelectedTariffs } = useTariffStore();
+  const [confirmLogout, setConfirmLogout] = useState(false);
+  const navigate = useNavigate();
+  const count = selectedTariffs.reduce(
+    (sum, item) => sum + (item.quantity || 0),
+    0,
+  );
+  const links = [
+    { to: "/", label: t("jetstream.destinations") },
+    { to: "/how", label: t("jetstream.how") },
+    { to: "/faq", label: "FAQ" },
+    { to: "/about", label: t("nav.about") },
+  ];
   const handleLogout = () => {
     logout();
     setSelectedTariffs([]);
-    setIsMobileMenuOpen(false);
-    setIsLogoutModalOpen(false);
-    navigate(APP_ROUTES.HOME);
+    setConfirmLogout(false);
+    navigate("/");
   };
-
-  const navLinks = useMemo(
-    () => [
-      { to: APP_ROUTES.HOME, label: t("nav.all") },
-      { to: APP_ROUTES.HOW_WORKS, label: t("nav.how") },
-      { to: APP_ROUTES.FAQ, label: t("nav.faq") },
-      { to: APP_ROUTES.ABOUT, label: t("nav.about") },
-    ],
-    [t]
-  );
-
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "auto";
-    }
-  }, [isMobileMenuOpen]);
-
   return (
     <>
-      <header className="sticky top-0 z-[11] border-b border-black/[0.07] bg-white/85 backdrop-blur-md">
-        <div className="container">
-          <div className="relative z-[1] flex items-center justify-between gap-4 py-[10px]">
-            <HeaderLeft onMenuClick={() => setIsMobileMenuOpen(true)} />
-            <Link to={APP_ROUTES.HOME} className="md:hidden">
-              <img
-                src={ASSETS.logo}
-                alt="logo"
-                className="w-[140px] object-contain shrink-0"
-              />
+      <a className="js-skip" href="#main-content">
+        {t("jetstream.skip")}
+      </a>
+      <header
+        className={`js-nav ${home ? "ew-home-nav" : ""} ${scrolled ? "is-scrolled" : ""}`}
+      >
+        <div className="container js-nav-inner">
+          <Link to="/" className="js-logo" aria-label="JetSim">
+            <img
+              src={home ? ASSETS.whitelogo : ASSETS.logo}
+              width="118"
+              height="36"
+              alt="JetSim"
+            />
+            <span className="js-logo-caption">
+              EVERYWHERE
+              <br />
+              IS YOURS
+            </span>
+          </Link>
+          <nav className="js-nav-links" aria-label={t("jetstream.navigation")}>
+            {links.map((link) => (
+              <NavLink key={link.to} to={link.to} end={link.to === "/"}>
+                {link.label}
+              </NavLink>
+            ))}
+          </nav>
+          <div className="js-nav-actions">
+            <LanguageSwitcher />
+            <Link
+              className="js-icon-btn js-cart"
+              to="/cart"
+              aria-label={`${t("jetstream.cart")}${count ? ` (${count})` : ""}`}
+            >
+              <ShoppingBag size={17} />
+              {count > 0 && <span className="js-cart-count">{count}</span>}
             </Link>
-            <HeaderRight />
+            {isAuthenticated ? (
+              <Link
+                className="js-icon-btn"
+                to="/myesim"
+                aria-label={t("jetstream.account")}
+              >
+                <UserRound size={17} />
+              </Link>
+            ) : (
+              <Link className="js-btn js-nav-login" to="/login">
+                {t("jetstream.login")}
+                <ArrowUpRight size={14} />
+              </Link>
+            )}
+            {isAuthenticated && (
+              <button
+                className="js-icon-btn hidden lg:inline-flex"
+                type="button"
+                onClick={() => setConfirmLogout(true)}
+                aria-label={t("jetstream.logout")}
+              >
+                <LogOut size={16} />
+              </button>
+            )}
           </div>
         </div>
       </header>
-
-      {isMobileMenuOpen && (
-        <div className="fixed h-[100svh] left-0 right-0 top-0 z-[100] bg-black/40 md:hidden">
-          <div
-            className="absolute inset-0"
-            onClick={() => setIsMobileMenuOpen(false)}
-          />
-          <div className="absolute left-0 top-0 h-full w-[80%] max-w-[320px] bg-white shadow-lg z-[41] flex flex-col">
-            <div className="flex items-center justify-between px-4 py-3 border-b">
-              <Link
-                to={APP_ROUTES.HOME}
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <img
-                  src={ASSETS.logo}
-                  alt="logo"
-                  className="w-[140px] object-contain shrink-0"
-                />
-              </Link>
-              <button
-                aria-label="Close menu"
-                className="text-2xl px-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                ×
-              </button>
-            </div>
-
-            <nav className="flex flex-col gap-4 px-5 py-5">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.to}
-                  to={link.to}
-                  className="text-base font-medium text-[#212b36]"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link
-                to={APP_ROUTES.CART}
-                className="flex items-center gap-3 text-base font-medium text-[#212b36]"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <span>{t("nav.korzina")}</span>
-                {selectedTariffs.reduce(
-                  (acc, tariff) => acc + tariff.quantity,
-                  0
-                ) > 0 && (
-                  <span className="ml-auto bg-[#FECA00] text-black font-semibold rounded-full min-w-6 leading-none aspect-square flex items-center justify-center text-sm">
-                    {selectedTariffs.reduce(
-                      (acc, tariff) => acc + tariff.quantity,
-                      0
-                    )}
-                  </span>
-                )}
-              </Link>
-            </nav>
-
-            <div className="mt-auto px-5 pb-5 flex flex-col gap-3">
-              <LanguageSwitcher />
-              {isAuthenticated ? (
-                <div className="flex flex-col gap-2">
-                  <button
-                    className="w-full rounded-[10px] border border-[#212b36] py-3 text-[#212b36] font-semibold"
-                    onClick={() => {
-                      navigate(APP_ROUTES.PROFILE);
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    {t("nav.cabinet")}
-                  </button>
-                  <button
-                    className="w-full rounded-[10px] bg-[#212b36] text-white py-3 font-semibold"
-                    onClick={() => {
-                      setIsLogoutModalOpen(true);
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    {t("nav.exit")}
-                  </button>
-                </div>
-              ) : (
-                <button
-                  className="w-full rounded-[10px] bg-[#112D6C] text-white py-3 font-semibold"
-                  onClick={() => {
-                    navigate(APP_ROUTES.LOGIN);
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  {t("nav.login")}
-                </button>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
-
       <LogoutModal
-        isOpen={isLogoutModalOpen}
-        onClose={() => setIsLogoutModalOpen(false)}
+        isOpen={confirmLogout}
+        onClose={() => setConfirmLogout(false)}
         onConfirm={handleLogout}
       />
     </>
   );
-};
-
-export default Navbar;
+}

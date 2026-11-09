@@ -13,7 +13,7 @@ export const regionAPI = {
   getRegionGroups: (
     type: string | null = null,
     size: number = 12,
-    page: number = 1
+    page: number = 1,
   ) => {
     const params: {
       type?: string | null;
@@ -64,7 +64,7 @@ export const cartAPI = {
     data: {
       tariff_id: number;
       quantity: number;
-    }[]
+    }[],
   ) => axios.post("/order/add-items", data),
   decreaseItemFromBasket: (data: { tariff_id: number; quantity: number }) =>
     axios.post("/order/decrease-item-from-basket", data),
@@ -85,6 +85,8 @@ export interface PreparePaymentBody {
 
 // Payment API'lar
 export const paymentAPI = {
+  resumePayment: (orderId: number) =>
+    axios.post(`/payment/orders/${orderId}/payment-link`),
   preparePayment: (data?: PreparePaymentBody) =>
     axios.post("/payment/prepare-payment", data),
 };

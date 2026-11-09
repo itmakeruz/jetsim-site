@@ -1,33 +1,30 @@
-import { CategoryButton } from "@/components/Buttons";
 import { useTranslation } from "react-i18next";
 import { categories } from "@/constants";
-
-interface HomeCategoriesProps {
-  activeCategory: string | null;
-  setActiveCategory: (category: string | null) => void;
-}
-
-function HomeCategories({
+export default function HomeCategories({
   activeCategory,
   setActiveCategory,
-}: HomeCategoriesProps) {
+}: {
+  activeCategory: string | null;
+  setActiveCategory: (value: string | null) => void;
+}) {
   const { t } = useTranslation();
-
   return (
-    <div className="flex md:gap-[20px] gap-[10px] md:justify-center items-center md:mt-[28px] mt-[20px] md:mb-[50px] mb-[30px] overflow-x-auto no-scroll snap-x">
+    <div
+      className="js-categories no-scroll"
+      role="group"
+      aria-label={t("jetstream.catalogueAll")}
+    >
       {categories.map((category) => (
-        <CategoryButton
-          key={category.id}
-          id={category.key}
-          name={t(`categories.${category.key}`)}
-          active={activeCategory === category.key}
-          onClick={(key) => {
-            setActiveCategory(key as string);
-          }}
-        />
+        <button
+          type="button"
+          className="js-category"
+          aria-pressed={activeCategory === category.key}
+          onClick={() => setActiveCategory(category.key)}
+          key={category.key}
+        >
+          {t(`categories.${category.key}`)}
+        </button>
       ))}
     </div>
   );
 }
-
-export default HomeCategories;

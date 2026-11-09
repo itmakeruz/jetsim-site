@@ -1,9 +1,15 @@
+import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
 import type { Myesim } from "@/types/api";
 import TariffHeader from "./TariffHeader";
 import ActiveSimInfo from "./ActiveSimInfo";
 import CartItemFooter from "./CartItemFooter";
 import RegionsModal from "../../Tariffs/components/RegionsModal";
+
+import { paymentAPI } from "@/services/api.service";
+import { simFulfillment } from "@/lib/simFulfillment";
+import { isAxiosError } from "axios";
+import { ArrowUpRight, LoaderCircle } from "lucide-react";
 
 interface ActiveSimCardProps {
   sim: Myesim;
@@ -16,7 +22,35 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
   onActivate,
   isInactive,
 }) => {
+  const { t } = useTranslation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isOpeningPayment, setIsOpeningPayment] = useState(false);
+  const [paymentError, setPaymentError] = useState<string | null>(null);
+  const awaitingPayment = simFulfillment(sim) === "awaiting_payment";
+  const openPayment = async () => {
+    if (isOpeningPayment) return;
+    setIsOpeningPayment(true);
+    setPaymentError(null);
+    try {
+      const response = await paymentAPI.resumePayment(sim.order_id);
+      const url = response.data?.data?.payment_url;
+      if (typeof url !== "string" || !url.startsWith("https://")) {
+        throw new Error("Missing payment URL");
+      }
+      window.location.assign(url);
+    } catch (error) {
+      const message = isAxiosError(error)
+        ? error.response?.data?.message
+        : null;
+      setPaymentError(
+        typeof message === "string"
+          ? message
+          : t("fulfillment.paymentLinkError"),
+      );
+    } finally {
+      setIsOpeningPayment(false);
+    }
+  };
   const isFailed = sim.status === "FAILED";
 
   const handleOpenModal = () => {
@@ -34,26 +68,14 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
       onActivate();
     }
   };
-  console.log(sim);
 
   return (
     <>
       <div
-        className={`bg-[#E1E5E85E] border p-5 flex flex-col gap-4 rounded-[20px] relative transition-all ${
-          isInactive ? "border-[#112D6C]" : "border-transparent"
-        } ${isFailed ? "opacity-60 grayscale cursor-not-allowed" : ""}`}
+        className={`js-product-card border flex flex-col gap-4 relative transition-all ${
+          isInactive ? "border-[#101722]" : "border-transparent"
+        } ${isFailed ? "ew-sim-failed" : ""}`}
       >
-        {isFailed && (
-          <div className="absolute inset-0 bg-black/5 rounded-[20px] z-10 pointer-events-none" />
-        )}
-
-        {/* Failed Status Badge */}
-        {isFailed && (
-          <div className="absolute top-1 right-4 z-20 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-semibold">
-            Недоступно
-          </div>
-        )}
-
         <div
           className={`${
             isFailed ? "pointer-events-none" : ""
@@ -65,11 +87,41 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
             title={sim.tariff_name}
           />
           <ActiveSimInfo sim={sim} />
-          <hr />
+          {awaitingPayment && (
+            <div className="ew-sim-payment">
+              <button
+                type="button"
+                className="js-btn ew-purchase-button w-full"
+                onClick={openPayment}
+                disabled={isOpeningPayment}
+                aria-busy={isOpeningPayment}
+              >
+                {isOpeningPayment ? (
+                  <LoaderCircle
+                    size={18}
+                    className="animate-spin"
+                    aria-hidden="true"
+                  />
+                ) : (
+                  <ArrowUpRight size={18} aria-hidden="true" />
+                )}
+                {t(
+                  isOpeningPayment
+                    ? "fulfillment.openingPayment"
+                    : "fulfillment.payOrder",
+                )}
+              </button>
+              {paymentError && (
+                <p role="alert" className="ew-payment-resume-error">
+                  {paymentError}
+                </p>
+              )}
+            </div>
+          )}
           <CartItemFooter
             onOpenModal={handleOpenModal}
             hasRegions={!!sim.regions && sim.regions.length > 0}
-            onActivate={handleActivate}
+            onActivate={sim.can_activate ? handleActivate : undefined}
             disabled={isFailed}
           />
         </div>
@@ -79,7 +131,7 @@ const ActiveSimCard: React.FC<ActiveSimCardProps> = ({
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         regions={sim.regions || []}
-        title={`Доступные страны: ${sim.tariff_name}`}
+        title={`${t("jetstream.coverage")}: ${sim.tariff_name}`}
       />
     </>
   );

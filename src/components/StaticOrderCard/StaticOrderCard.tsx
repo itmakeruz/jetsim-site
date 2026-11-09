@@ -5,7 +5,20 @@ import { Share, QrCode } from "lucide-react";
 import { NetworkBadge } from "../Badge";
 
 interface StaticOrderCardProps {
-  order: any;
+  order: {
+    region: { name: string; image: string };
+    tariff: {
+      name?: string;
+      quantity_internet?: number;
+      usage?: number;
+      validity_period: number;
+      day_left?: number;
+      qrcode?: string;
+      is_4g?: boolean;
+      is_5g?: boolean;
+      regions?: { name: string; image: string }[];
+    };
+  };
 }
 
 const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
@@ -101,7 +114,7 @@ const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
               style={{
                 width: `${getDaysProgress(
                   order.tariff.day_left || order.tariff.validity_period,
-                  order.tariff.validity_period
+                  order.tariff.validity_period,
                 )}%`,
               }}
             ></div>
@@ -128,7 +141,7 @@ const StaticOrderCard: React.FC<StaticOrderCardProps> = ({ order }) => {
             <div className="flex -space-x-1">
               {order.tariff.regions
                 ?.slice(0, 4)
-                .map((region: any, index: number) => (
+                .map((region, index: number) => (
                   <img
                     key={index}
                     src={getImageUrl(region.image)}

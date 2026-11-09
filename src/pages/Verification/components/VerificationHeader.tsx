@@ -9,9 +9,7 @@ const VerificationHeader = ({ email }: VerificationHeaderProps) => {
 
   return (
     <div className="flex flex-col gap-4 md:mb-8 mb-2">
-      <h2 className="lg:text-[26px] md:text-[20px] text-[18px] font-bold text-black leading-none">
-        {t("verification.title")}
-      </h2>
+      <h1>{t("verification.title")}</h1>
       <div className="flex flex-col gap-1 md:text-[16px] text-[14px] font-medium text-black md:leading-[1.4] leading-[1.2]">
         <p>
           {t("verification.description1")}{" "}

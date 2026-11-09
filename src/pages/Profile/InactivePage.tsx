@@ -1,3 +1,4 @@
+import { isSimIssuing } from "@/lib/simFulfillment";
 import { useTranslation } from "react-i18next";
 import ActiveSimCard from "./components/ActiveSimCard";
 import Empty from "../Empty/Empty";
@@ -22,13 +23,13 @@ const InactivePage = () => {
 
     // Clean up counters for sims that are no longer in the list or can_activate is true
     currentInactiveSims.forEach((sim) => {
-      if (sim.can_activate || !["CREATED", "PENDING", "NOTIFY_COUPON", "REDEEM_COUPON"].includes(sim.status)) {
+      if (sim.can_activate || !isSimIssuing(sim)) {
         pollingCountRef.current.delete(sim.id);
       }
     });
 
     const simsNeedingPolling = currentInactiveSims.filter(
-      (sim) => !sim.can_activate && ["CREATED", "PENDING", "NOTIFY_COUPON", "REDEEM_COUPON"].includes(sim.status)
+      (sim) => !sim.can_activate && isSimIssuing(sim),
     );
 
     if (simsNeedingPolling.length === 0) {
@@ -47,7 +48,7 @@ const InactivePage = () => {
         // Get current sims from store to check fresh status
         const { myesims: latestInactiveSims } = useSimcardStore.getState();
         const currentSims = latestInactiveSims.filter(
-          (sim) => !sim.can_activate && ["CREATED", "PENDING", "NOTIFY_COUPON", "REDEEM_COUPON"].includes(sim.status)
+          (sim) => !sim.can_activate && isSimIssuing(sim),
         );
 
         // Check if any sim still needs polling (hasn't reached 15 attempts)
@@ -119,7 +120,7 @@ const InactivePage = () => {
     <div
       className={`flex flex-col gap-5 ${activeSim ? "md:pb-6 pb-16" : "pb-6"}`}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 2xl:gap-5 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
         {myesims.map((sim) => (
           <div key={sim.id} className="relative">
             <ActiveSimCard
@@ -133,16 +134,16 @@ const InactivePage = () => {
                 });
               }}
             />
-            {!sim.can_activate &&
-              sim.status !== "COMPLETED" &&
-              sim.status !== "FAILED" && (
-                <div className="absolute inset-0 bg-white/80 backdrop-blur-sm rounded-[20px] z-20 flex items-center justify-center">
-                  <div className="flex flex-col items-center gap-3">
-                    <div className="loader"></div>
-                    <p className="text-sm text-gray-600">{t("balance.issuing")}</p>
-                  </div>
+            {!sim.can_activate && isSimIssuing(sim) && (
+              <div className="ew-sim-pending">
+                <div className="flex flex-col items-center gap-3">
+                  <div className="loader"></div>
+                  <p className="text-sm text-gray-600">
+                    {t("balance.issuing")}
+                  </p>
                 </div>
-              )}
+              </div>
+            )}
           </div>
         ))}
       </div>

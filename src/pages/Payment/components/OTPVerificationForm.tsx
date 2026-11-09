@@ -1,3 +1,5 @@
+import { useTranslation } from "react-i18next";
+import { apiFailure } from "@/lib/apiFailure";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { authAPI } from "@/services/api.service";
 import { toast } from "react-toastify";
@@ -19,6 +21,7 @@ const formatTime = (seconds: number) => {
 };
 
 const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
+  const { t } = useTranslation();
   const { setToken, getProfile } = useAuthStore();
   const { syncToAPI } = useTariffStore();
 
@@ -44,7 +47,7 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
       const code = otp.join("");
 
       if (!email) {
-        toast.error("Email не найден");
+        toast.error(t("everywhere.emailMissing"));
         return;
       }
 
@@ -63,37 +66,40 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
             await syncToAPI();
             await getProfile();
           }
-          toast.success("Email успешно подтвержден");
+          toast.success(t("everywhere.emailVerified"));
         } else {
           if (response.data.statusCode === 400) {
-            toast.error(response.data.message || "Код истек");
+            toast.error(response.data.message || t("everywhere.codeExpired"));
             setHasError(true);
             setOtp(Array(6).fill(""));
             setCanResend(true);
             inputRefs.current[0]?.focus();
           } else if (response.data.statusCode === 401) {
             setHasError(true);
-            toast.error(response.data.message || "Неверный код");
+            toast.error(response.data.message || t("everywhere.invalidCode"));
           }
         }
-      } catch (error: any) {
+      } catch (cause: unknown) {
+        const error = apiFailure(cause);
         if (error.response?.data?.statusCode === 400) {
-          toast.error(error.response?.data?.message || "Код истек");
+          toast.error(
+            error.response?.data?.message || t("everywhere.codeExpired"),
+          );
           setHasError(true);
           setOtp(Array(6).fill(""));
           setCanResend(true);
           inputRefs.current[0]?.focus();
         } else if (error.response?.data?.statusCode === 401) {
           setHasError(true);
-          toast.error("Неверный код подтверждения");
+          toast.error(t("everywhere.invalidCode"));
         } else {
-          toast.error("Произошла ошибка");
+          toast.error(t("everywhere.genericError"));
         }
       } finally {
         setOtpLoading(false);
       }
     },
-    [otp, email, setToken, syncToAPI, getProfile]
+    [otp, email, setToken, syncToAPI, getProfile, t],
   );
 
   const handleResend = useCallback(async () => {
@@ -103,7 +109,7 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
     try {
       const response = await authAPI.sendOtp({ email });
       if (response.data.success) {
-        toast.success("Код подтверждения отправлен");
+        toast.success(t("everywhere.codeSent"));
         setTimer(120);
         setCanResend(false);
         setOtp(Array(6).fill(""));
@@ -111,14 +117,17 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
         hasAutoResentRef.current = false; // Reset after successful resend
         inputRefs.current[0]?.focus();
       } else {
-        toast.error(response.data.message || "Произошла ошибка");
+        toast.error(response.data.message || t("everywhere.genericError"));
       }
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Произошла ошибка");
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
+      toast.error(
+        error.response?.data?.message || t("everywhere.genericError"),
+      );
     } finally {
       setOtpLoading(false);
     }
-  }, [email]);
+  }, [email, t]);
 
   // Timer countdown and auto-resend
   useEffect(() => {
@@ -177,7 +186,7 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
 
   const handleKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     if (e.key === "Backspace" && !otp[index] && index > 0) {
       inputRefs.current[index - 1]?.focus();
@@ -204,7 +213,7 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
     <div className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <p className="text-[14px] font-medium text-[#0D141C]">
-          Введите код подтверждения, отправленный на{" "}
+          {t("verification.description1")}{" "}
           <span className="font-bold">{email}</span>
         </p>
         <form onSubmit={handleOtpSubmit} className="flex flex-col gap-4">
@@ -218,13 +227,13 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
             onPaste={handlePaste}
           />
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <Clock className="w-4 h-4 text-[#637381]" />
             <span className="text-[14px] font-medium text-[#637381]">
               {formatTime(timer)}
             </span>
             <span className="text-[14px] font-medium text-[#637381]">
-              Я не получил код
+              {t("verification.code_not_received")}
             </span>
             <button
               type="button"
@@ -232,7 +241,7 @@ const OTPVerificationForm = ({ email }: OTPVerificationFormProps) => {
               disabled={!canResend || otpLoading}
               className="text-[14px] underline font-medium text-[#112D6C] hover:underline disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Повторная отправка ОТР
+              {t("verification.resend")}
             </button>
           </div>
         </form>

@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import TabBadge from "./TabBadge";
+import { UserRound, ShoppingBag, Smartphone } from "lucide-react";
 
 export interface TabItemConfig {
   to: string;
@@ -28,15 +28,16 @@ const TabItem: React.FC<TabItemProps> = ({ config, getTabClassName }) => {
     className = "",
   } = config;
 
+  const Icon =
+    to === "/profile" ? UserRound : to === "/cart" ? ShoppingBag : Smartphone;
   const tabContent = (
     <>
-      {count !== undefined ? (
-        <div className="flex items-center gap-2 md:gap-2">
-          {translationKey}{" "}
-          {count > 0 && <TabBadge count={count} variant={badgeVariant} />}
-        </div>
-      ) : (
-        translationKey
+      <Icon size={17} strokeWidth={1.7} />
+      <span>{translationKey}</span>
+      {count !== undefined && count > 0 && (
+        <span className={`ew-account-count ew-account-count--${badgeVariant}`}>
+          {count}
+        </span>
       )}
     </>
   );

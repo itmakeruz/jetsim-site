@@ -1,4 +1,5 @@
 import { ArrowRight, Copy } from "lucide-react";
+import Modal from "@/components/jetstream/Modal";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -92,7 +93,7 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
       {showRawLink ? (
         link ? (
           <button
-            className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white rounded-md"
+            className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#101722] text-white rounded-md"
             onClick={handleCopyLink}
           >
             <span className="block overflow-hidden whitespace-nowrap">
@@ -103,15 +104,18 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
         ) : null
       ) : (
         <button
-          className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white w-full rounded-md"
-          onClick={() => window.open(link, "_blank")}
+          className="md:text-[16px] justify-between flex items-center gap-2 text-[14px] px-2 py-[6px] bg-[#101722] text-white w-full rounded-md"
+          disabled={!link}
+          onClick={() =>
+            link && window.open(link, "_blank", "noopener,noreferrer")
+          }
         >
           {t("profile.device_instructions_connect_button")}{" "}
           <ArrowRight className="animate-right" />
         </button>
       )}
       <button
-        className="md:text-[16px] justify-between flex items-center gap-4 text-[14px] px-2 py-[6px] bg-[#112D6C] text-white rounded-md"
+        className="md:text-[16px] justify-between flex items-center gap-4 text-[14px] px-2 py-[6px] bg-[#101722] text-white rounded-md"
         onClick={handleOpenModal}
       >
         {t(`profile.device_instructions_video_button_${deviceType}`)}
@@ -140,46 +144,23 @@ const DeviceInstructions: React.FC<DeviceInstructionsProps> = ({
         </svg>
       </button>
 
-      {isModalOpen && (
-        <div
-          className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center z-[1000]"
-          onClick={handleCloseModal}
-        >
-          <div
-            className="bg-white rounded-[10px] w-[95%] md:w-[90%] lg:w-[80%] max-w-[800px] relative shadow-[0_4px_6px_rgba(0,0,0,0.1)] max-h-[95vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-6 md:p-8">
-              <h2 className="text-xl md:text-2xl font-bold text-center mb-6 text-[#0D141C]">
-                {t("profile.device_instructions_modal_title")}
-              </h2>
-
-              <div className="w-full mb-6">
-                <div className="relative w-full md:aspect-video aspect-square bg-black rounded-[8px] overflow-hidden">
-                  <iframe
-                    className="w-full h-full"
-                    src={VIDEO[deviceType]}
-                    title={`YouTube video - ${
-                      deviceType === "android" ? "Android" : "iPhone"
-                    }`}
-                    frameBorder={0}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                    allowFullScreen
-                  ></iframe>
-                </div>
-              </div>
-
-              <button
-                onClick={handleCloseModal}
-                className="w-full bg-main-blue hover:bg-[#1565c0] text-white py-3 px-6 rounded-[8px] transition-colors duration-200 text-[20px] font-semibold hover:text-white"
-              >
-                {t("profile.device_instructions_modal_close")}
-              </button>
-            </div>
-          </div>
+      <Modal
+        open={isModalOpen}
+        onClose={handleCloseModal}
+        title={t("profile.device_instructions_modal_title")}
+        wide
+      >
+        <div className="aspect-video overflow-hidden rounded-xl bg-black">
+          <iframe
+            className="w-full h-full"
+            src={VIDEO[deviceType]}
+            title={`Installation — ${deviceType}`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerPolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+          />
         </div>
-      )}
+      </Modal>
     </div>
   );
 };

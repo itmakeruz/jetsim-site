@@ -3,6 +3,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import { useAuthStore } from "../../store/authStore";
 import ProfileHeader from "./components/ProfileHeader";
 import ProfileTabs from "./components/ProfileTabs";
+import Footer from "@/layouts/Footer/Footer";
 import Navbar from "@/layouts/Navbar/Navbar";
 import Error404 from "@/pages/404/Error404";
 import { APP_ROUTES } from "@/router/path";
@@ -31,17 +32,21 @@ const ProfileLayout = () => {
   }
 
   return (
-    <div className="">
+    <div className="js-shell">
       <Navbar />
-      <div className="container">
-        <div className="py-[25px] md:py-[30px] sm:py-[20px]">
+      <main
+        id="main-content"
+        className={`container js-account ${currentPath !== APP_ROUTES.CART ? "ew-account-shell" : ""}`}
+      >
+        <div>
           <ProfileHeader />
           <ProfileTabs />
           <div className="w-full">
             <Outlet />
           </div>
         </div>
-      </div>
+      </main>
+      <Footer />
     </div>
   );
 };

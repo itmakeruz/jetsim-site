@@ -1,27 +1,26 @@
 import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { ASSETS } from "@/assets";
 import LanguageSwitcher from "@/components/LanguageSwitcher/LanguageSwitcher";
-import { APP_ROUTES } from "@/router/path";
-
-const LoginHeader = () => {
+export default function LoginHeader() {
   const navigate = useNavigate();
-  const handleBack = () => {
-    navigate(-1);
-  };
+  const { t } = useTranslation();
   return (
-    <div className="flex items-center justify-between">
+    <header className="js-auth-header">
       <button
-        onClick={handleBack}
-        className="lg:w-[62px] lg:h-[62px] w-[40px] h-[40px] lg:rounded-[12px] rounded border-[#4F7096] border flex items-center justify-center"
+        className="js-icon-btn"
+        aria-label={t("jetstream.back")}
+        onClick={() =>
+          window.history.state?.idx > 0 ? navigate(-1) : navigate("/")
+        }
       >
-        <img className="rotate-180 lg:w-8 w-6" src={ASSETS.arrowSvg} alt="" />
+        <ArrowLeft size={20} />
       </button>
-      <Link className="lg:w-[300px] w-[120px] h-auto" to={APP_ROUTES.HOME}>
-        <img className="w-full" src={ASSETS.logo} alt="" />
+      <Link to="/" aria-label="JetSim">
+        <img src={ASSETS.logo} width="118" alt="JetSim" />
       </Link>
       <LanguageSwitcher />
-    </div>
+    </header>
   );
-};
-
-export default LoginHeader;
+}

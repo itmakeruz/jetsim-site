@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import type { cartTariff } from "@/types/api";
 import TariffHeader from "./TariffHeader";
@@ -15,13 +16,17 @@ interface CartItemProps {
 }
 
 const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { increaseQuantity, decreaseQuantity } = useTariffStore();
-  const invalidateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const invalidateTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
 
   const debouncedInvalidate = useCallback(() => {
-    if (invalidateTimeoutRef.current) clearTimeout(invalidateTimeoutRef.current);
+    if (invalidateTimeoutRef.current)
+      clearTimeout(invalidateTimeoutRef.current);
     invalidateTimeoutRef.current = setTimeout(() => {
       invalidateTimeoutRef.current = null;
       queryClient.invalidateQueries({ queryKey: ["cartItems"] });
@@ -30,7 +35,8 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
 
   useEffect(() => {
     return () => {
-      if (invalidateTimeoutRef.current) clearTimeout(invalidateTimeoutRef.current);
+      if (invalidateTimeoutRef.current)
+        clearTimeout(invalidateTimeoutRef.current);
     };
   }, []);
 
@@ -55,27 +61,29 @@ const CartItem: React.FC<CartItemProps> = ({ tariff }) => {
   };
   return (
     <>
-      <div className="bg-[#E1E5E85E] p-5 flex flex-col gap-4 rounded-[20px] relative">
+      <div className="js-product-card ew-cart-item">
         <TariffHeader image={tariff.image} title={tariff.name} />
         <TariffInfo tariff={tariff} />
-        <QuantityControl
-          count={tariff.quantity || 1}
-          onIncrease={handleIncrease}
-          onDecrease={handleDecrease}
-          totalAmount={tariff.total_amount}
-        />
-        <hr />
-        <CartItemFooter
-          onOpenModal={handleOpenModal}
-          hasRegions={!!tariff.regions && tariff.regions.length > 0}
-        />
+        <div className="ew-cart-item-actions">
+          <QuantityControl
+            count={tariff.quantity || 1}
+            onIncrease={handleIncrease}
+            onDecrease={handleDecrease}
+            totalAmount={tariff.total_amount}
+          />
+
+          <CartItemFooter
+            onOpenModal={handleOpenModal}
+            hasRegions={!!tariff.regions && tariff.regions.length > 0}
+          />
+        </div>
       </div>
 
       <RegionsModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         regions={tariff.regions || []}
-        title={`Доступные страны: ${tariff.name}`}
+        title={`${t("jetstream.coverage")}: ${tariff.name}`}
       />
     </>
   );

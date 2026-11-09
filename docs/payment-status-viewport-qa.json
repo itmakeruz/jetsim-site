@@ -1,0 +1,42 @@
+[
+  {
+    "paymentButtons": 1,
+    "scroll": 320,
+    "width": 320
+  },
+  {
+    "paymentButtons": 1,
+    "scroll": 375,
+    "width": 375
+  },
+  {
+    "paymentButtons": 1,
+    "scroll": 390,
+    "width": 390
+  },
+  {
+    "paymentButtons": 1,
+    "scroll": 430,
+    "width": 430
+  },
+  {
+    "paymentButtons": 1,
+    "scroll": 768,
+    "width": 768
+  },
+  {
+    "paymentButtons": 1,
+    "scroll": 1024,
+    "width": 1024
+  },
+  {
+    "paymentButtons": 1,
+    "scroll": 1440,
+    "width": 1440
+  },
+  {
+    "paymentButtons": 1,
+    "scroll": 1920,
+    "width": 1920
+  }
+]

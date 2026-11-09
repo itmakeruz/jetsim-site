@@ -1,20 +1,14 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navbar/Navbar";
-import { useAuthStore } from "../../store/authStore";
-import Loader from "../../components/Loader";
-
-const SimpleLayout = () => {
-  const { isLoading } = useAuthStore();
-  if (isLoading) {
-    return <Loader />;
-  }
-
+import Footer from "../Footer/Footer";
+export default function SimpleLayout() {
   return (
-    <div className="min-h-[100dvh] flex flex-col">
+    <div className="js-shell">
       <Navbar />
-      <Outlet />
+      <main id="main-content">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
-};
-
-export default SimpleLayout;
+}

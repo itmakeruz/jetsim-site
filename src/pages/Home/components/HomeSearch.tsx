@@ -1,146 +1,216 @@
-import { useState, useRef, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo, useId } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { Search, ArrowRight, X, MapPin, RefreshCcw } from "lucide-react";
 import { getAllRegions } from "@/hooks/queries";
 import { useQuery } from "@tanstack/react-query";
 import type { Region } from "@/types/api";
 import { filterByUniversalSearch } from "@/lib/searchUtils";
-import SelectedRegionChip from "./HomeSearch/SelectedRegionChip";
-import SearchInput from "./HomeSearch/SearchInput";
-import RegionDropdown from "./HomeSearch/RegionDropdown";
+import { getImageUrl } from "@/config/imageUtils";
 
 const MAX_SELECTIONS = 3;
-
-function HomeSearch() {
+export default function HomeSearch() {
   const [inputValue, setInputValue] = useState("");
-  const [selectedRegions, setSelectedRegions] = useState<Region[]>([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const searchRef = useRef<HTMLDivElement>(null);
-  const { i18n } = useTranslation();
+  const [selected, setSelected] = useState<Region[]>([]);
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(0);
+  const ref = useRef<HTMLDivElement>(null);
+  const input = useRef<HTMLInputElement>(null);
+  const id = useId();
+  const { i18n, t } = useTranslation();
   const navigate = useNavigate();
-
-  // Regionlarni API dan olish (barcha regionlar, qidiruv client-side searchUtils orqali)
-  const { data: allRegionsData, isLoading: isLoadingAll } = useQuery({
+  const { data, isLoading, isError, refetch } = useQuery({
     queryKey: ["regions", i18n.language],
     queryFn: () => getAllRegions(null, 5000),
+    staleTime: 300000,
   });
-
-  const allRegions = allRegionsData?.data || [];
-
-  // searchUtils orqali qidiruv: kirill/lotin, aliaslar (masalan Dubai → ОАЭ)
-  const regions = useMemo(() => {
-    const trimmed = inputValue.trim();
-    if (!trimmed) return allRegions;
-    return filterByUniversalSearch(allRegions, trimmed, (r) => r.name);
-  }, [allRegions, inputValue]);
-
-  // Tashqariga bosilganda dropdown yopish
+  const options = useMemo(() => {
+    const all = data?.data ?? [];
+    const filtered = inputValue.trim()
+      ? filterByUniversalSearch(all, inputValue.trim(), (region) => region.name)
+      : all;
+    return filtered
+      .filter((region) => !selected.some((s) => s.id === region.id))
+      .slice(0, 12);
+  }, [data, inputValue, selected]);
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        searchRef.current &&
-        !searchRef.current.contains(event.target as Node)
-      ) {
-        setIsDropdownOpen(false);
-      }
+    const outside = (event: PointerEvent) => {
+      if (!ref.current?.contains(event.target as Node)) setOpen(false);
     };
-
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    document.addEventListener("pointerdown", outside);
+    return () => document.removeEventListener("pointerdown", outside);
   }, []);
-
-  // Input o'zgarishini boshqarish
-  const handleSearchChange = (value: string) => {
-    setInputValue(value);
-    if (!isDropdownOpen) {
-      setIsDropdownOpen(true);
-    }
-  };
-
-  // Region tanlash
-  const handleSelectRegion = (region: Region) => {
-    if (selectedRegions.length >= MAX_SELECTIONS) {
-      return;
-    }
-
-    if (selectedRegions.some((r) => r.id === region.id)) {
-      return;
-    }
-
-    setSelectedRegions([...selectedRegions, region]);
+  const choose = (region: Region) => {
+    if (selected.length >= MAX_SELECTIONS) return;
+    setSelected((prev) => [...prev, region]);
     setInputValue("");
-    setIsDropdownOpen(false);
+    setActive(0);
+    setOpen(false);
+    input.current?.focus();
   };
-
-  // Region olib tashlash
-  const handleRemoveRegion = (regionId: number) => {
-    setSelectedRegions(selectedRegions.filter((r) => r.id !== regionId));
-  };
-
-  // Input focus
-  const handleInputFocus = () => {
-    setIsDropdownOpen(true);
-  };
-
-  // Regionlarni tanlaganda navigate qilish
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (selectedRegions.length > 0) {
-      const ids = selectedRegions.map((r) => r.id).join("-");
-      navigate(`/tariffs/ids=${ids}`);
+  const submit = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (selected.length) {
+      setOpen(false);
+      navigate(`/tariffs/ids=${selected.map((region) => region.id).join("-")}`);
+    } else {
+      setOpen(true);
+      input.current?.focus();
     }
   };
-
   return (
-    <div className="mx-auto w-full md:mt-4 mt-2 max-w-[730px]">
-      <div ref={searchRef} className="relative">
-        <form
-          onSubmit={handleSearchSubmit}
-          className="relative rounded-[12px] border border-[#D5E3F5] bg-white shadow-[0_8px_26px_-14px_rgba(16,58,110,0.35)] transition-all duration-200 focus-within:border-main-blue focus-within:shadow-[0_10px_30px_-12px_rgba(25,120,229,0.45)]"
-        >
-          <div className="flex items-center flex-wrap md:gap-2 gap-1 md:p-2 p-1 md:pr-14 pr-2 md:min-h-[60px] min-h-[50px]">
-            {/* Tanlangan regionlar */}
-            {selectedRegions.map((region) => (
-              <SelectedRegionChip
-                key={region.id}
-                region={region}
-                onRemove={handleRemoveRegion}
-              />
-            ))}
-
-            {/* Qidiruv input */}
-            <SearchInput
+    <div
+      ref={ref}
+      className="js-search"
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+      }}
+    >
+      <form onSubmit={submit}>
+        <div className="js-search-row">
+          <MapPin className="js-search-icon" size={23} aria-hidden="true" />
+          <div className="js-search-field">
+            <label htmlFor={`${id}-input`}>{t("jetstream.searchLabel")}</label>
+            <input
+              id={`${id}-input`}
+              ref={input}
+              type="search"
               value={inputValue}
-              onChange={handleSearchChange}
-              onFocus={handleInputFocus}
-              selectedCount={selectedRegions.length}
+              autoComplete="off"
+              role="combobox"
+              aria-expanded={open}
+              aria-controls={`${id}-options`}
+              aria-autocomplete="list"
+              aria-describedby={`${id}-hint`}
+              aria-activedescendant={
+                open && options[active] ? `${id}-option-${active}` : undefined
+              }
+              placeholder={t("jetstream.searchPlaceholder")}
+              onFocus={() => setOpen(true)}
+              onChange={(event) => {
+                setInputValue(event.target.value);
+                setActive(0);
+                setOpen(true);
+              }}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") setOpen(false);
+                if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+                  event.preventDefault();
+                  setOpen(true);
+                  setActive((current) =>
+                    options.length
+                      ? (current +
+                          (event.key === "ArrowDown" ? 1 : -1) +
+                          options.length) %
+                        options.length
+                      : 0,
+                  );
+                }
+                if (
+                  event.key === "Enter" &&
+                  open &&
+                  options[active] &&
+                  selected.length < MAX_SELECTIONS
+                ) {
+                  event.preventDefault();
+                  choose(options[active]);
+                }
+              }}
             />
           </div>
-        </form>
-
-        {/* Dropdown ro'yxat */}
-        {isDropdownOpen && (
-          <div
-            ref={dropdownRef}
-            className="absolute top-full left-0 right-0 mt-2 bg-white rounded-[10px] border border-[#E8EDF2] shadow-lg max-h-[400px] overflow-y-auto overscroll-contain z-50"
+          <button
+            className="js-btn js-btn--blue js-search-submit"
+            type="submit"
+            aria-label={t("jetstream.searchAction")}
           >
-            <RegionDropdown
-              regions={regions}
-              selectedRegions={selectedRegions}
-              isLoading={isLoadingAll}
-              onSelectRegion={handleSelectRegion}
-              maxSelections={MAX_SELECTIONS}
-            />
+            <span>{t("jetstream.searchAction")}</span>
+            <Search size={19} />
+          </button>
+        </div>
+        {selected.length > 0 && (
+          <div className="js-search-chips">
+            {selected.map((region) => (
+              <span className="js-search-chip" key={region.id}>
+                <img src={getImageUrl(region.image)} alt="" />
+                {region.name}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelected((prev) =>
+                      prev.filter((item) => item.id !== region.id),
+                    );
+                    input.current?.focus();
+                  }}
+                  aria-label={t("jetstream.searchRemove", {
+                    name: region.name,
+                  })}
+                >
+                  <X size={12} />
+                </button>
+              </span>
+            ))}
           </div>
         )}
-      </div>
+      </form>
+      <span className="sr-only" id={`${id}-hint`}>
+        {t("jetstream.searchHelp")}
+      </span>
+      {open && (
+        <div className="js-search-dropdown">
+          <p className="js-search-note" aria-live="polite">
+            {selected.length >= MAX_SELECTIONS
+              ? t("jetstream.searchLimit")
+              : t("jetstream.searchHelp")}
+          </p>
+          {isLoading ? (
+            <p className="js-search-note" role="status">
+              {t("common.loading")}
+            </p>
+          ) : isError ? (
+            <div className="js-search-note" role="alert">
+              {t("jetstream.searchError")}{" "}
+              <button
+                type="button"
+                className="js-text-link"
+                onClick={() => refetch()}
+              >
+                {t("jetstream.retry")}
+                <RefreshCcw size={13} />
+              </button>
+            </div>
+          ) : (
+            <div
+              id={`${id}-options`}
+              role="listbox"
+              aria-label={t("jetstream.searchSuggestions")}
+            >
+              {options.map((region, index) => (
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={index === active}
+                  tabIndex={-1}
+                  id={`${id}-option-${index}`}
+                  className="js-search-option"
+                  data-active={index === active}
+                  disabled={selected.length >= MAX_SELECTIONS}
+                  key={region.id}
+                  onMouseEnter={() => setActive(index)}
+                  onMouseDown={(event) => event.preventDefault()}
+                  onClick={() => choose(region)}
+                >
+                  <img src={getImageUrl(region.image)} alt="" loading="lazy" />
+                  {region.name}
+                  <ArrowRight size={15} />
+                </button>
+              ))}
+              {options.length === 0 && (
+                <p className="js-search-note">{t("jetstream.noResults")}</p>
+              )}
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
-
-export default HomeSearch;

@@ -1,3 +1,5 @@
+import MobileNavigation from "./components/jetstream/MobileNavigation";
+import RouteMeta from "./components/jetstream/RouteMeta";
 import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { appRoutes } from "./router/routes";
@@ -97,6 +99,8 @@ function App() {
   return (
     <BrowserRouter>
       <AutoScrollToTop />
+      <RouteMeta />
+      <MobileNavigation />
       <ToastContainer />
       <Routes>
         {appRoutes.map((route, index) => (

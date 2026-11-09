@@ -1,45 +1,50 @@
 import { useTariffStore } from "@/store/tariffStore";
-import type { cartTariff } from "@/types/api";
-import { useNavigate } from "react-router-dom";
-import { APP_ROUTES } from "@/router/path";
+import { Link } from "react-router-dom";
 import CartItem from "./components/CartItem";
 import Empty from "../Empty/Empty";
 import { useTranslation } from "react-i18next";
 import { formatNumber } from "@/lib/utils";
-
-const CartPage = () => {
+import { ArrowRight } from "lucide-react";
+export default function CartPage() {
   const { t } = useTranslation();
   const { selectedTariffs } = useTariffStore();
-  const navigate = useNavigate();
-
-  return (
-    <div>
-      {selectedTariffs.length === 0 ? (
-        <Empty text={t("profile.cart.empty")} />
-      ) : (
-        <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 2xl:gap-5 gap-4">
-            {selectedTariffs.map((tariff: cartTariff) => (
-              <CartItem key={tariff.id} tariff={tariff} />
-            ))}
-          </div>
-          <button
-            onClick={() => navigate(APP_ROUTES.PAYMENT)}
-            className="bg-[#112D6C] text-white px-4 py-2 rounded-md w-full text-[22px] font-semibold"
-          >
-            {t("profile.cart.buy")}{" "}
-            {formatNumber(
-              selectedTariffs.reduce(
-                (acc, tariff) => acc + tariff.total_amount,
-                0
-              )
-            )}{" "}
-            ₽
-          </button>
+  const total = selectedTariffs.reduce(
+    (sum, item) => sum + item.total_amount,
+    0,
+  );
+  const count = selectedTariffs.reduce(
+    (sum, item) => sum + (item.quantity || 1),
+    0,
+  );
+  return selectedTariffs.length === 0 ? (
+    <Empty text={t("profile.cart.empty")} />
+  ) : (
+    <div className="js-cart-layout">
+      <div className="flex flex-col gap-4">
+        {selectedTariffs.map((tariff) => (
+          <CartItem key={tariff.id} tariff={tariff} />
+        ))}
+      </div>
+      <aside className="js-panel js-cart-summary">
+        <span className="js-kicker">{t("jetstream.yourOrder")}</span>
+        <h2>{t("jetstream.cartSummary")}</h2>
+        <div className="js-summary-line">
+          <span>eSIM</span>
+          <strong>{count}</strong>
         </div>
-      )}
+        <div className="js-summary-total">
+          <span>{t("jetstream.total")}</span>
+          <strong>{formatNumber(total)} ₽</strong>
+        </div>
+        <Link className="js-btn ew-purchase-button w-full" to="/payment">
+          {t("jetstream.checkout")}
+          <ArrowRight size={18} />
+        </Link>
+        <p className="js-small mt-4">{t("everywhere.cartNote")}</p>
+        <Link className="js-text-link mt-5" to="/#tarifs">
+          {t("jetstream.continueShopping")}
+        </Link>
+      </aside>
     </div>
   );
-};
-
-export default CartPage;
+}

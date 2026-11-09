@@ -1,46 +1,31 @@
-import { ASSETS } from "@/assets";
+import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-
-interface BackButtonWithTitleProps {
+import { useTranslation } from "react-i18next";
+interface Props {
   title: string;
   onBackClick?: () => void;
   backPath?: string;
   className?: string;
 }
-
-function BackButtonWithTitle({
+export default function BackButtonWithTitle({
   title,
   onBackClick,
   backPath = "/",
   className = "",
-}: BackButtonWithTitleProps) {
+}: Props) {
   const navigate = useNavigate();
-
-  const handleClick = () => {
-    if (onBackClick) {
-      onBackClick();
-    } else {
-      navigate(backPath);
-    }
-  };
-
+  const { t } = useTranslation();
   return (
-    <button
-      onClick={handleClick}
-      className={`flex items-center w-max md:gap-[15px] gap-[10px] ${className}`}
-    >
-      <div className="md:w-[50px] md:h-[50px] w-[40px] h-[40px] flex items-center justify-center rounded-full bg-[#E8EDF2]">
-        <img
-          src={ASSETS.backArrow}
-          alt="back"
-          className="translate-x-[-1px] md:w-[13px] w-2 md:h-[22px] h-[18px]"
-        />
-      </div>
-      <h1 className="md:text-[30px] text-[24px] font-bold text-[#0D141C]">
-        {title}
-      </h1>
-    </button>
+    <div className={`js-back-title ${className}`}>
+      <button
+        type="button"
+        className="js-icon-btn"
+        aria-label={t("jetstream.back")}
+        onClick={() => (onBackClick ? onBackClick() : navigate(backPath))}
+      >
+        <ArrowLeft size={19} />
+      </button>
+      <h1>{title}</h1>
+    </div>
   );
 }
-
-export default BackButtonWithTitle;

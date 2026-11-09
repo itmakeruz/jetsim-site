@@ -1,3 +1,4 @@
+import { apiFailure } from "@/lib/apiFailure";
 import { create } from "zustand";
 import { authAPI } from "../services/api.service";
 import { setToken as saveToken, removeToken } from "../config/api";
@@ -8,7 +9,11 @@ interface User {
   email: string;
   name?: string;
   created_at?: string;
-  [key: string]: any; // Backend dan qanday user kelishiga qarab o'zgartirishingiz mumkin
+  image?: string | null;
+  phone_number?: string;
+  address?: string;
+  about?: string;
+  [key: string]: unknown;
 }
 
 interface AuthStore {
@@ -67,7 +72,8 @@ export const useAuthStore = create<AuthStore>((set) => ({
         user,
         message: response.data.message,
       };
-    } catch (error: any) {
+    } catch (cause: unknown) {
+      const error = apiFailure(cause);
       set({
         isLoading: false,
       });

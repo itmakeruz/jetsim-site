@@ -39,32 +39,79 @@ export default function UsagePanel({ simId, status, snapshot }: Props) {
       setResultStatus(response.data.status);
       if (response.data.status === "ok") setData(response.data.data);
     } catch (e: unknown) {
-      const last = (e as { response?: { data?: { last_success?: { data: UsageSnapshot } } } }).response?.data?.last_success;
+      const last = (
+        e as {
+          response?: { data?: { last_success?: { data: UsageSnapshot } } };
+        }
+      ).response?.data?.last_success;
       if (last?.data) setData(last.data);
       setError(true);
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
-  const amount = (value: number | null | undefined) => value == null ? t("noData")
-    : `${value.toLocaleString(locale, { maximumFractionDigits: 2 })} ${t("mb")}`;
-  const date = (value?: string | null) => value && Number.isFinite(Date.parse(value))
-    ? new Date(value).toLocaleString(locale) : t("noData");
-  const rows = data ? [
-    [t("remaining"), data.is_unlimited ? t("unlimited") : amount(data.remaining_mb)],
-    [t("used"), amount(data.used_mb)],
-    [t("expires"), date(data.expires_at)],
-    [t("days"), data.remaining_days == null ? t("noData") : String(data.remaining_days)],
-    ...(data.daily_quota_mb == null ? [] : [[t("daily"), amount(data.daily_quota_mb)], [t("today"), amount(data.today_used_mb)]]),
-    [t("checked"), date(data.checked_at)],
-  ] : [];
+  const amount = (value: number | null | undefined) =>
+    value == null
+      ? t("noData")
+      : `${value.toLocaleString(locale, { maximumFractionDigits: 2 })} ${t("mb")}`;
+  const date = (value?: string | null) =>
+    value && Number.isFinite(Date.parse(value))
+      ? new Date(value).toLocaleString(locale)
+      : t("noData");
+  const rows = data
+    ? [
+        [
+          t("remaining"),
+          data.is_unlimited ? t("unlimited") : amount(data.remaining_mb),
+        ],
+        [t("used"), amount(data.used_mb)],
+        [t("expires"), date(data.expires_at)],
+        [
+          t("days"),
+          data.remaining_days == null
+            ? t("noData")
+            : String(data.remaining_days),
+        ],
+        ...(data.daily_quota_mb == null
+          ? []
+          : [
+              [t("daily"), amount(data.daily_quota_mb)],
+              [t("today"), amount(data.today_used_mb)],
+            ]),
+        [t("checked"), date(data.checked_at)],
+      ]
+    : [];
   return (
-    <section className="space-y-2 rounded-xl border border-blue-100 bg-white/70 p-3 text-sm" aria-busy={loading}>
+    <section className="js-usage" aria-busy={loading}>
       {data && <p className="font-semibold text-[#112D6C]">{t(data.state)}</p>}
       <dl className="space-y-1">
-        {rows.map(([label, value]) => <div key={label} className="flex justify-between gap-3"><dt>{label}</dt><dd className="text-right font-medium">{value}</dd></div>)}
+        {rows.map(([label, value]) => (
+          <div key={label} className="flex justify-between gap-3">
+            <dt>{label}</dt>
+            <dd className="text-right font-medium">{value}</dd>
+          </div>
+        ))}
       </dl>
-      {!data && <p>{!ready || resultStatus === "not_ready" ? t("notReady") : resultStatus === "unsupported" ? t("unsupported") : t("noData")}</p>}
-      {error && <p role="alert" className="text-amber-700">{t("error")}</p>}
-      <button type="button" onClick={check} disabled={loading || !ready} className="rounded-lg bg-[#112D6C] px-3 py-2 text-white disabled:opacity-50">
+      {!data && (
+        <p>
+          {!ready || resultStatus === "not_ready"
+            ? t("notReady")
+            : resultStatus === "unsupported"
+              ? t("unsupported")
+              : t("noData")}
+        </p>
+      )}
+      {error && (
+        <p role="alert" className="text-amber-700">
+          {t("error")}
+        </p>
+      )}
+      <button
+        type="button"
+        onClick={check}
+        disabled={loading || !ready}
+        className="js-btn js-btn--small"
+      >
         {loading ? t("checking") : t("check")}
       </button>
     </section>

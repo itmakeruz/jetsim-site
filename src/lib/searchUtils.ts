@@ -3333,7 +3333,7 @@ export function latinToCyrillicText(text: string): string {
 
   // First, replace multi-character combinations (sorted by length, longest first)
   const sortedCombinations = Object.keys(latinCombinationsToCyrillic).sort(
-    (a, b) => b.length - a.length
+    (a, b) => b.length - a.length,
   );
 
   for (const combo of sortedCombinations) {
@@ -3384,7 +3384,7 @@ function matchesAlias(searchQuery: string, targetText: string): boolean {
 
   // Remove hyphens and normalize spaces for comparison
   const cleanQuery = normalizedQuery
-    .replace(/[\-]/g, " ")
+    .replace(/[-]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
 
@@ -3398,17 +3398,17 @@ function matchesAlias(searchQuery: string, targetText: string): boolean {
       normalizedTarget.includes(normalizedRegion) ||
       normalizedRegion.includes(normalizedTarget) ||
       cyrillicToLatinText(normalizedRegion).includes(
-        cyrillicToLatinText(normalizedTarget)
+        cyrillicToLatinText(normalizedTarget),
       ) ||
       cyrillicToLatinText(normalizedTarget).includes(
-        cyrillicToLatinText(normalizedRegion)
+        cyrillicToLatinText(normalizedRegion),
       );
 
     if (targetMatchesRegion) {
       for (const alias of aliases) {
         const normalizedAlias = normalizeText(alias);
         const cleanAlias = normalizedAlias
-          .replace(/[\-]/g, " ")
+          .replace(/[-]/g, " ")
           .replace(/\s+/g, " ")
           .trim();
 
@@ -3500,7 +3500,7 @@ function matchesAlias(searchQuery: string, targetText: string): boolean {
 
           // Multi-word alias - check if all query words have matching alias words
           // Each query word must match a DIFFERENT alias word (word-for-word match)
-          let matchedAliasIndices: number[] = [];
+          const matchedAliasIndices: number[] = [];
           let allWordsMatch = true;
 
           for (const queryWord of queryWords) {
@@ -3565,7 +3565,7 @@ function matchesAlias(searchQuery: string, targetText: string): boolean {
  */
 export function universalSearch(
   searchQuery: string,
-  targetText: string
+  targetText: string,
 ): boolean {
   if (!searchQuery || !targetText) return false;
 
@@ -3629,11 +3629,11 @@ export function universalSearch(
 export function filterByUniversalSearch<T>(
   items: T[],
   searchQuery: string,
-  getSearchableText: (item: T) => string
+  getSearchableText: (item: T) => string,
 ): T[] {
   if (!searchQuery || !items) return items;
 
   return items.filter((item) =>
-    universalSearch(searchQuery, getSearchableText(item))
+    universalSearch(searchQuery, getSearchableText(item)),
   );
 }

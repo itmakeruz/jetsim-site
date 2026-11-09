@@ -1,12 +1,13 @@
-function Loader({ isFullScreen = false, className = "" }) {
+import { useTranslation } from "react-i18next";
+export default function Loader({ isFullScreen = false, className = "" }) {
+  const { t } = useTranslation();
   return (
     <div
-      className={`${isFullScreen ? "fixed" : "absolute"} ${className}
-      } inset-0 z-[10] bg-[#F5F6F8] grid place-content-center`}
+      className={`js-loader ${isFullScreen ? "js-loader--full" : ""} ${className}`}
+      role="status"
     >
-      <span className="loader"></span>
+      <span className="loader" aria-hidden="true" />
+      <span className="js-kicker">{t("common.loading")}</span>
     </div>
   );
 }
-
-export default Loader;
