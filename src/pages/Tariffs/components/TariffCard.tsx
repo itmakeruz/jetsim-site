@@ -3,6 +3,7 @@ import { ImagePreview } from "@/components/ImgCards";
 import { getImageUrl } from "@/config/imageUtils";
 import { ASSETS } from "@/assets";
 import type { Tariff } from "@/types/api";
+import { isUnlimitedTariff } from "@/lib/tariffKind";
 import RegionsModal from "./RegionsModal";
 import DescriptionModal from "./DescriptionModal";
 import ESIMSupportModal from "./ESIMSupportModal";
@@ -80,7 +81,7 @@ export default function TariffCard({ tariff }: TariffCardProps) {
 
         <div className="flex items-baseline justify-between gap-3">
           <span className="rounded-lg bg-[#F1F5FB] px-2.5 py-1 text-[14px] font-medium text-[#4F7096]">
-            {tariff.quantity_internet} GB · {tariff.validity_period} дней
+            {isUnlimitedTariff(tariff) ? "∞ Безлимит" : `${tariff.quantity_internet} GB`} · {tariff.validity_period} дней
           </span>
           <span className="text-[22px] font-bold leading-none text-[#1978E5]">
             {tariff?.price_sell?.toLocaleString()} ₽

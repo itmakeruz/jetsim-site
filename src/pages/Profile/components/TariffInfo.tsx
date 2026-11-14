@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import type { cartTariff } from "@/types/api";
 import { formatNumber } from "@/lib/utils";
+import { isUnlimitedTariff } from "@/lib/tariffKind";
 import { useAuthStore } from "@/store/authStore";
 
 interface TariffInfoProps {
@@ -12,9 +13,11 @@ const TariffInfo: React.FC<TariffInfoProps> = ({ tariff }) => {
   const { isAuthenticated } = useAuthStore();
 
   // Login qilmagan bo'lsa MB ga aylantirish, login qilgan bo'lsa kelgan data
-  const displayInternet = isAuthenticated
-    ? `${formatNumber(tariff.quantity_internet)} мб`
-    : `${formatNumber(tariff.quantity_internet * 1024)} мб`;
+  const displayInternet = isUnlimitedTariff(tariff)
+    ? "∞ Безлимит"
+    : isAuthenticated
+      ? `${formatNumber(tariff.quantity_internet)} мб`
+      : `${formatNumber(tariff.quantity_internet * 1024)} мб`;
 
   return (
     <div className="space-y-2">
